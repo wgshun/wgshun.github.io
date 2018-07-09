@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title><![CDATA[descending-into-ml]]></title>
+    <url>%2F2018%2F07%2Fdescending-into-ml%2F</url>
+    <content type="text"></content>
+  </entry>
+  <entry>
+    <title><![CDATA[Hexo 博客绑定个人域名]]></title>
+    <url>%2F2018%2F07%2Fcustom-domain%2F</url>
+    <content type="text"><![CDATA[前段时间用 hexo 搭建的 gitpage 个人博客，服务器用的是 github 的，然后域名默认也是 github 下的二级域名：username.github.io, 现在为了提升格调准备将自己的博客指向一个新的域名。下面记录下过程。 购买域名国内的域名服务商有新网，腾讯云，还有阿里云的万网等。下面以阿里云的万网为例： 在万网购买了自己心仪的域名后，进入阿里云的管理控制台-域名与网站-域名就可以看到购买的域名此时的域名状态是未实名认证的，然后就是实名认证（一般需要2小时左右）。 域名解析首先获取自己 github 的二级域名的 IP地址，windows 下直接在 cmd 里 Ping 一下自己的博客就会得到 IP 地址：下面通过 DNS域名解析将购买的域名指向 github 的二级域名：username.github.io，进入阿里云的管理控制台-域名与网站-云解析 DNS，进入域名的解析设置，点击新手指导，将得到的 IP 地址填到记录值一栏，点击确定就 OK 了。填完以后的解析列表会出现：记录值就是自己 github 的二级域名的 IP地址。 设置CNAME在 hexo 项目下，source 文件夹下面创建 CNAME 文件（没有后缀名的），在里面写上购买的域名。比如： 在 github 上面，打开 username.github.io 项目的（Settings）设置，然后在 GitHub Pages的 Custom domain设置里填上购买的域名。比如： 好了，新域名配置完成，可以访问了。]]></content>
+      <categories>
+        <category>博客技术</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>绑定域名</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Hexo 的 Next 主题中渲染 MathJax 数学公式]]></title>
+    <url>%2F2018%2F07%2Fmathjax-in-hexo%2F</url>
+    <content type="text"><![CDATA[在用markdown写技术文档时，免不了会碰到数学公式。常用的Markdown编辑器都会集成Mathjax，用来渲染文档中的类Latex格式书写的数学公式。基于Hexo搭建的个人博客，默认情况下渲染数学公式却会出现各种各样的问题。 这个问题搞了好久才找到解决方案，感谢@小毛驴 原因Hexo 默认使用 ”hexo-renderer-marked” 引擎渲染网页，该引擎会把一些特殊的 markdown 符号转换为相应的 html 标签，比如在 markdown 语法中，下划线_代表斜体，会被渲染引擎处理为&lt;em&gt;标签。 因为类 Latex 格式书写的数学公式下划线_表示下标，有特殊的含义，如果被强制转换为&lt;em&gt;标签，那么 MathJax 引擎在渲染数学公式的时候就会出错。 类似的语义冲突的符号还包括*, {, }, \\等。 解决方法更换 Hexo 的 markdown 渲染引擎，hexo-renderer-kramed 引擎是在默认的渲染引擎 hexo-renderer-marked 的基础上修改了一些 bug ，两者比较接近，也比较轻量级。12npm uninstall hexo-renderer-marked --savenpm install hexo-renderer-kramed --save 执行上面的命令即可，先卸载原来的渲染引擎，再安装新的。然后，跟换引擎后行间公式可以正确渲染了，但是这样还没有完全解决问题，行内公式的渲染还是有问题，因为 hexo-renderer-kramed 引擎也有语义冲突的问题。接下来到博客根目录下，找到node_modules\kramed\lib\rules\inline.js，把第11行的 escape 变量的值做相应的修改：12//escape: /^\\([\\`*&#123;&#125;\[\]()#$+\-.!_&gt;])/,escape: /^\\([`*\[\]()#$+\-.!_&gt;])/, 这一步是在原基础上取消了对\\,\{,\}的转义(escape)。同时把第20行的em变量也要做相应的修改。12//em: /^\b_((?:__|[\s\S])+?)_\b|^\*((?:\*\*|[\s\S])+?)\*(?!\*)/,em: /^\*((?:\*\*|[\s\S])+?)\*(?!\*)/, 重新启动hexo（先clean再generate）,问题完美解决。哦，如果不幸还没解决的话，看看是不是还需要在使用的主题中配置mathjax开关。 在 Next 主题中开启 MathJax 开关如何使用了主题了，别忘了在主题（Theme）中开启 MathJax 开关，下面以 next 主题为例，介绍下如何打开 MathJax 开关。 进入到主题目录，找到 _config.yml 配置问题，把 math 默认的 false 修改为true，具体如下： 1234567891011# Math Equations Render Supportmath: enable: true # Default(true) will load mathjax/katex script on demand # That is it only render those page who has 'mathjax: true' in Front Matter. # If you set it to false, it will load mathjax/katex srcipt EVERY PAGE. per_page: true engine: mathjax #engine: katex 还需要在文章的Front-matter里打开mathjax开关，如下：123456---title: index.htmldate: 2018-07-05 12:01:30tags:mathjax: true-- 之所以要在文章头里设置开关，是因为考虑只有在用到公式的页面才加载 Mathjax，这样不需要渲染数学公式的页面的访问速度就不会受到影响了。]]></content>
+      <categories>
+        <category>博客技术</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>machjax</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[机器学习主要术语]]></title>
+    <url>%2F2018%2F07%2Fml-terminology%2F</url>
+    <content type="text"><![CDATA[什么是（监督式）机器学习？简单来说，它的定义如下： 机器学习系统通过学习如何组合输入信息来对从未见过的数据做出有用的预测。 下面来了解一下机器学习的基本术语。 标签标签是我们要预测的事物，即简单线性回归中的 y 变量。标签可以是小麦未来的价格、图片中显示的动物品种、音频剪辑的含义或任何事物。 特征 特征是输入变量，即简单线性回归中的 x 变量。简单的机器学习项目可能会使用单个特征，而比较复杂的机器学习项目可能会使用数百万个特征，按如下方式指定： \{x_1, x_2, ... x_N\}在垃圾邮件检测器示例中，特征可能包括： 电子邮件文本中的字词 发件人的地址 发送电子邮件的时段 电子邮件中包含“一种奇怪的把戏”这样的短语。 样本样本是指数据的特定实例：x。（我们采用粗体 x 表示它是一个矢量。）我们将样本分为以下两类： 有标签样本 无标签样本 有标签文件同时包含特征和标签。即： labeled examples: {features, label}: (x, y) 我们使用有标签样本来训练模型。在我们的垃圾邮件检测器示例中，有标签样本是用户明确标记为“垃圾邮件”或“非垃圾邮件”的各个电子邮件。 例如，下表显示了从包含加利福尼亚州房价信息的数据集中抽取的 5 个有标签样本： housingMedianAge（特征） totalRooms（特征） totalBedrooms（特征） medianHouseValue（标签） 15 5612 1283 66900 19 7650 1901 80100 17 720 174 85700 14 1501 337 73400 20 1454 326 65500 无标签样本包含特征，但不包含标签。即： unlabeled examples: {features, ?}: (x, ?) 在使用有标签样本训练了我们的模型之后，我们会使用该模型来预测无标签样本的标签。在垃圾邮件检测器示例中，无标签样本是用户尚未添加标签的新电子邮件。 模型模型定义了特征与标签之间的关系。例如，垃圾邮件检测模型可能会将某些特征与“垃圾邮件”紧密联系起来。我们来重点介绍一下模型生命周期的两个阶段： 训练表示创建或学习模型。也就是说，您向模型展示有标签样本，让模型逐渐学习特征与标签之间的关系。 推断表示将训练后的模型应用于无标签样本。也就是说，您使用训练后的模型来做出有用的预测 (y&#39;)。例如，在推断期间，您可以针对新的无标签样本预测 medianHouseValue。 回归与分类回归模型可预测连续值。例如，回归模型做出的预测可回答如下问题： 加利福尼亚州一栋房产的价值是多少？ 用户点击此广告的概率是多少？ 分类模型可预测离散值。例如，分类模型做出的预测可回答如下问题： 某个指定电子邮件是垃圾邮件还是非垃圾邮件？ 这是一张狗、猫还是仓鼠图片？ 检测监督式学习假设您想开发一种监督式机器学习模型来预测指定的电子邮件是“垃圾邮件”还是“非垃圾邮件”。以下哪些表述正确？ 有些标签可能不可靠。 √ 我们将使用无标签样本来训练模型。 × 主题标头中的字词适合做标签。 × 未标记为“垃圾邮件”或“非垃圾邮件”的电子邮件是无标签样本。√ 注解： 当然。此数据集的标签可能来自将特定电子邮件标记为垃圾邮件的电子邮件用户。由于很少的用户会将每一封可疑的电子邮件都标记为垃圾邮件，因此我们可能很难知道某封电子邮件是否是垃圾邮件。此外，有些垃圾内容发布者或僵尸网络可能会故意提供错误标签来误导我们的模型。 我们将使用有标签样本来训练模型。然后，我们可以对无标签样本运行训练后的模型，以推理无标签的电子邮件是垃圾邮件还是非垃圾邮件。 主题标头中的字词可能是优质特征，但不适合做标签。 由于我们的标签由“垃圾邮件”和“非垃圾邮件”这两个值组成，因此任何尚未标记为垃圾邮件或非垃圾邮件的电子邮件都是无标签样本。 特征和标签假设一家在线鞋店希望创建一种监督式机器学习模型，以便为用户提供合乎个人需求的鞋子推荐。也就是说，该模型会向小马推荐某些鞋子，而向小美推荐另外一些鞋子。以下哪些表述正确？ 鞋的美观程度是一项实用特征。× 鞋码是一项实用特征。√ 用户喜欢的鞋子是一种实用标签。× 用户点击鞋子描述的次数是一项实用特征。√ 注解： 合适的特征应该是具体且可量化的。美观程度是一种过于模糊的概念，不能作为实用特征。美观程度可能是某些具体特征（例如样式和颜色）的综合表现。样式和颜色都比美观程度更适合用作特征。 鞋码是一种可量化的标志，可能对用户是否喜欢推荐的鞋子有很大影响。例如，如果小马穿 43 码的鞋，则该模型不应该推荐 39 码的鞋。 喜好不是可观察且可量化的指标。我们能做到最好的就是针对用户的喜好来搜索可观察的代理指标。 用户可能只是想要详细了解他们喜欢的鞋子。因此，用户点击次数是可观察且可量化的指标，可用来训练合适的标签。正确答案共有 2 个，您目前选中了 2 个。]]></content>
+      <categories>
+        <category>机器学习</category>
+      </categories>
+      <tags>
+        <tag>机器学习</tag>
+        <tag>machine learning</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Ubuntu16.04 安装 TensorRT]]></title>
+    <url>%2F2018%2F06%2Fubuntu-install-tensorrt%2F</url>
+    <content type="text"><![CDATA[安装步骤首先下载tar版本的安装包，下载地址需要登陆NVIDIA。安装TensorRT前需要安装Cuda和cudnn，安装步骤可以参考 ubuntu安装cuda和cudnn。打开下载的TensorRT所在路径，解压下载的tar文件：1tar -xzvf TensorRT-XXX.tar.gz 解压好添加环境变量：1234567vim ~/.bashrc # 打开环境变量文件# 将下面三个环境变量写入环境变量文件并保存export LD_LIBRARY_PATH=TensorRT解压路径/lib:$LD_LIBRARY_PATHexport CUDA_INSTALL_DIR=/usr/local/cuda-9.0export CUDNN_INSTALL_DIR=/usr/local/cuda-9.0# 使刚刚修改的环境变量文件生效source ~/.bashrc 下面是安装Python的TensorRT包：进到解压的TensorRT目录下的Python目录：1234# 对于python2sudo pip2 install tensorrt-XXX-cp27-cp27mu-linux_x86_64.whl# 对于python3sudo pip3 install tensorrt-XXX-cp35-cp35m-linux_x86_64.whl 如安装失败请参考文章末尾的解决方案。测试TensorRT是否安装成功：1which tensorrt 会输出TensorRT的安装路径。然后转到uff目录下安装uff包：1234# 对于python2sudo pip2 install uff-0.1.0rc0-py2.py3-none-any.whl# 对于python3sudo pip3 install uff-0.1.0rc0-py2.py3-none-any.whl 测试：1which convert-to-uff 会输出uff的安装路径。拷贝lenet5.uff到python相关目录进行验证：123456sudo cp TensorRT-XXX/data/mnist/lenet5.uff TensorRT-XXX/python/data/mnist/lenet5.uffcd TensorRT-XXX/samples/sampleMNISTmake cleanmakecd /TensorRT-XXX/bin（转到bin目录下面，make后的可执行文件在此目录下）./sample_mnist 命令执行顺利即安装成功。 错误在安装Python的TensorRT包时可能出现的错误：1234In file included from src/cpp/cuda.cpp:1:0: src/cpp/cuda.hpp:14:18: fatal error: cuda.h: No such file or directory compilation terminated. error: command 'x86_64-linux-gnu-gcc' failed with exit status 1 原因显示是找不到cuda.h，根据网上分析是因为用了sudo之后环境变量用的是root的环境变量。参考 解决方案12345vim /etc/profile.d/cuda.sh添加：export PATH=/usr/local/cuda-9.0/bin:$PATHsudo su -pip2 install tensorrt-XXX-cp27-cp27mu-linux_x86_64.whl exit 参考：https://blog.csdn.net/xll_bit/article/details/78376320]]></content>
+      <categories>
+        <category>环境搭建</category>
+      </categories>
+      <tags>
+        <tag>ubuntu</tag>
+        <tag>cuda</tag>
+        <tag>cudnn</tag>
+        <tag>tensorrt</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Ubuntu 系统查询 cuda 和 cudnn 版本号]]></title>
+    <url>%2F2018%2F06%2Fubuntu-inquire-cuda-and-cudnn-version%2F</url>
+    <content type="text"><![CDATA[查询 cuda 版本号命令行输入：1cat /usr/local/cuda/version.txt 会输出如下信息：1CUDA Version 8.0.61 显示cuda版本号为：8.0.61 查询 cudnn 版本号命令行输入：1cat /usr/local/cuda/include/cudnn.h | grep CUDNN_MAJOR -A 2 会输出如下信息：123456#define CUDNN_MAJOR 7#define CUDNN_MINOR 0#define CUDNN_PATCHLEVEL 1--#define CUDNN_VERSION (CUDNN_MAJOR * 1000 + CUDNN_MINOR * 100 + CUDNN_PATCHLEVEL)#include "driver_types.h" 显示cudnn版本号为：7.0.1]]></content>
+      <categories>
+        <category>环境搭建</category>
+      </categories>
+      <tags>
+        <tag>ubuntu</tag>
+        <tag>cuda</tag>
+        <tag>cudnn</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Ubuntu16.04 安装 Caffe]]></title>
+    <url>%2F2018%2F06%2Fubuntu-install-caffe%2F</url>
+    <content type="text"><![CDATA[安装步骤首先从github上面拷贝下来caffe项目：12git clone https://github.com/BVLC/caffe.gitcd caffe 安装caffe版的SSD拷贝步骤为：123git clone https://github.com/weiliu89/caffe.gitcd caffegit checkout ssd 然后将caffe主目录下面的Makefile.config.example拷贝更名为Makefile.config，打开操作：12cp Makefile.config.example Makefile.configgedit Makefile.config 将其中的：1234#USE_CUDNN := 1#WITH_PYTHON_LAYER := 1INCLUDE_DIRS := $(PYTHON_INCLUDE) /usr/local/includeLIBRARY_DIRS := $(PYTHON_LIB) /usr/local/lib /usr/lib 分别更改为：1234USE_CUDNN := 1WITH_PYTHON_LAYER := 1INCLUDE_DIRS := $(PYTHON_INCLUDE) /usr/local/include /usr/include/hdf5/serialLIBRARY_DIRS := $(PYTHON_LIB) /usr/local/lib /usr/lib /usr/lib/x86_64-linux-gnu /usr/lib/x86_64-linux-gnu/hdf5/serial 打开 Makefile文件：1gedit makefile 将其中的：1NVCCFLAGS += -ccbin=$(CXX) -Xcompiler-fPIC $(COMMON_FLAGS) 更改为：1NVCCFLAGS += -D_FORCE_INLINES -ccbin=$(CXX) -Xcompiler -fPIC $(COMMON_FLAGS) 打开/usr/local/cuda/include/crt/host_config.h文件：1sudo gedit /usr/local/cuda/include/crt/host_config.h 将其中的：1#error-- unsupported GNU version! gcc versions later than 4.9 are not supported! 更改为：1//#error-- unsupported GNU version! gcc versions later than 4.9 are not supported! 下面就是编译caffe并测试：123make clean -j8make all -j8 make runtest -j8 最后输出PASS说明测试成功。配置环境变量：1vim ~/.bashrc 在文件末尾写入caffe-pathon的安装路径：1export PYTHONPATH=~/caffe/python:$PYTHONPATH 上述语句中的~表示caffe所在的根目录。是环境变量生效：1source ~/.bashrc 然后执行：1make pycaffe cuda9编译问题错误：12345NVCC src/caffe/layers/bnll_layer.cunvcc fatal : Unsupported gpu architecture 'compute_20'Makefile:594: recipe for target '.build_release/cuda/src/caffe/layers/bnll_layer.o' failedmake: *** [.build_release/cuda/src/caffe/layers/bnll_layer.o] Error 1make: *** Waiting for unfinished jobs.... 原因cuda9不支持‘ compute-20 ’ 解决方案修改Makefile.config文件中CUDA_ARCH设置，将12345678910111213# CUDA architecture setting: going with all of them.# For CUDA &lt; 6.0, comment the *_50 through *_61 lines for compatibility.# For CUDA &lt; 8.0, comment the *_60 and *_61 lines for compatibility.# For CUDA &gt;= 9.0, comment the *_20 and *_21 lines for compatibility.CUDA_ARCH := -gencode arch=compute_20,code=sm_20 \ -gencode arch=compute_20,code=sm_21 \ -gencode arch=compute_30,code=sm_30 \ -gencode arch=compute_35,code=sm_35 \ -gencode arch=compute_50,code=sm_50 \ -gencode arch=compute_52,code=sm_52 \ -gencode arch=compute_60,code=sm_60 \ -gencode arch=compute_61,code=sm_61 \ -gencode arch=compute_61,code=compute_61 中的12-gencode arch=compute_20,code=sm_20 \-gencode arch=compute_20,code=sm_21 \ 删除即可重新编译。]]></content>
+      <categories>
+        <category>环境搭建</category>
+      </categories>
+      <tags>
+        <tag>ubuntu</tag>
+        <tag>caffe</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Ubuntu16.04 安装 cuda9 和 cudnn7]]></title>
+    <url>%2F2018%2F06%2Fubuntu-install-cuda-and-cudnn%2F</url>
+    <content type="text"><![CDATA[安装步骤安装 cuda首先下载 cuda9.0 下载地址的 (runfile) 安装文件，下载完成进到文件下载的目录下，给安装文件赋予权限：1sudo chmod 777 XXX.run # XXX为安装文件的文件名 执行安装文件：1sudo sh XXX.run 在看完协议选择 Install NVIDIA Accelerated Graphics Driver for nvidia 时，选择 no，其他的可全部选择 yes 和默认回车；并且在查看协议时有快捷键 Ctrl+D 进行翻页。下面安装完成配置环境变量：打开环境变量文件1gedit ~/.bashrc 在文件末尾加上安装的 cuda9.0 路径12export PATH=/usr/local/cuda-9.0/bin:$PATHexport LD_LIBRARY_PATH=/usr/local/cuda9.0/lib64:$LD_LIBRARY_PATH 配置完环境变量，使其生效：1source ~/.bashrc 然后进行测试：123cd /usr/local/cuda-9.0/samples/1_Utilities/deviceQuerysudo makesudo ./deviceQuery 测试结果有输出PASS，即为正确安装。 安装 cudnn首先下载 cudnn7 下载路径（下载 cudnn7 需要登陆 NVIDIA ，没有 NVIDIA 账号的注册一个就行了。）下载 tgz 压缩文件。首先解压 tgz 压缩文件：1tar -xzvf cudnn-XXX.tgz 接着复制文件到 cuda 路径下：123sudo cp cuda/include/cudnn.h /usr/local/cuda/includesudo cp cuda/lib64/libcudnn* /usr/local/cuda/lib64sudo chmod a+r /usr/local/cuda/include/cudnn.h /usr/local/cuda/lib64/libcudnn* 复制完成然后使用命令，可以看到输出相应的 cuda 和 cudnn 的版本信息1nvcc -V 如果提示库缺失错误，可参考以下命令：1234sudo cp /usr/local/cuda-9.0/lib64/libcudart.so.9.0 /usr/local/lib/libcudart.so.9.0 &amp;&amp; sudo ldconfigsudo cp /usr/local/cuda-9.0/lib64/libcublas.so.9.0 /usr/local/lib/libcublas.so.9.0 &amp;&amp; sudo ldconfigsudo cp /usr/local/cuda-9.0/lib64/libcurand.so.9.0 /usr/local/lib/libcurabd.so.9.0 &amp;&amp; sudo ldconfigsudo cp /usr/local/cuda-9.0/lib64/libcudnn.so.7 /usr/local/lib/libcudnn.so.7 &amp;&amp; sudo ldconfig]]></content>
+      <categories>
+        <category>环境搭建</category>
+      </categories>
+      <tags>
+        <tag>ubuntu</tag>
+        <tag>cuda</tag>
+        <tag>cudnn</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Ubuntu16.04 安装 NVIDIA 驱动]]></title>
+    <url>%2F2018%2F06%2Fubuntu-install-nvidia-drive%2F</url>
+    <content type="text"><![CDATA[问题描述 在安装了NVIDIA驱动后出现了进入Ubuntu循环登录的问题。 解决方案1.进入命令行界面Ctrl+Alt+F1打开编辑配置文件：1vim /etc/modprobe.d/blacklist.conf 在最后一行添加：1blacklist nouveau 2.禁用 nouveau 第三方驱动，之后也不需要改回来执行：12sudo update-initramfs -ulsmod | grep nouveau 没有输出即屏蔽好了。 3.禁用X服务，执行：1sudo /etc/init.d/lightdm stop 4.给驱动run文件赋予执行权限1sudo chmod a+x NVIDIA***.run 安装(注意 参数)1sudo ./NVIDIA***.run –no-opengl-files 5.如果还无法进入桌面，这是因为驱动修改了xorg的配置，可执行一下命令：12cd /usr/share/X11/xorg.conf.d/ sudo mv nvidia-drm-outputclass.conf nvidia-drm-outputclass.conf.bak 参考http://blog.csdn.net/u012759136/article/details/53355781]]></content>
+      <categories>
+        <category>环境搭建</category>
+      </categories>
+      <tags>
+        <tag>ubuntu</tag>
+        <tag>nvidia驱动</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Ubuntu16.04 安装 OpenCV2.4.13.6]]></title>
+    <url>%2F2018%2F06%2Fubuntu-install-opencv%2F</url>
+    <content type="text"><![CDATA[安装步骤1.通过命令安装各种软件包123sudo apt-get install build-essentialsudo apt-get install cmake git libgtk2.0-dev pkg-config libavcodec-dev libavformat-dev libswscale-devsudo apt-get install python-dev python-numpy libtbb2 libtbb-dev libjpeg-dev libpng-dev libtiff-dev libjasper-dev libdc1394-22-dev 2.进到安装路径下拷贝 OpenCV 源码1git clone https://github.com/opencv/opencv.git 3.选择安装的 OpenCV 版本号12cd opencvgit checkout -d 2.4.13.6 4.使用 Cmake 编译 OpenCV 源码123mkdir releasecd releasecmake -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local .. 5.make 安装 OpenCV12make -j4sudo make install 安装到此结束。 测试命令进入 Python 编辑器12import cv2print(cv2.__version__) 会输出 OpenCV 的版本号。 cuda 9.0 与 opencv 版本匹配问题：Cmake 过程中会出现以下问题： 错误123CMake Error: The following variables are used in this project, but they are set to NOTFOUND.Please set them or make sure they are set and tested correctly in the CMake files:CUDA_nppi_LIBRARY (ADVANCED) 原因在cuda9里面，NVIDIA把 libnppi.so换成libnppc.so libnppial.so libnppicc.so libnppicom.so libnppidei.so libnppif.so libnppig.so libnppim.so libnppist.so libnppisu.so libnppitc.so libnpps.so 解决方案修改opencv/cmake/FindCUDA.cmake 文件，将其中的1unset(CUDA_nppi_LIBRARY CACHE) 替换为：12345678910unset(CUDA_nppial_LIBRARY CACHE)unset(CUDA_nppicc_LIBRARY CACHE)unset(CUDA_nppicom_LIBRARY CACHE)unset(CUDA_nppidei_LIBRARY CACHE)unset(CUDA_nppif_LIBRARY CACHE)unset(CUDA_nppig_LIBRARY CACHE)unset(CUDA_nppim_LIBRARY CACHE)unset(CUDA_nppist_LIBRARY CACHE)unset(CUDA_nppisu_LIBRARY CACHE)unset(CUDA_nppitc_LIBRARY CACHE) 将12find_cuda_helper_libs(nppi)set(CUDA_npp_LIBRARY"$&#123;CUDA_nppc_LIBRARY&#125;;$&#123;CUDA_nppi_LIBRARY&#125;;$&#123;CUDA_npps_LIBRARY&#125;") 替换为123456789101112find_cuda_helper_libs(nppial)find_cuda_helper_libs(nppicc)find_cuda_helper_libs(nppicom)find_cuda_helper_libs(nppidei)find_cuda_helper_libs(nppif)find_cuda_helper_libs(nppig)find_cuda_helper_libs(nppim)find_cuda_helper_libs(nppist)find_cuda_helper_libs(nppisu)find_cuda_helper_libs(nppitc)find_cuda_helper_libs(npps)set(CUDA_npp_LIBRARY "$&#123;CUDA_nppc_LIBRARY&#125;;$&#123;CUDA_nppial_LIBRARY&#125;;$&#123;CUDA_nppicc_LIBRARY&#125;;$&#123;CUDA_nppicom_LIBRARY&#125;;$&#123;CUDA_nppidei_LIBRARY&#125;;$&#123;CUDA_nppif_LIBRARY&#125;;$&#123;CUDA_nppig_LIBRARY&#125;;$&#123;CUDA_nppim_LIBRARY&#125;;$&#123;CUDA_nppist_LIBRARY&#125;;$&#123;CUDA_nppisu_LIBRARY&#125;;$&#123;CUDA_nppitc_LIBRARY&#125;;$&#123;CUDA_npps_LIBRARY&#125;") 错误1opencv nvcc fatal : Unsupported gpu architecture 'compute_20' 原因cuda9不支持‘ compute-20 ’ 解决方案：更改 OpenCVDetectCUDA.cmake 文件，把有关 ‘ compute-20 ’ 的全删掉将1234567if(CUDA_GENERATION STREQUAL "Fermi") set(__cuda_arch_bin "3.0 3.5") elseif(CUDA_GENERATION STREQUAL "Kepler") if($&#123;CUDA_VERSION&#125; VERSION_LESS "5.0") set(__cuda_arch_bin "2.0 2.1") else() set(__cuda_arch_bin "3.0 3.5") 替换为1234567if(CUDA_GENERATION STREQUAL "Fermi") set(__cuda_arch_bin "3.0 3.5") elseif(CUDA_GENERATION STREQUAL "Kepler") if($&#123;CUDA_VERSION&#125; VERSION_LESS "5.0") set(__cuda_arch_bin "3.0") else() set(__cuda_arch_bin "3.0 3.5") 将：1234if($&#123;CUDA_VERSION&#125; VERSION_LESS "5.0") set(__cuda_arch_bin "1.1 1.2 1.3 2.0 2.1(2.0) 3.0")elseif($&#123;CUDA_VERSION&#125; VERSION_GREATER "6.5") set(__cuda_arch_bin "2.0 2.1(2.0) 3.0 3.5") 替换为：1234if($&#123;CUDA_VERSION&#125; VERSION_LESS "5.0") set(__cuda_arch_bin "1.1 1.2 1.3 2.0 2.1(2.0) 3.0")elseif($&#123;CUDA_VERSION&#125; VERSION_GREATER "6.5") set(__cuda_arch_bin "3.0 3.5") 然后 cmake 成功。 参考https://docs.opencv.org/2.4/doc/tutorials/introduction/linux_install/linux_install.html https://stackoverflow.com/questions/46584000/cmake-error-variables-are-set-to-notfound]]></content>
+      <categories>
+        <category>环境搭建</category>
+      </categories>
+      <tags>
+        <tag>ubuntu</tag>
+        <tag>cuda</tag>
+        <tag>OpenCV</tag>
+      </tags>
+  </entry>
+</search>
