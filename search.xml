@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title><![CDATA[descending-into-ml]]></title>
-    <url>%2F2018%2F07%2Fdescending-into-ml%2F</url>
-    <content type="text"></content>
+    <title><![CDATA[重装 Ubuntu 的 Xorg 服务]]></title>
+    <url>%2F2018%2F07%2Freinstall-xorg-for-ubuntu%2F</url>
+    <content type="text"><![CDATA[问题描述最近在工作中需要用 windows 系统远程控制 Ubuntu 系统，在安装一些远程控制软件的过程中把 Ubuntu 系统的 Xorg 服务整坏了，在这记录下解决方法。 Xorg 服务器（基础开源 X11 实现）是 Ubuntu 的 X-Window 桌面系统官方参考实现中的 X 服务器。 感谢参考 解决方法下面将解释如何删除，安装和重新配置 xorg, 而无需重新安装 Ubuntu. 打开 Ubuntu 的终端并运行下列命令：123456# 删除现有的 xorg 服务sudo apt-get remove --purge xserver-xorg# 安装新的 xorg 服务sudo apt-get install xserver-xorg# 重新配置 xorg 服务sudo dpkg-reconfigure xserver-xorg 希望这些对你的 xorg 相关问题有所帮助。]]></content>
   </entry>
   <entry>
     <title><![CDATA[Hexo 博客绑定个人域名]]></title>
@@ -44,7 +44,7 @@
   <entry>
     <title><![CDATA[Ubuntu16.04 安装 TensorRT]]></title>
     <url>%2F2018%2F06%2Fubuntu-install-tensorrt%2F</url>
-    <content type="text"><![CDATA[安装步骤首先下载tar版本的安装包，下载地址需要登陆NVIDIA。安装TensorRT前需要安装Cuda和cudnn，安装步骤可以参考 ubuntu安装cuda和cudnn。打开下载的TensorRT所在路径，解压下载的tar文件：1tar -xzvf TensorRT-XXX.tar.gz 解压好添加环境变量：1234567vim ~/.bashrc # 打开环境变量文件# 将下面三个环境变量写入环境变量文件并保存export LD_LIBRARY_PATH=TensorRT解压路径/lib:$LD_LIBRARY_PATHexport CUDA_INSTALL_DIR=/usr/local/cuda-9.0export CUDNN_INSTALL_DIR=/usr/local/cuda-9.0# 使刚刚修改的环境变量文件生效source ~/.bashrc 下面是安装Python的TensorRT包：进到解压的TensorRT目录下的Python目录：1234# 对于python2sudo pip2 install tensorrt-XXX-cp27-cp27mu-linux_x86_64.whl# 对于python3sudo pip3 install tensorrt-XXX-cp35-cp35m-linux_x86_64.whl 如安装失败请参考文章末尾的解决方案。测试TensorRT是否安装成功：1which tensorrt 会输出TensorRT的安装路径。然后转到uff目录下安装uff包：1234# 对于python2sudo pip2 install uff-0.1.0rc0-py2.py3-none-any.whl# 对于python3sudo pip3 install uff-0.1.0rc0-py2.py3-none-any.whl 测试：1which convert-to-uff 会输出uff的安装路径。拷贝lenet5.uff到python相关目录进行验证：123456sudo cp TensorRT-XXX/data/mnist/lenet5.uff TensorRT-XXX/python/data/mnist/lenet5.uffcd TensorRT-XXX/samples/sampleMNISTmake cleanmakecd /TensorRT-XXX/bin（转到bin目录下面，make后的可执行文件在此目录下）./sample_mnist 命令执行顺利即安装成功。 错误在安装Python的TensorRT包时可能出现的错误：1234In file included from src/cpp/cuda.cpp:1:0: src/cpp/cuda.hpp:14:18: fatal error: cuda.h: No such file or directory compilation terminated. error: command 'x86_64-linux-gnu-gcc' failed with exit status 1 原因显示是找不到cuda.h，根据网上分析是因为用了sudo之后环境变量用的是root的环境变量。参考 解决方案12345vim /etc/profile.d/cuda.sh添加：export PATH=/usr/local/cuda-9.0/bin:$PATHsudo su -pip2 install tensorrt-XXX-cp27-cp27mu-linux_x86_64.whl exit 参考：https://blog.csdn.net/xll_bit/article/details/78376320]]></content>
+    <content type="text"><![CDATA[安装步骤首先下载tar版本的安装包，下载地址需要登陆NVIDIA。安装TensorRT前需要安装Cuda和cudnn，安装步骤可以参考 ubuntu安装cuda和cudnn。打开下载的TensorRT所在路径，解压下载的tar文件：1tar -xzvf TensorRT-XXX.tar.gz 解压好添加环境变量：1234567vim ~/.bashrc # 打开环境变量文件# 将下面三个环境变量写入环境变量文件并保存export LD_LIBRARY_PATH=TensorRT解压路径/lib:$LD_LIBRARY_PATHexport CUDA_INSTALL_DIR=/usr/local/cuda-9.0export CUDNN_INSTALL_DIR=/usr/local/cuda-9.0# 使刚刚修改的环境变量文件生效source ~/.bashrc 下面是安装Python的TensorRT包：进到解压的TensorRT目录下的Python目录：1234# 对于python2sudo pip2 install tensorrt-XXX-cp27-cp27mu-linux_x86_64.whl# 对于python3sudo pip3 install tensorrt-XXX-cp35-cp35m-linux_x86_64.whl 如安装失败请参考文章末尾的解决方案。测试TensorRT是否安装成功：1which tensorrt 会输出TensorRT的安装路径。然后转到uff目录下安装uff包：1234# 对于python2sudo pip2 install uff-0.1.0rc0-py2.py3-none-any.whl# 对于python3sudo pip3 install uff-0.1.0rc0-py2.py3-none-any.whl 测试：1which convert-to-uff 会输出uff的安装路径。拷贝lenet5.uff到python相关目录进行验证：123456sudo cp TensorRT-XXX/data/mnist/lenet5.uff TensorRT-XXX/python/data/mnist/lenet5.uffcd TensorRT-XXX/samples/sampleMNISTmake cleanmakecd /TensorRT-XXX/bin（转到bin目录下面，make后的可执行文件在此目录下）./sample_mnist 命令执行顺利即安装成功。 错误在安装Python的TensorRT包时可能出现的错误：1234In file included from src/cpp/cuda.cpp:1:0: src/cpp/cuda.hpp:14:18: fatal error: cuda.h: No such file or directory compilation terminated. error: command 'x86_64-linux-gnu-gcc' failed with exit status 1 原因显示是找不到cuda.h，根据网上分析是因为用了sudo之后环境变量用的是root的环境变量。参考 解决方案将cuda的安装路径添加到root的环境变量中，在root角色下安装Python的TensorRT包12345vim /etc/profile.d/cuda.sh添加：export PATH=/usr/local/cuda-9.0/bin:$PATHsudo su -pip2 install tensorrt-XXX-cp27-cp27mu-linux_x86_64.whl exit 参考：https://blog.csdn.net/xll_bit/article/details/78376320]]></content>
       <categories>
         <category>环境搭建</category>
       </categories>

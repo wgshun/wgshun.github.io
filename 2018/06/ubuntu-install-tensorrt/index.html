@@ -100,7 +100,7 @@
       applicationID: '',
       apiKey: '',
       indexName: '',
-      hits: {"per_page":10},
+      hits: {"per_page":6},
       labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
     }
   };
@@ -120,7 +120,7 @@
 <meta property="og:site_name" content="寸山河">
 <meta property="og:description" content="安装步骤首先下载tar版本的安装包，下载地址需要登陆NVIDIA。安装TensorRT前需要安装Cuda和cudnn，安装步骤可以参考 ubuntu安装cuda和cudnn。打开下载的TensorRT所在路径，解压下载的tar文件：1tar -xzvf TensorRT-XXX.tar.gz 解压好添加环境变量：1234567vim ~/.bashrc # 打开环境变量文件# 将下面三个环境变量写">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-07-09T03:38:43.469Z">
+<meta property="og:updated_time" content="2018-07-12T08:54:15.870Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Ubuntu16.04 安装 TensorRT">
 <meta name="twitter:description" content="安装步骤首先下载tar版本的安装包，下载地址需要登陆NVIDIA。安装TensorRT前需要安装Cuda和cudnn，安装步骤可以参考 ubuntu安装cuda和cudnn。打开下载的TensorRT所在路径，解压下载的tar文件：1tar -xzvf TensorRT-XXX.tar.gz 解压好添加环境变量：1234567vim ~/.bashrc # 打开环境变量文件# 将下面三个环境变量写">
@@ -401,7 +401,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2018-07-09 11:38:43" itemprop="dateModified" datetime="2018-07-09T11:38:43+08:00">2018-07-09</time>
+                <time title="修改时间：2018-07-12 16:54:15" itemprop="dateModified" datetime="2018-07-12T16:54:15+08:00">2018-07-12</time>
               
             
           </span>
@@ -462,7 +462,7 @@
       
 
       
-        <h4 id="安装步骤"><a href="#安装步骤" class="headerlink" title="安装步骤"></a>安装步骤</h4><p>首先下载<code>tar</code>版本的安装包，<a href="https://developer.nvidia.com/tensorrt" target="_blank" rel="noopener">下载地址</a>需要登陆<code>NVIDIA</code>。<br>安装<code>TensorRT</code>前需要安装<code>Cuda</code>和<code>cudnn</code>，安装步骤可以参考<a href="https://wgshun.github.io/2018/06/06/Ubuntu-%E5%AE%89%E8%A3%85-cuda-%E5%92%8C-cudnn/"> ubuntu安装cuda和cudnn</a>。<br>打开下载的<code>TensorRT</code>所在路径，解压下载的<code>tar</code>文件：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -xzvf TensorRT-XXX.tar.gz</span><br></pre></td></tr></table></figure></p>
+        <h4 id="安装步骤"><a href="#安装步骤" class="headerlink" title="安装步骤"></a>安装步骤</h4><p>首先下载<code>tar</code>版本的安装包，<a href="https://developer.nvidia.com/tensorrt" target="_blank" rel="noopener">下载地址</a>需要登陆<code>NVIDIA</code>。<br>安装<code>TensorRT</code>前需要安装<code>Cuda</code>和<code>cudnn</code>，安装步骤可以参考<a href="https://http://wgshun.top/2018/06/ubuntu-install-cuda-and-cudnn/" target="_blank" rel="noopener"> ubuntu安装cuda和cudnn</a>。<br>打开下载的<code>TensorRT</code>所在路径，解压下载的<code>tar</code>文件：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -xzvf TensorRT-XXX.tar.gz</span><br></pre></td></tr></table></figure></p>
 <p>解压好添加环境变量：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">vim ~/.bashrc <span class="comment"># 打开环境变量文件</span></span><br><span class="line"><span class="comment"># 将下面三个环境变量写入环境变量文件并保存</span></span><br><span class="line"><span class="built_in">export</span> LD_LIBRARY_PATH=TensorRT解压路径/lib:<span class="variable">$LD_LIBRARY_PATH</span></span><br><span class="line"><span class="built_in">export</span> CUDA_INSTALL_DIR=/usr/<span class="built_in">local</span>/cuda-9.0</span><br><span class="line"><span class="built_in">export</span> CUDNN_INSTALL_DIR=/usr/<span class="built_in">local</span>/cuda-9.0</span><br><span class="line"><span class="comment"># 使刚刚修改的环境变量文件生效</span></span><br><span class="line"><span class="built_in">source</span> ~/.bashrc</span><br></pre></td></tr></table></figure></p>
 <a id="more"></a>
 <p>下面是安装<code>Python</code>的<code>TensorRT</code>包：<br>进到解压的<code>TensorRT</code>目录下的<code>Python</code>目录：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 对于python2</span></span><br><span class="line">sudo pip2 install tensorrt-XXX-cp27-cp27mu-linux_x86_64.whl</span><br><span class="line"><span class="comment"># 对于python3</span></span><br><span class="line">sudo pip3 install tensorrt-XXX-cp35-cp35m-linux_x86_64.whl</span><br></pre></td></tr></table></figure></p>
@@ -473,7 +473,7 @@
 <p>命令执行顺利即安装成功。</p>
 <h5 id="错误"><a href="#错误" class="headerlink" title="错误"></a>错误</h5><p>在安装<code>Python</code>的<code>TensorRT</code>包时可能出现的错误：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">In file included from src/cpp/cuda.cpp:1:0:</span><br><span class="line">    src/cpp/cuda.hpp:14:18: fatal error: cuda.h: No such file or directory</span><br><span class="line">    compilation terminated.</span><br><span class="line">    error: <span class="built_in">command</span> <span class="string">'x86_64-linux-gnu-gcc'</span> failed with <span class="built_in">exit</span> status 1</span><br></pre></td></tr></table></figure></p>
 <h5 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h5><p>显示是找不到cuda.h，根据网上分析是因为用了sudo之后环境变量用的是root的环境变量。<br><a href="https://codeyarns.com/2015/07/31/pip-install-error-with-pycuda/" target="_blank" rel="noopener">参考</a></p>
-<h5 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/profile.d/cuda.sh</span><br><span class="line">添加：<span class="built_in">export</span> PATH=/usr/<span class="built_in">local</span>/cuda-9.0/bin:<span class="variable">$PATH</span></span><br><span class="line">sudo su -</span><br><span class="line">pip2 install tensorrt-XXX-cp27-cp27mu-linux_x86_64.whl </span><br><span class="line"><span class="built_in">exit</span></span><br></pre></td></tr></table></figure>
+<h5 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h5><p>将<code>cuda</code>的安装路径添加到<code>root</code>的环境变量中，在<code>root</code>角色下安装<code>Python</code>的<code>TensorRT</code>包<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/profile.d/cuda.sh</span><br><span class="line">添加：<span class="built_in">export</span> PATH=/usr/<span class="built_in">local</span>/cuda-9.0/bin:<span class="variable">$PATH</span></span><br><span class="line">sudo su -</span><br><span class="line">pip2 install tensorrt-XXX-cp27-cp27mu-linux_x86_64.whl </span><br><span class="line"><span class="built_in">exit</span></span><br></pre></td></tr></table></figure></p>
 <p>参考：<a href="https://blog.csdn.net/xll_bit/article/details/78376320" target="_blank" rel="noopener">https://blog.csdn.net/xll_bit/article/details/78376320</a></p>
 
       

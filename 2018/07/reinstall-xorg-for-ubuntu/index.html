@@ -100,7 +100,7 @@
       applicationID: '',
       apiKey: '',
       indexName: '',
-      hits: {"per_page":10},
+      hits: {"per_page":6},
       labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
     }
   };
@@ -112,25 +112,25 @@
 
 
 
-  <meta name="description" content="计算机视觉">
+  <meta name="description" content="问题描述最近在工作中需要用 windows 系统远程控制 Ubuntu 系统，在安装一些远程控制软件的过程中把 Ubuntu 系统的 Xorg 服务整坏了，在这记录下解决方法。 Xorg 服务器（基础开源 X11 实现）是 Ubuntu 的 X-Window 桌面系统官方参考实现中的 X 服务器。 感谢参考 解决方法下面将解释如何删除，安装和重新配置 xorg, 而无需重新安装 Ubuntu.">
 <meta name="keywords" content="wgshun">
 <meta property="og:type" content="article">
-<meta property="og:title" content="descending-into-ml">
-<meta property="og:url" content="http://wgshun.github.io/2018/07/descending-into-ml/index.html">
+<meta property="og:title" content="重装 Ubuntu 的 Xorg 服务">
+<meta property="og:url" content="http://wgshun.github.io/2018/07/reinstall-xorg-for-ubuntu/index.html">
 <meta property="og:site_name" content="寸山河">
-<meta property="og:description" content="计算机视觉">
+<meta property="og:description" content="问题描述最近在工作中需要用 windows 系统远程控制 Ubuntu 系统，在安装一些远程控制软件的过程中把 Ubuntu 系统的 Xorg 服务整坏了，在这记录下解决方法。 Xorg 服务器（基础开源 X11 实现）是 Ubuntu 的 X-Window 桌面系统官方参考实现中的 X 服务器。 感谢参考 解决方法下面将解释如何删除，安装和重新配置 xorg, 而无需重新安装 Ubuntu.">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-07-05T10:25:51.455Z">
+<meta property="og:updated_time" content="2018-07-13T07:21:34.164Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="descending-into-ml">
-<meta name="twitter:description" content="计算机视觉">
+<meta name="twitter:title" content="重装 Ubuntu 的 Xorg 服务">
+<meta name="twitter:description" content="问题描述最近在工作中需要用 windows 系统远程控制 Ubuntu 系统，在安装一些远程控制软件的过程中把 Ubuntu 系统的 Xorg 服务整坏了，在这记录下解决方法。 Xorg 服务器（基础开源 X11 实现）是 Ubuntu 的 X-Window 桌面系统官方参考实现中的 X 服务器。 感谢参考 解决方法下面将解释如何删除，安装和重新配置 xorg, 而无需重新安装 Ubuntu.">
 
 
 
 
 
 
-  <link rel="canonical" href="http://wgshun.github.io/2018/07/descending-into-ml/"/>
+  <link rel="canonical" href="http://wgshun.github.io/2018/07/reinstall-xorg-for-ubuntu/"/>
 
 
 
@@ -140,7 +140,7 @@
   };
 </script>
 
-  <title>descending-into-ml | 寸山河</title>
+  <title>重装 Ubuntu 的 Xorg 服务 | 寸山河</title>
   
 
 
@@ -342,7 +342,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://wgshun.github.io/2018/07/descending-into-ml/">
+    <link itemprop="mainEntityOfPage" href="http://wgshun.github.io/2018/07/reinstall-xorg-for-ubuntu/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="wgshun">
@@ -359,7 +359,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">descending-into-ml
+          <h1 class="post-title" itemprop="name headline">重装 Ubuntu 的 Xorg 服务
               
             
           </h1>
@@ -384,9 +384,13 @@
                 
               
 
-              <time title="创建时间：2018-07-05 18:25:51" itemprop="dateCreated datePublished" datetime="2018-07-05T18:25:51+08:00">2018-07-05</time>
+              <time title="创建时间：2018-07-13 15:16:20 / 修改时间：15:21:34" itemprop="dateCreated datePublished" datetime="2018-07-13T15:16:20+08:00">2018-07-13</time>
             
 
+            
+              
+
+              
             
           </span>
 
@@ -399,8 +403,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/07/descending-into-ml/#comments" itemprop="discussionUrl">
-                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count valine-comment-count" data-xid="/2018/07/descending-into-ml/" itemprop="commentCount"></span>
+                <a href="/2018/07/reinstall-xorg-for-ubuntu/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count valine-comment-count" data-xid="/2018/07/reinstall-xorg-for-ubuntu/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -428,7 +432,13 @@
       
 
       
-        
+        <h5 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h5><p>最近在工作中需要用 windows 系统远程控制 Ubuntu 系统，在安装一些远程控制软件的过程中把 Ubuntu 系统的 Xorg 服务整坏了，在这记录下解决方法。</p>
+<p>Xorg 服务器（基础开源 X11 实现）是 Ubuntu 的 X-Window 桌面系统官方参考实现中的 X 服务器。</p>
+<p>感谢<a href="http://www.ubuntugeek.com/ubuntu-tiphow-to-removeinstall-and-reconfigure-xorg-without-reinstalling-ubuntu.html" target="_blank" rel="noopener">参考</a></p>
+<h5 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h5><p>下面将解释如何删除，安装和重新配置 xorg, 而无需重新安装 Ubuntu. </p>
+<p>打开 Ubuntu 的终端并运行下列命令：<br><a id="more"></a><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 删除现有的 xorg 服务</span></span><br><span class="line">sudo apt-get remove --purge xserver-xorg</span><br><span class="line"><span class="comment"># 安装新的 xorg 服务</span></span><br><span class="line">sudo apt-get install xserver-xorg</span><br><span class="line"><span class="comment"># 重新配置 xorg 服务</span></span><br><span class="line">sudo dpkg-reconfigure xserver-xorg</span><br></pre></td></tr></table></figure></p>
+<p>希望这些对你的 xorg 相关问题有所帮助。</p>
+
       
     </div>
 
@@ -515,8 +525,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -637,6 +656,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#问题描述"><span class="nav-number">1.</span> <span class="nav-text">问题描述</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#解决方法"><span class="nav-number">2.</span> <span class="nav-text">解决方法</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
