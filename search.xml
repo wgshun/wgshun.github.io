@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title><![CDATA[重装 Ubuntu 的 Xorg 服务]]></title>
-    <url>%2F2018%2F07%2Freinstall-xorg-for-ubuntu%2F</url>
-    <content type="text"><![CDATA[问题描述最近在工作中需要用 windows 系统远程控制 Ubuntu 系统，在安装一些远程控制软件的过程中把 Ubuntu 系统的 Xorg 服务整坏了，在这记录下解决方法。 Xorg 服务器（基础开源 X11 实现）是 Ubuntu 的 X-Window 桌面系统官方参考实现中的 X 服务器。 感谢参考 解决方法下面将解释如何删除，安装和重新配置 xorg, 而无需重新安装 Ubuntu. 打开 Ubuntu 的终端并运行下列命令：123456# 删除现有的 xorg 服务sudo apt-get remove --purge xserver-xorg# 安装新的 xorg 服务sudo apt-get install xserver-xorg# 重新配置 xorg 服务sudo dpkg-reconfigure xserver-xorg 希望这些对你的 xorg 相关问题有所帮助。]]></content>
-  </entry>
-  <entry>
     <title><![CDATA[Hexo 博客绑定个人域名]]></title>
     <url>%2F2018%2F07%2Fcustom-domain%2F</url>
     <content type="text"><![CDATA[前段时间用 hexo 搭建的 gitpage 个人博客，服务器用的是 github 的，然后域名默认也是 github 下的二级域名：username.github.io, 现在为了提升格调准备将自己的博客指向一个新的域名。下面记录下过程。 购买域名国内的域名服务商有新网，腾讯云，还有阿里云的万网等。下面以阿里云的万网为例： 在万网购买了自己心仪的域名后，进入阿里云的管理控制台-域名与网站-域名就可以看到购买的域名此时的域名状态是未实名认证的，然后就是实名认证（一般需要2小时左右）。 域名解析首先获取自己 github 的二级域名的 IP地址，windows 下直接在 cmd 里 Ping 一下自己的博客就会得到 IP 地址：下面通过 DNS域名解析将购买的域名指向 github 的二级域名：username.github.io，进入阿里云的管理控制台-域名与网站-云解析 DNS，进入域名的解析设置，点击新手指导，将得到的 IP 地址填到记录值一栏，点击确定就 OK 了。填完以后的解析列表会出现：记录值就是自己 github 的二级域名的 IP地址。 设置CNAME在 hexo 项目下，source 文件夹下面创建 CNAME 文件（没有后缀名的），在里面写上购买的域名。比如： 在 github 上面，打开 username.github.io 项目的（Settings）设置，然后在 GitHub Pages的 Custom domain设置里填上购买的域名。比如： 好了，新域名配置完成，可以访问了。]]></content>
@@ -94,18 +89,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[Ubuntu16.04 安装 NVIDIA 驱动]]></title>
-    <url>%2F2018%2F06%2Fubuntu-install-nvidia-drive%2F</url>
-    <content type="text"><![CDATA[问题描述 在安装了NVIDIA驱动后出现了进入Ubuntu循环登录的问题。 解决方案1.进入命令行界面Ctrl+Alt+F1打开编辑配置文件：1vim /etc/modprobe.d/blacklist.conf 在最后一行添加：1blacklist nouveau 2.禁用 nouveau 第三方驱动，之后也不需要改回来执行：12sudo update-initramfs -ulsmod | grep nouveau 没有输出即屏蔽好了。 3.禁用X服务，执行：1sudo /etc/init.d/lightdm stop 4.给驱动run文件赋予执行权限1sudo chmod a+x NVIDIA***.run 安装(注意 参数)1sudo ./NVIDIA***.run –no-opengl-files 5.如果还无法进入桌面，这是因为驱动修改了xorg的配置，可执行一下命令：12cd /usr/share/X11/xorg.conf.d/ sudo mv nvidia-drm-outputclass.conf nvidia-drm-outputclass.conf.bak 参考http://blog.csdn.net/u012759136/article/details/53355781]]></content>
-      <categories>
-        <category>环境搭建</category>
-      </categories>
-      <tags>
-        <tag>ubuntu</tag>
-        <tag>nvidia驱动</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[Ubuntu16.04 安装 OpenCV2.4.13.6]]></title>
     <url>%2F2018%2F06%2Fubuntu-install-opencv%2F</url>
     <content type="text"><![CDATA[安装步骤1.通过命令安装各种软件包123sudo apt-get install build-essentialsudo apt-get install cmake git libgtk2.0-dev pkg-config libavcodec-dev libavformat-dev libswscale-devsudo apt-get install python-dev python-numpy libtbb2 libtbb-dev libjpeg-dev libpng-dev libtiff-dev libjasper-dev libdc1394-22-dev 2.进到安装路径下拷贝 OpenCV 源码1git clone https://github.com/opencv/opencv.git 3.选择安装的 OpenCV 版本号12cd opencvgit checkout -d 2.4.13.6 4.使用 Cmake 编译 OpenCV 源码123mkdir releasecd releasecmake -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local .. 5.make 安装 OpenCV12make -j4sudo make install 安装到此结束。 测试命令进入 Python 编辑器12import cv2print(cv2.__version__) 会输出 OpenCV 的版本号。 cuda 9.0 与 opencv 版本匹配问题：Cmake 过程中会出现以下问题： 错误123CMake Error: The following variables are used in this project, but they are set to NOTFOUND.Please set them or make sure they are set and tested correctly in the CMake files:CUDA_nppi_LIBRARY (ADVANCED) 原因在cuda9里面，NVIDIA把 libnppi.so换成libnppc.so libnppial.so libnppicc.so libnppicom.so libnppidei.so libnppif.so libnppig.so libnppim.so libnppist.so libnppisu.so libnppitc.so libnpps.so 解决方案修改opencv/cmake/FindCUDA.cmake 文件，将其中的1unset(CUDA_nppi_LIBRARY CACHE) 替换为：12345678910unset(CUDA_nppial_LIBRARY CACHE)unset(CUDA_nppicc_LIBRARY CACHE)unset(CUDA_nppicom_LIBRARY CACHE)unset(CUDA_nppidei_LIBRARY CACHE)unset(CUDA_nppif_LIBRARY CACHE)unset(CUDA_nppig_LIBRARY CACHE)unset(CUDA_nppim_LIBRARY CACHE)unset(CUDA_nppist_LIBRARY CACHE)unset(CUDA_nppisu_LIBRARY CACHE)unset(CUDA_nppitc_LIBRARY CACHE) 将12find_cuda_helper_libs(nppi)set(CUDA_npp_LIBRARY"$&#123;CUDA_nppc_LIBRARY&#125;;$&#123;CUDA_nppi_LIBRARY&#125;;$&#123;CUDA_npps_LIBRARY&#125;") 替换为123456789101112find_cuda_helper_libs(nppial)find_cuda_helper_libs(nppicc)find_cuda_helper_libs(nppicom)find_cuda_helper_libs(nppidei)find_cuda_helper_libs(nppif)find_cuda_helper_libs(nppig)find_cuda_helper_libs(nppim)find_cuda_helper_libs(nppist)find_cuda_helper_libs(nppisu)find_cuda_helper_libs(nppitc)find_cuda_helper_libs(npps)set(CUDA_npp_LIBRARY "$&#123;CUDA_nppc_LIBRARY&#125;;$&#123;CUDA_nppial_LIBRARY&#125;;$&#123;CUDA_nppicc_LIBRARY&#125;;$&#123;CUDA_nppicom_LIBRARY&#125;;$&#123;CUDA_nppidei_LIBRARY&#125;;$&#123;CUDA_nppif_LIBRARY&#125;;$&#123;CUDA_nppig_LIBRARY&#125;;$&#123;CUDA_nppim_LIBRARY&#125;;$&#123;CUDA_nppist_LIBRARY&#125;;$&#123;CUDA_nppisu_LIBRARY&#125;;$&#123;CUDA_nppitc_LIBRARY&#125;;$&#123;CUDA_npps_LIBRARY&#125;") 错误1opencv nvcc fatal : Unsupported gpu architecture 'compute_20' 原因cuda9不支持‘ compute-20 ’ 解决方案：更改 OpenCVDetectCUDA.cmake 文件，把有关 ‘ compute-20 ’ 的全删掉将1234567if(CUDA_GENERATION STREQUAL "Fermi") set(__cuda_arch_bin "3.0 3.5") elseif(CUDA_GENERATION STREQUAL "Kepler") if($&#123;CUDA_VERSION&#125; VERSION_LESS "5.0") set(__cuda_arch_bin "2.0 2.1") else() set(__cuda_arch_bin "3.0 3.5") 替换为1234567if(CUDA_GENERATION STREQUAL "Fermi") set(__cuda_arch_bin "3.0 3.5") elseif(CUDA_GENERATION STREQUAL "Kepler") if($&#123;CUDA_VERSION&#125; VERSION_LESS "5.0") set(__cuda_arch_bin "3.0") else() set(__cuda_arch_bin "3.0 3.5") 将：1234if($&#123;CUDA_VERSION&#125; VERSION_LESS "5.0") set(__cuda_arch_bin "1.1 1.2 1.3 2.0 2.1(2.0) 3.0")elseif($&#123;CUDA_VERSION&#125; VERSION_GREATER "6.5") set(__cuda_arch_bin "2.0 2.1(2.0) 3.0 3.5") 替换为：1234if($&#123;CUDA_VERSION&#125; VERSION_LESS "5.0") set(__cuda_arch_bin "1.1 1.2 1.3 2.0 2.1(2.0) 3.0")elseif($&#123;CUDA_VERSION&#125; VERSION_GREATER "6.5") set(__cuda_arch_bin "3.0 3.5") 然后 cmake 成功。 参考https://docs.opencv.org/2.4/doc/tutorials/introduction/linux_install/linux_install.html https://stackoverflow.com/questions/46584000/cmake-error-variables-are-set-to-notfound]]></content>
@@ -116,6 +99,18 @@
         <tag>ubuntu</tag>
         <tag>cuda</tag>
         <tag>OpenCV</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Ubuntu16.04 安装 NVIDIA 驱动]]></title>
+    <url>%2F2018%2F06%2Fubuntu-install-nvidia-drive%2F</url>
+    <content type="text"><![CDATA[问题描述 在安装了NVIDIA驱动后出现了进入Ubuntu循环登录的问题。 解决方案1.进入命令行界面Ctrl+Alt+F1打开编辑配置文件：1vim /etc/modprobe.d/blacklist.conf 在最后一行添加：1blacklist nouveau 2.禁用 nouveau 第三方驱动，之后也不需要改回来执行：12sudo update-initramfs -ulsmod | grep nouveau 没有输出即屏蔽好了。 3.禁用X服务，执行：1sudo /etc/init.d/lightdm stop 4.给驱动run文件赋予执行权限1sudo chmod a+x NVIDIA***.run 安装(注意 参数)1sudo ./NVIDIA***.run –no-opengl-files 5.如果还无法进入桌面，这是因为驱动修改了xorg的配置，可执行一下命令：12cd /usr/share/X11/xorg.conf.d/ sudo mv nvidia-drm-outputclass.conf nvidia-drm-outputclass.conf.bak 参考http://blog.csdn.net/u012759136/article/details/53355781]]></content>
+      <categories>
+        <category>环境搭建</category>
+      </categories>
+      <tags>
+        <tag>ubuntu</tag>
+        <tag>nvidia驱动</tag>
       </tags>
   </entry>
 </search>
