@@ -120,7 +120,7 @@
 <meta property="og:site_name" content="寸山河">
 <meta property="og:description" content="安装步骤首先从github上面拷贝下来caffe项目：12git clone https://github.com/BVLC/caffe.gitcd caffe 安装caffe版的SSD拷贝步骤为：123git clone https://github.com/weiliu89/caffe.gitcd caffegit checkout ssd 然后将caffe主目录下面的Makefile.con">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-07-05T04:14:45.993Z">
+<meta property="og:updated_time" content="2018-07-16T04:30:47.742Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Ubuntu16.04 安装 Caffe">
 <meta name="twitter:description" content="安装步骤首先从github上面拷贝下来caffe项目：12git clone https://github.com/BVLC/caffe.gitcd caffe 安装caffe版的SSD拷贝步骤为：123git clone https://github.com/weiliu89/caffe.gitcd caffegit checkout ssd 然后将caffe主目录下面的Makefile.con">
@@ -401,7 +401,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2018-07-05 12:14:45" itemprop="dateModified" datetime="2018-07-05T12:14:45+08:00">2018-07-05</time>
+                <time title="修改时间：2018-07-16 12:30:47" itemprop="dateModified" datetime="2018-07-16T12:30:47+08:00">2018-07-16</time>
               
             
           </span>
@@ -468,7 +468,7 @@
 <a id="more"></a>
 <p>将其中的：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#USE_CUDNN := 1</span></span><br><span class="line"><span class="comment">#WITH_PYTHON_LAYER := 1</span></span><br><span class="line">INCLUDE_DIRS := $(PYTHON_INCLUDE) /usr/<span class="built_in">local</span>/include</span><br><span class="line">LIBRARY_DIRS := $(PYTHON_LIB) /usr/<span class="built_in">local</span>/lib /usr/lib</span><br></pre></td></tr></table></figure></p>
 <p>分别更改为：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">USE_CUDNN := 1</span><br><span class="line">WITH_PYTHON_LAYER := 1</span><br><span class="line">INCLUDE_DIRS := $(PYTHON_INCLUDE) /usr/<span class="built_in">local</span>/include /usr/include/hdf5/serial</span><br><span class="line">LIBRARY_DIRS := $(PYTHON_LIB) /usr/<span class="built_in">local</span>/lib /usr/lib /usr/lib/x86_64-linux-gnu /usr/lib/x86_64-linux-gnu/hdf5/serial</span><br></pre></td></tr></table></figure></p>
-<p>打开 <code>Makefile</code>文件：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gedit makefile</span><br></pre></td></tr></table></figure></p>
+<p>打开 <code>Makefile</code>文件：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gedit Makefile</span><br></pre></td></tr></table></figure></p>
 <p>将其中的：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">NVCCFLAGS += -ccbin=$(CXX) -Xcompiler-fPIC $(COMMON_FLAGS)</span><br></pre></td></tr></table></figure></p>
 <p>更改为：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">NVCCFLAGS += -D_FORCE_INLINES -ccbin=$(CXX) -Xcompiler -fPIC $(COMMON_FLAGS)</span><br></pre></td></tr></table></figure></p>
 <p>打开<code>/usr/local/cuda/include/crt/host_config.h</code>文件：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo gedit /usr/<span class="built_in">local</span>/cuda/include/crt/host_config.h</span><br></pre></td></tr></table></figure></p>
