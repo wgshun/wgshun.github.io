@@ -113,27 +113,29 @@
 
 
   <meta name="description" content="人们早就知晓，相比凉爽的天气，蟋蟀在较为炎热的天气里鸣叫更为频繁。数十年来，专业和业余昆虫学者已将每分钟的鸣叫声和温度方面的数据编入目录。Ruth 将她喜爱的蟋蟀数据库作为生日礼物送给您，并邀请您自己利用该数据库训练一个模型，从而预测鸣叫声与温度的关系。 首先建议您将数据绘制成图表，了解下数据的分布情况：">
-<meta name="keywords" content="线性回归">
+<meta name="keywords" content="线性回归,训练模型,损失函数">
 <meta property="og:type" content="article">
-<meta property="og:title" content="线性回归">
-<meta property="og:url" content="http://wgshun.github.io/2018/07/linear-regression/index.html">
+<meta property="og:title" content="深入了解机器学习">
+<meta property="og:url" content="http://wgshun.github.io/2018/07/descending-into-ml/index.html">
 <meta property="og:site_name" content="寸山河">
 <meta property="og:description" content="人们早就知晓，相比凉爽的天气，蟋蟀在较为炎热的天气里鸣叫更为频繁。数十年来，专业和业余昆虫学者已将每分钟的鸣叫声和温度方面的数据编入目录。Ruth 将她喜爱的蟋蟀数据库作为生日礼物送给您，并邀请您自己利用该数据库训练一个模型，从而预测鸣叫声与温度的关系。 首先建议您将数据绘制成图表，了解下数据的分布情况：">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://wgshun.github.io/2018/07/linear-regression/linear1.jpg">
-<meta property="og:image" content="http://wgshun.github.io/2018/07/linear-regression/linear2.jpg">
-<meta property="og:updated_time" content="2018-07-16T10:48:50.494Z">
+<meta property="og:image" content="http://wgshun.github.io/2018/07/descending-into-ml/linear1.jpg">
+<meta property="og:image" content="http://wgshun.github.io/2018/07/descending-into-ml/linear2.jpg">
+<meta property="og:image" content="http://wgshun.github.io/2018/07/descending-into-ml/linear3.jpg">
+<meta property="og:image" content="http://wgshun.github.io/2018/07/descending-into-ml/linear4.jpg">
+<meta property="og:updated_time" content="2018-07-17T08:11:26.911Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="线性回归">
+<meta name="twitter:title" content="深入了解机器学习">
 <meta name="twitter:description" content="人们早就知晓，相比凉爽的天气，蟋蟀在较为炎热的天气里鸣叫更为频繁。数十年来，专业和业余昆虫学者已将每分钟的鸣叫声和温度方面的数据编入目录。Ruth 将她喜爱的蟋蟀数据库作为生日礼物送给您，并邀请您自己利用该数据库训练一个模型，从而预测鸣叫声与温度的关系。 首先建议您将数据绘制成图表，了解下数据的分布情况：">
-<meta name="twitter:image" content="http://wgshun.github.io/2018/07/linear-regression/linear1.jpg">
+<meta name="twitter:image" content="http://wgshun.github.io/2018/07/descending-into-ml/linear1.jpg">
 
 
 
 
 
 
-  <link rel="canonical" href="http://wgshun.github.io/2018/07/linear-regression/"/>
+  <link rel="canonical" href="http://wgshun.github.io/2018/07/descending-into-ml/"/>
 
 
 
@@ -143,7 +145,7 @@
   };
 </script>
 
-  <title>线性回归 | 寸山河</title>
+  <title>深入了解机器学习 | 寸山河</title>
   
 
 
@@ -345,7 +347,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://wgshun.github.io/2018/07/linear-regression/">
+    <link itemprop="mainEntityOfPage" href="http://wgshun.github.io/2018/07/descending-into-ml/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="wgshun">
@@ -362,7 +364,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">线性回归
+          <h1 class="post-title" itemprop="name headline">深入了解机器学习
               
             
           </h1>
@@ -387,12 +389,24 @@
                 
               
 
-              <time title="创建时间：2018-07-16 18:15:56 / 修改时间：18:48:50" itemprop="dateCreated datePublished" datetime="2018-07-16T18:15:56+08:00">2018-07-16</time>
+              <time title="创建时间：2018-07-16 18:15:56" itemprop="dateCreated datePublished" datetime="2018-07-16T18:15:56+08:00">2018-07-16</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-07-17 16:11:26" itemprop="dateModified" datetime="2018-07-17T16:11:26+08:00">2018-07-17</time>
               
             
           </span>
@@ -424,8 +438,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/07/linear-regression/#comments" itemprop="discussionUrl">
-                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count valine-comment-count" data-xid="/2018/07/linear-regression/" itemprop="commentCount"></span>
+                <a href="/2018/07/descending-into-ml/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count valine-comment-count" data-xid="/2018/07/descending-into-ml/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -454,7 +468,7 @@
 
       
         <p>人们早就知晓，相比凉爽的天气，蟋蟀在较为炎热的天气里鸣叫更为频繁。数十年来，专业和业余昆虫学者已将每分钟的鸣叫声和温度方面的数据编入目录。Ruth 将她喜爱的蟋蟀数据库作为生日礼物送给您，并邀请您自己利用该数据库训练一个模型，从而预测鸣叫声与温度的关系。</p>
-<p>首先建议您将数据绘制成图表，了解下数据的分布情况：<br><img src="/2018/07/linear-regression/linear1.jpg" title="图1.每分钟的鸣叫声与温度（摄氏度）的关系。"><br><a id="more"></a><br>毫无疑问，此曲线图表明温度随着鸣叫声次数的增加而上升。鸣叫声与温度之间的关系是线性关系吗？是的，您可以绘制一条直线来近似地表示这种关系，如下所示：<br><img src="/2018/07/linear-regression/linear2.jpg" title="图2.线性关系。"><br>事实上，虽然该直线并未精确无误地经过每个点，但针对我们拥有的数据，清楚地显示了鸣叫声与温度之间的关系。只需运用一点代数知识，您就可以将这种关系写下来，如下所示：</p>
+<p>首先建议您将数据绘制成图表，了解下数据的分布情况：<br><img src="/2018/07/descending-into-ml/linear1.jpg" title="图1.每分钟的鸣叫声与温度（摄氏度）的关系。"><br><a id="more"></a><br>毫无疑问，此曲线图表明温度随着鸣叫声次数的增加而上升。鸣叫声与温度之间的关系是线性关系吗？是的，您可以绘制一条直线来近似地表示这种关系，如下所示：<br><img src="/2018/07/descending-into-ml/linear2.jpg" title="图2.线性关系。"><br>事实上，虽然该直线并未精确无误地经过每个点，但针对我们拥有的数据，清楚地显示了鸣叫声与温度之间的关系。只需运用一点代数知识，您就可以将这种关系写下来，如下所示：</p>
 <script type="math/tex; mode=display">y = mx + b</script><p>其中：</p>
 <ul>
 <li>$y$ 指的是温度（以摄氏度表示），即我们试图预测的值。</li>
@@ -471,7 +485,36 @@
 <li>$x_1$ 指的是特征（已知输入项）。</li>
 </ul>
 <p>要根据新的每分钟的鸣叫声值 $x_1$ 推断（预测）温度 $y′$，只需将 $x_1$ 值代入此模型即可。<br>下标（例如 $w_1$ 和 $x_1$）预示着可以用多个特征来表示更复杂的模型。例如，具有三个特征的模型可以采用以下方程式：</p>
-<script type="math/tex; mode=display">y' = b + w_1x_1 + w_2x_2 + w_3x_3</script>
+<script type="math/tex; mode=display">y' = b + w_1x_1 + w_2x_2 + w_3x_3</script><p>简单来说，<strong>训练</strong>模型表示通过有标签样本来学习（确定）所有权重和偏差的理想值。在监督式学习中，机器学习算法通过以下方式构建模型：检查多个样本并尝试找出可最大限度地减少损失的模型；这一过程称为<strong>经验风险最小化</strong>。</p>
+<p>损失是对糟糕预测的惩罚。也就是说，损失是一个数值，表示对于单个样本而言模型预测的准确程度。如果模型的预测完全准确，则损失为零，否则损失会较大。训练模型的目标是从所有样本中找到一组平均损失“较小”的权重和偏差。例如，图 3 左侧显示的是损失较大的模型，右侧显示的是损失较小的模型。关于此图，请注意以下几点：<br><img src="/2018/07/descending-into-ml/linear3.jpg" title="图3.左侧模型的损失较大；右侧模型的损失较小。"></p>
+<p>请注意，左侧曲线图中的红色箭头比右侧曲线图中的对应红色箭头长得多。显然，相较于左侧曲线图中的蓝线，右侧曲线图中的蓝线代表的是预测效果更好的模型。</p>
+<p>您可能想知道自己能否创建一个数学函数（损失函数），以有意义的方式汇总各个损失。</p>
+<h5 id="平方损失：一种常见的损失函数"><a href="#平方损失：一种常见的损失函数" class="headerlink" title="平方损失：一种常见的损失函数"></a>平方损失：一种常见的损失函数</h5><p>接下来我们要看的线性回归模型使用的是一种称为<strong>平方损失</strong>（又称为 <strong>L2 损失</strong>）的损失函数。单个样本的平方损失如下：<br><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">= the square of the difference between the label and the prediction</span><br><span class="line">= (observation - prediction(x))²</span><br><span class="line">= (y - y')²</span><br></pre></td></tr></table></figure></p>
+<p><strong>均方误差 (MSE)</strong> 指的是每个样本的平均平方损失。要计算 MSE，请求出各个样本的所有平方损失之和，然后除以样本数量：</p>
+<script type="math/tex; mode=display">MSE = \frac{1}{N} \sum_{(x,y)\in D} (y - prediction(x))^2</script><p>其中：</p>
+<ul>
+<li>$(x, y)$ 指的是样本，其中<ul>
+<li>$x$ 指的是模型进行预测时使用的特征集（例如，温度、年龄和交配成功率）。</li>
+<li>$y$ 指的是样本的标签（例如，每分钟的鸣叫次数）。</li>
+</ul>
+</li>
+<li>$prediction(x)$ 指的是权重和偏差与特征集 $x$ 结合的函数。</li>
+<li>$D$ 指的是包含多个有标签样本（即 $(x,y)$）的数据集。</li>
+<li>$N$ 指的是 $D$ 中的样本数量。</li>
+</ul>
+<p>虽然 MSE 常用于机器学习，但它既不是唯一实用的损失函数，也不是适用于所有情形的最佳损失函数。</p>
+<h4 id="检测理解情况"><a href="#检测理解情况" class="headerlink" title="检测理解情况"></a>检测理解情况</h4><h5 id="均方误差"><a href="#均方误差" class="headerlink" title="均方误差"></a>均方误差</h5><p>请看以下两个曲线图：<br><img src="/2018/07/descending-into-ml/linear4.jpg"></p>
+<p>查看以下选项，对于以上曲线图中显示的两个数据集，哪个数据集的均方误差 (MSE) 较高？</p>
+<ul>
+<li>左侧的数据集 <code>×</code></li>
+<li><strong>右侧的数据集</strong> <code>√</code></li>
+</ul>
+<p><strong>注解</strong>：</p>
+<ol>
+<li>线上的 6 个样本产生的总损失为 0。不在线上的 4 个样本离线并不远，因此即使对偏移求平方值，产生的值仍然很小：<script type="math/tex; mode=display">MSE = \frac{0^2 + 1^2 + 0^2 + 1^2 + 0^2 + 1^2 + 0^2 + 1^2 + 0^2 + 0^2} {10} = 0.4</script></li>
+<li>线上的 8 个样本产生的总损失为 0。不过，尽管只有两个点在线外，但这两个点的离线距离依然是左图中离群点的 2 倍。平方损失进一步加大差异，因此两个点的偏移量产生的损失是一个点的 4 倍。<script type="math/tex; mode=display">MSE = \frac{0^2 + 0^2 + 0^2 + 2^2 + 0^2 + 0^2 + 0^2 + 2^2 + 0^2 + 0^2} {10} = 0.8</script></li>
+</ol>
+
       
     </div>
 
@@ -492,6 +535,10 @@
         <div class="post-tags">
           
             <a href="/tags/线性回归/" rel="tag"># 线性回归</a>
+          
+            <a href="/tags/训练模型/" rel="tag"># 训练模型</a>
+          
+            <a href="/tags/损失函数/" rel="tag"># 损失函数</a>
           
         </div>
       
@@ -564,8 +611,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -642,7 +698,11 @@
                     
                       
                     
-                    <span class="site-state-item-count">13</span>
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">15</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -688,6 +748,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#平方损失：一种常见的损失函数"><span class="nav-number">1.</span> <span class="nav-text">平方损失：一种常见的损失函数</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#检测理解情况"><span class="nav-number"></span> <span class="nav-text">检测理解情况</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#均方误差"><span class="nav-number">1.</span> <span class="nav-text">均方误差</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
