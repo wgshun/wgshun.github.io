@@ -126,7 +126,7 @@
 <meta property="og:image" content="http://wgshun.github.io/2018/07/reducing-loss/loss4.jpg">
 <meta property="og:image" content="http://wgshun.github.io/2018/07/reducing-loss/loss5.jpg">
 <meta property="og:image" content="http://wgshun.github.io/2018/07/reducing-loss/loss6.jpg">
-<meta property="og:updated_time" content="2018-07-18T11:01:10.643Z">
+<meta property="og:updated_time" content="2018-07-18T11:12:26.254Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="降低损失">
 <meta name="twitter:description" content="迭代方法迭代学习可能会让您想到“Hot and Cold”这种寻找隐藏物品（如顶针）的儿童游戏。在我们的游戏中，“隐藏的物品”就是最佳模型。刚开始，您会胡乱猜测（“ $w_1$ 的值为 0。”），等待系统告诉您损失是多少。然后，您再尝试另一种猜测（“ $w_1$ 的值为 0.5。”），看看损失是多少。哎呀，这次更接近目标了。实际上，如果您以正确方式玩这个游戏，通常会越来越接近目标。这个游戏真正棘手">
@@ -391,7 +391,7 @@
                 
               
 
-              <time title="创建时间：2018-07-18 16:50:36 / 修改时间：19:01:10" itemprop="dateCreated datePublished" datetime="2018-07-18T16:50:36+08:00">2018-07-18</time>
+              <time title="创建时间：2018-07-18 16:50:36 / 修改时间：19:12:26" itemprop="dateCreated datePublished" datetime="2018-07-18T16:50:36+08:00">2018-07-18</time>
             
 
             
@@ -465,9 +465,9 @@
 <ul>
 <li>$b$ = 0</li>
 <li>$w_1$ = 0<a id="more"></a>
-假设第一个特征值是 10。将该特征值代入预测函数会得到以下结果：<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">y' = 0 + 0(10)</span><br><span class="line">y' = 0</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
+<p>假设第一个特征值是 10。将该特征值代入预测函数会得到以下结果：<br><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">y' = 0 + 0(10)</span><br><span class="line">y' = 0</span><br></pre></td></tr></table></figure></p>
 <p>图中的”计算损失”部分是模型将要使用的损失函数。假设我们使用平方损失函数。损失函数将采用两个输入值：</p>
 <ul>
 <li>y’：模型对特征 x 的预测</li>
@@ -481,7 +481,7 @@
 <p>梯度下降法的第一个阶段是为 $w_1$ 选择一个起始值（起点）。起点并不重要；因此很多算法就直接将 $w_1$ 设为 0 或随机选择一个值。下图显示的是我们选择了一个稍大于 0 的起点：<br><img src="/2018/07/reducing-loss/loss3.jpg" title="图3.梯度下降法的起点。"></p>
 <p>然后，梯度下降法算法会计算损失曲线在起点处的梯度。简而言之，<strong>梯度</strong>是偏导数的矢量；它可以让您了解哪个方向距离目标“更近”或“更远”。请注意，损失相对于单个权重的梯度（如图 3 所示）就等于导数。</p>
 <blockquote>
-<p>想要详细了解偏导数和梯度。点击<a href="https://wgshun.top/2018/07/math-in-ml" target="_blank" rel="noopener">链接</a></p>
+<p>想要详细了解偏导数和梯度。点击<a href="https://www.wgshun.top/2018/07/math-in-ml" target="_blank" rel="noopener">链接</a></p>
 </blockquote>
 <p>请注意，梯度是一个矢量，因此具有以下两个特征：</p>
 <ul>
