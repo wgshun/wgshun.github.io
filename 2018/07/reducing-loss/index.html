@@ -126,6 +126,8 @@
 <meta property="og:image" content="http://wgshun.github.io/2018/07/reducing-loss/loss4.jpg">
 <meta property="og:image" content="http://wgshun.github.io/2018/07/reducing-loss/loss5.jpg">
 <meta property="og:image" content="http://wgshun.github.io/2018/07/reducing-loss/loss6.jpg">
+<meta property="og:image" content="http://wgshun.github.io/2018/07/reducing-loss/loss7.jpg">
+<meta property="og:image" content="http://wgshun.github.io/2018/07/reducing-loss/loss8.jpg">
 <meta property="og:updated_time" content="2018-07-18T11:12:26.254Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="降低损失">
@@ -498,8 +500,8 @@
 <p>为了简化说明，我们只针对单个特征重点介绍了梯度下降法。请放心，梯度下降法也适用于包含多个特征的特征集。</p>
 <h4 id="学习速率"><a href="#学习速率" class="headerlink" title="学习速率"></a>学习速率</h4><p>正如之前所述，梯度矢量具有方向和大小。梯度下降法算法用梯度乘以一个称为<strong>学习速率</strong>（有时也称为<strong>步长</strong>）的标量，以确定下一个点的位置。例如，如果梯度大小为 2.5，学习速率为 0.01，则梯度下降法算法会选择距离前一个点 0.025 的位置作为下一个点。</p>
 <p><strong>超参数</strong>是编程人员在机器学习算法中用于调整的旋钮。大多数机器学习编程人员会花费相当多的时间来调整学习速率。如果您选择的学习速率过小，就会花费太长的学习时间：<br><img src="/2018/07/reducing-loss/loss6.jpg" title="图6.学习速率过小。"></p>
-<p>相反，如果您指定的学习速率过大，下一个点将永远在 U 形曲线的底部随意弹跳，就好像量子力学实验出现了严重错误一样：<br></p>
-<p>每个回归问题都存在一个金发姑娘<sup><a href="#fn_1" id="reffn_1">1</a></sup>学习速率。“金发姑娘”值与损失函数的平坦程度相关。如果您知道损失函数的梯度较小，则可以放心地试着采用更大的学习速率，以补偿较小的梯度并获得更大的步长。<br></p>
+<p>相反，如果您指定的学习速率过大，下一个点将永远在 U 形曲线的底部随意弹跳，就好像量子力学实验出现了严重错误一样：<br><img src="/2018/07/reducing-loss/loss7.jpg" title="图7.学习速率过大。"></p>
+<p>每个回归问题都存在一个金发姑娘<sup><a href="#fn_1" id="reffn_1">1</a></sup>学习速率。“金发姑娘”值与损失函数的平坦程度相关。如果您知道损失函数的梯度较小，则可以放心地试着采用更大的学习速率，以补偿较小的梯度并获得更大的步长。<br><img src="/2018/07/reducing-loss/loss8.jpg" title="图8.学习速率恰恰好。"></p>
 <p>理想的学习速率:</p>
 <ul>
 <li>一维空间中的理想学习速率是 $\frac{ 1 }{ f(x)’’ }$ （$f(x)$ 对 $x$ 的二阶导数的倒数）。</li>
