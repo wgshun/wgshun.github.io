@@ -79,7 +79,7 @@
   <entry>
     <title><![CDATA[Ubuntu16.04 安装 NVIDIA 驱动]]></title>
     <url>%2F2018%2F06%2Fubuntu-install-nvidia-drive%2F</url>
-    <content type="text"><![CDATA[问题描述 在安装了NVIDIA驱动后出现了进入Ubuntu循环登录的问题。 解决方案1.进入命令行界面Ctrl+Alt+F1打开编辑配置文件：1vim /etc/modprobe.d/blacklist.conf 在最后一行添加：1blacklist nouveau 2.禁用 nouveau 第三方驱动，之后也不需要改回来执行：12sudo update-initramfs -ulsmod | grep nouveau 没有输出即屏蔽好了。 3.禁用X服务，执行：1sudo /etc/init.d/lightdm stop 4.给驱动run文件赋予执行权限1sudo chmod a+x NVIDIA***.run 安装(注意 参数)1sudo ./NVIDIA***.run –no-opengl-files 5.如果还无法进入桌面，这是因为驱动修改了xorg的配置，可执行一下命令：12cd /usr/share/X11/xorg.conf.d/ sudo mv nvidia-drm-outputclass.conf nvidia-drm-outputclass.conf.bak 参考http://blog.csdn.net/u012759136/article/details/53355781]]></content>
+    <content type="text"><![CDATA[问题描述 在安装了NVIDIA驱动后出现了进入Ubuntu循环登录的问题。 解决方案1.进入命令行界面Ctrl+Alt+F1打开编辑配置文件：1vim /etc/modprobe.d/blacklist.conf 在最后一行添加：1blacklist nouveau 2.禁用 nouveau 第三方驱动，之后也不需要改回来执行：12sudo update-initramfs -ulsmod | grep nouveau 没有输出即屏蔽好了。 3.禁用X服务，执行：1sudo /etc/init.d/lightdm stop 4.给驱动run文件赋予执行权限1sudo chmod a+x NVIDIA***.run 安装(注意 参数)1sudo ./NVIDIA***.run –no-opengl-files 5.启用X服务，执行：1sudo /etc/init.d/lightdm stop 如果还无法进入桌面，这是因为驱动修改了xorg的配置，可执行一下命令：12cd /usr/share/X11/xorg.conf.d/ sudo mv nvidia-drm-outputclass.conf nvidia-drm-outputclass.conf.bak 参考http://blog.csdn.net/u012759136/article/details/53355781]]></content>
       <categories>
         <category>环境搭建</category>
       </categories>

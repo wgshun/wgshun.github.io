@@ -120,7 +120,7 @@
 <meta property="og:site_name" content="寸山河">
 <meta property="og:description" content="问题描述   在安装了NVIDIA驱动后出现了进入Ubuntu循环登录的问题。 解决方案1.进入命令行界面Ctrl+Alt+F1打开编辑配置文件：1vim /etc/modprobe.d/blacklist.conf 在最后一行添加：1blacklist nouveau 2.禁用 nouveau 第三方驱动，之后也不需要改回来执行：12sudo update-initramfs -ulsmod |">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-07-05T04:15:00.345Z">
+<meta property="og:updated_time" content="2018-10-15T07:35:58.303Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Ubuntu16.04 安装 NVIDIA 驱动">
 <meta name="twitter:description" content="问题描述   在安装了NVIDIA驱动后出现了进入Ubuntu循环登录的问题。 解决方案1.进入命令行界面Ctrl+Alt+F1打开编辑配置文件：1vim /etc/modprobe.d/blacklist.conf 在最后一行添加：1blacklist nouveau 2.禁用 nouveau 第三方驱动，之后也不需要改回来执行：12sudo update-initramfs -ulsmod |">
@@ -401,7 +401,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2018-07-05 12:15:00" itemprop="dateModified" datetime="2018-07-05T12:15:00+08:00">2018-07-05</time>
+                <time title="修改时间：2018-10-15 15:35:58" itemprop="dateModified" datetime="2018-10-15T15:35:58+08:00">2018-10-15</time>
               
             
           </span>
@@ -479,7 +479,8 @@
 <p>3.禁用X服务，执行：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo /etc/init.d/lightdm stop</span><br></pre></td></tr></table></figure></p>
 <p>4.给驱动run文件赋予执行权限<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo chmod a+x NVIDIA***.run</span><br></pre></td></tr></table></figure></p>
 <p>安装(注意 参数)<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo ./NVIDIA***.run –no-opengl-files</span><br></pre></td></tr></table></figure></p>
-<p>5.如果还无法进入桌面，这是因为驱动修改了xorg的配置，可执行一下命令：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /usr/share/X11/xorg.conf.d/ </span><br><span class="line">sudo mv nvidia-drm-outputclass.conf nvidia-drm-outputclass.conf.bak</span><br></pre></td></tr></table></figure></p>
+<p>5.启用X服务，执行：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo /etc/init.d/lightdm stop</span><br></pre></td></tr></table></figure></p>
+<p>如果还无法进入桌面，这是因为驱动修改了xorg的配置，可执行一下命令：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /usr/share/X11/xorg.conf.d/ </span><br><span class="line">sudo mv nvidia-drm-outputclass.conf nvidia-drm-outputclass.conf.bak</span><br></pre></td></tr></table></figure></p>
 <h5 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h5><p><a href="http://blog.csdn.net/u012759136/article/details/53355781" target="_blank" rel="noopener">http://blog.csdn.net/u012759136/article/details/53355781</a></p>
 
       
