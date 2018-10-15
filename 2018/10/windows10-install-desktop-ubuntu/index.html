@@ -121,7 +121,7 @@
 <meta property="og:description" content="转载自：https://blog.csdn.net/u011138447/article/details/78262369?locationNum=4&amp;amp;fps=1 前言最近工作需要 Windows 系统远程 Ubuntu 系统，原来使用的 Teamviewer 和 向日葵 远程控制软件在这时候都出了点问题，Teamviewer 可能因为同一个 IP地址 频繁的进行远程连接，终于检测出我 疑">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://wgshun.github.io/2018/10/windows10-install-desktop-ubuntu/desktop1.png">
-<meta property="og:updated_time" content="2018-10-15T10:26:41.757Z">
+<meta property="og:updated_time" content="2018-10-15T11:02:24.406Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Windows 10 安装 Desktop Ubuntu">
 <meta name="twitter:description" content="转载自：https://blog.csdn.net/u011138447/article/details/78262369?locationNum=4&amp;amp;fps=1 前言最近工作需要 Windows 系统远程 Ubuntu 系统，原来使用的 Teamviewer 和 向日葵 远程控制软件在这时候都出了点问题，Teamviewer 可能因为同一个 IP地址 频繁的进行远程连接，终于检测出我 疑">
@@ -386,7 +386,7 @@
                 
               
 
-              <time title="创建时间：2018-10-15 18:06:01 / 修改时间：18:26:41" itemprop="dateCreated datePublished" datetime="2018-10-15T18:06:01+08:00">2018-10-15</time>
+              <time title="创建时间：2018-10-15 18:06:01 / 修改时间：19:02:24" itemprop="dateCreated datePublished" datetime="2018-10-15T18:06:01+08:00">2018-10-15</time>
             
 
             
@@ -464,10 +464,10 @@
 <h5 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h5><p>最近工作需要 <strong>Windows</strong> 系统远程 <strong>Ubuntu</strong> 系统，原来使用的 <strong>Teamviewer</strong> 和 <strong>向日葵</strong> 远程控制软件在这时候都出了点问题，<strong>Teamviewer</strong> 可能因为同一个 <strong>IP地址</strong> 频繁的进行远程连接，终于检测出我 <em>疑似商业用途</em> 让我交“保护费”，否则不让你玩了。不过 <strong>向日葵</strong> 这个就不知道怎么回事了，过了个周末，周一来到就给我罢工了，各种重启都不好使，这就很难受了。所以就把心思打到了在我的 <strong>Windows</strong> 上装一个 <strong>Ubuntu</strong> ，又不想装双系统和虚拟机（以前玩过，用起来不太友好），正巧前一段时间在 <strong>Windows 10</strong> 上装了 <strong>Bash</strong> 的 <strong>Ubuntu</strong> ，所以就想是不是也能装 <strong>Desktop</strong> 版本的。经过一番搜索，果断找到了。下面记录下过程：</p>
 <h5 id="安装前提"><a href="#安装前提" class="headerlink" title="安装前提"></a>安装前提</h5><ul>
 <li>新版本的 Windows 10（装有Windows Subsystem for Linux）</li>
-<li>提前装了 Bash 版本的 Ubuntu</li>
+<li>提前装了 Bash 版本的 Ubuntu 安装步骤可以参考：<a href="https://wgshun.top/2018/10/windows10-install-bash-ubuntu/" target="_blank" rel="noopener">Windows 10 安装 Bash Ubuntu</a></li>
 </ul>
 <h5 id="下载-windows-下的-X-service"><a href="#下载-windows-下的-X-service" class="headerlink" title="下载 windows 下的 X-service"></a>下载 windows 下的 X-service</h5><p>下载地址：<a href="https://sourceforge.net/projects/vcxsrv/" target="_blank" rel="noopener">https://sourceforge.net/projects/vcxsrv/</a><br><a id="more"></a><br>下载好，安装好以后，打开 <strong>XLaunch</strong> ，首次使用会弹出设置窗口，选择 <strong>One large window</strong>，设置 <strong>Display number</strong> 为 0 ，如下图<br><img src="/2018/10/windows10-install-desktop-ubuntu/desktop1.png"><br>下面其余的设置全部按默认走。</p>
-<h5 id="在-Bash-版本-Ubuntu-里下载桌面"><a href="#在-Bash-版本-Ubuntu-里下载桌面" class="headerlink" title="在 Bash 版本 Ubuntu 里下载桌面"></a>在 Bash 版本 Ubuntu 里下载桌面</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install ubuntu-desktop unity compiz-core</span><br></pre></td></tr></table></figure>
+<h5 id="在-Bash-版本-Ubuntu-里下载桌面"><a href="#在-Bash-版本-Ubuntu-里下载桌面" class="headerlink" title="在 Bash 版本 Ubuntu 里下载桌面"></a>在 Bash 版本 Ubuntu 里下载桌面</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install ubuntu-desktop unity compiz-core compizconfig-settings-manager</span><br></pre></td></tr></table></figure>
 <p>会下载六百多M的包，解压完有两个多G。</p>
 <p><strong>注：</strong>在下载过程中网络要绝对的稳定，不然很容易卡着不动。卡着不动了不要惊慌，不要失措，可以选择继续等（经过一段时间有可能会再次动起来），也可以选择干掉重新来过。</p>
 <h5 id="配置-compiz-窗口管理器"><a href="#配置-compiz-窗口管理器" class="headerlink" title="配置 compiz 窗口管理器"></a>配置 compiz 窗口管理器</h5><p>启动刚才安装的 <strong>XLaunch</strong> ，在 Bash 版的 Ubuntu 中执行命令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">export DISPLAY=localhost:0</span><br><span class="line">ccsm</span><br></pre></td></tr></table></figure></p>
