@@ -3,7 +3,7 @@
   <entry>
     <title><![CDATA[Windows 10 安装 Desktop Ubuntu]]></title>
     <url>%2F2018%2F10%2Fwindows10-install-desktop-ubuntu%2F</url>
-    <content type="text"><![CDATA[转载自：https://blog.csdn.net/u011138447/article/details/78262369?locationNum=4&amp;fps=1 前言最近工作需要 Windows 系统远程 Ubuntu 系统，原来使用的 Teamviewer 和 向日葵 远程控制软件在这时候都出了点问题，Teamviewer 可能因为同一个 IP地址 频繁的进行远程连接，终于检测出我 疑似商业用途 让我交“保护费”，否则不让你玩了。不过 向日葵 这个就不知道怎么回事了，过了个周末，周一来到就给我罢工了，各种重启都不好使，这就很难受了。所以就把心思打到了在我的 Windows 上装一个 Ubuntu ，又不想装双系统和虚拟机（以前玩过，用起来不太友好），正巧前一段时间在 Windows 10 上装了 Bash 的 Ubuntu ，所以就想是不是也能装 Desktop 版本的。经过一番搜索，果断找到了。下面记录下过程： 安装前提 新版本的 Windows 10（装有Windows Subsystem for Linux） 提前装了 Bash 版本的 Ubuntu 安装步骤可以参考：Windows 10 安装 Bash Ubuntu 下载 windows 下的 X-service下载地址：https://sourceforge.net/projects/vcxsrv/下载好，安装好以后，打开 XLaunch ，首次使用会弹出设置窗口，选择 One large window，设置 Display number 为 0 ，如下图下面其余的设置全部按默认走。 在 Bash 版本 Ubuntu 里下载桌面12sudo apt-get updatesudo apt-get install ubuntu-desktop unity compiz-core compizconfig-settings-manager 会下载六百多M的包，解压完有两个多G。 注：在下载过程中网络要绝对的稳定，不然很容易卡着不动。卡着不动了不要惊慌，不要失措，可以选择继续等（经过一段时间有可能会再次动起来），也可以选择干掉重新来过。 配置 compiz 窗口管理器启动刚才安装的 XLaunch ，在 Bash 版的 Ubuntu 中执行命令：12export DISPLAY=localhost:0ccsm 然后在打开的 XLaunch 界面会出现 ccsm 的配置界面，勾选 Ubuntu Unity Plugin 选项，其余的默认就行。然后关闭 ccsm ，在 Bash 版的 Ubuntu 中执行命令：1compiz 看启动的 XLaunch 界面就会出现 Ubuntu 的 Desktop 界面了。]]></content>
+    <content type="text"><![CDATA[转载自：https://blog.csdn.net/u011138447/article/details/78262369?locationNum=4&amp;fps=1 前言前一段时间在 Windows 10 上装了 Bash 的 Ubuntu ，所以就想是不是也能装 Desktop 版本的。经过一番搜索，果断找到了。下面记录下过程： 安装前提 新版本的 Windows 10（装有Windows Subsystem for Linux） 提前装了 Bash 版本的 Ubuntu 安装步骤可以参考：Windows 10 安装 Bash Ubuntu 下载 windows 下的 X-service下载地址：https://sourceforge.net/projects/vcxsrv/下载好，安装好以后，打开 XLaunch ，首次使用会弹出设置窗口，选择 One large window，设置 Display number 为 0 ，如下图下面其余的设置全部按默认走。 在 Bash 版本 Ubuntu 里下载桌面12sudo apt-get updatesudo apt-get install ubuntu-desktop unity compiz-core compizconfig-settings-manager 会下载六百多M的包，解压完有两个多G。 注：在下载过程中网络要绝对的稳定，不然很容易卡着不动。卡着不动了不要惊慌，不要失措，可以选择继续等（经过一段时间有可能会再次动起来），也可以选择干掉重新来过。 配置 compiz 窗口管理器启动刚才安装的 XLaunch ，然后在 Bash 版的 Ubuntu 中执行命令：12export DISPLAY=localhost:0sudo ccsm 然后在打开的 XLaunch 界面会出现 ccsm 的配置界面，勾选 Ubuntu Unity Plugin 选项，其余的默认就行不用管。然后关闭 ccsm ，关闭的时候会弹出几个窗口全部选确定。在 Bash 版的 Ubuntu 中执行命令：1sudo compiz 看启动的 XLaunch 界面就会出现 Ubuntu 的 Desktop 界面了。]]></content>
       <categories>
         <category>环境搭建</category>
       </categories>
@@ -15,7 +15,7 @@
   <entry>
     <title><![CDATA[Windows 10 安装 Bash Ubuntu]]></title>
     <url>%2F2018%2F10%2Fwindows10-install-bash-ubuntu%2F</url>
-    <content type="text"><![CDATA[前言听闻微软大哥在新版本的 Windows 10 里添加了个新功能，可以直接在 Windows 10 下直接安装使用 Bash 版本的 Ubuntu ，抛却了我原来为了同时使用 Windows 和 Ubuntu 的虚拟机和双系统方法。 安装前提 新版本的 64位的Windows 10（装有Windows Subsystem for Linux） 安装 Ubuntu打开 win10 的 Windows 设置，如下图在 查找设置 输入框输入 Windows 功能 会出现 启用或关闭 Windows 功能，如下图点击进入会出现 Windows 功能窗口，勾选 适用于 Linux 的 Windows 子系统。如下图然后打开微软应用商店，如下图搜索 Ubuntu，点击安装。如下图安装完成后就可以在应用列表搜索 Ubuntu 找到安装好的 Bash 版 Ubuntu ，点击就可以开始使用了。如下图首次使用会让你设置 username 和 password 。完。]]></content>
+    <content type="text"><![CDATA[前言听闻微软大哥在新版本的 Windows 10 里添加了个新功能，可以直接在 Windows 10 下直接安装使用 Bash 版本的 Ubuntu 。 安装前提 新版本的 64位的Windows 10（装有Windows Subsystem for Linux） 安装 Ubuntu打开 win10 的 Windows 设置，如下图在 查找设置 输入框输入 Windows 功能 会出现 启用或关闭 Windows 功能，如下图点击进入会出现 Windows 功能窗口，勾选 适用于 Linux 的 Windows 子系统。如下图然后打开微软应用商店，如下图搜索 Ubuntu，点击安装。如下图安装完成后就可以在应用列表搜索 Ubuntu 找到安装好的 Bash 版 Ubuntu ，点击就可以开始使用了。如下图首次使用会让你设置 username 和 password 。完。]]></content>
       <categories>
         <category>环境搭建</category>
       </categories>
