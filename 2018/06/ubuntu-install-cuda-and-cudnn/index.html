@@ -112,18 +112,18 @@
 
 
 
-  <meta name="description" content="安装步骤安装 cuda首先下载 cuda9.0 下载地址的 (runfile) 安装文件，下载完成进到文件下载的目录下，给安装文件赋予权限：1sudo chmod 777 XXX.run # XXX为安装文件的文件名 执行安装文件：1sudo sh XXX.run 在看完协议选择 Install NVIDIA Accelerated Graphics Driver for nvidia 时，选择">
+  <meta name="description" content="安装步骤安装 cuda首先下载 cuda9.0 下载地址的 (runfile) 安装文件，下载完成进到文件下载的目录下，给安装文件赋予权限：1$ sudo chmod 777 XXX.run # XXX为安装文件的文件名 执行安装文件：1$ sudo sh XXX.run 在看完协议选择 Install NVIDIA Accelerated Graphics Driver for nvidia 时">
 <meta name="keywords" content="ubuntu,cuda,cudnn">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Ubuntu16.04 安装 cuda9 和 cudnn7">
 <meta property="og:url" content="http://wgshun.github.io/2018/06/ubuntu-install-cuda-and-cudnn/index.html">
 <meta property="og:site_name" content="寸山河">
-<meta property="og:description" content="安装步骤安装 cuda首先下载 cuda9.0 下载地址的 (runfile) 安装文件，下载完成进到文件下载的目录下，给安装文件赋予权限：1sudo chmod 777 XXX.run # XXX为安装文件的文件名 执行安装文件：1sudo sh XXX.run 在看完协议选择 Install NVIDIA Accelerated Graphics Driver for nvidia 时，选择">
+<meta property="og:description" content="安装步骤安装 cuda首先下载 cuda9.0 下载地址的 (runfile) 安装文件，下载完成进到文件下载的目录下，给安装文件赋予权限：1$ sudo chmod 777 XXX.run # XXX为安装文件的文件名 执行安装文件：1$ sudo sh XXX.run 在看完协议选择 Install NVIDIA Accelerated Graphics Driver for nvidia 时">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-07-16T03:14:26.624Z">
+<meta property="og:updated_time" content="2018-10-25T13:19:52.999Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Ubuntu16.04 安装 cuda9 和 cudnn7">
-<meta name="twitter:description" content="安装步骤安装 cuda首先下载 cuda9.0 下载地址的 (runfile) 安装文件，下载完成进到文件下载的目录下，给安装文件赋予权限：1sudo chmod 777 XXX.run # XXX为安装文件的文件名 执行安装文件：1sudo sh XXX.run 在看完协议选择 Install NVIDIA Accelerated Graphics Driver for nvidia 时，选择">
+<meta name="twitter:description" content="安装步骤安装 cuda首先下载 cuda9.0 下载地址的 (runfile) 安装文件，下载完成进到文件下载的目录下，给安装文件赋予权限：1$ sudo chmod 777 XXX.run # XXX为安装文件的文件名 执行安装文件：1$ sudo sh XXX.run 在看完协议选择 Install NVIDIA Accelerated Graphics Driver for nvidia 时">
 
 
 
@@ -345,7 +345,7 @@
     <link itemprop="mainEntityOfPage" href="http://wgshun.github.io/2018/06/ubuntu-install-cuda-and-cudnn/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="wgshun">
+      <meta itemprop="name" content="咎誉">
       <meta itemprop="description" content="计算机视觉">
       <meta itemprop="image" content="/images/avatar.jpg">
     </span>
@@ -401,7 +401,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2018-07-16 11:14:26" itemprop="dateModified" datetime="2018-07-16T11:14:26+08:00">2018-07-16</time>
+                <time title="修改时间：2018-10-25 21:19:52" itemprop="dateModified" datetime="2018-10-25T21:19:52+08:00">2018-10-25</time>
               
             
           </span>
@@ -470,19 +470,19 @@
       
 
       
-        <h4 id="安装步骤"><a href="#安装步骤" class="headerlink" title="安装步骤"></a>安装步骤</h4><h5 id="安装-cuda"><a href="#安装-cuda" class="headerlink" title="安装 cuda"></a>安装 cuda</h5><p>首先下载 cuda9.0 <a href="https://developer.nvidia.com/cuda-toolkit-archive" target="_blank" rel="noopener">下载地址</a>的 (runfile) 安装文件，下载完成进到文件下载的目录下，给安装文件赋予权限：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo chmod 777 XXX.run <span class="comment"># XXX为安装文件的文件名</span></span><br></pre></td></tr></table></figure></p>
-<p>执行安装文件：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo sh XXX.run</span><br></pre></td></tr></table></figure></p>
-<p>在看完协议选择 <code>Install NVIDIA Accelerated Graphics Driver for nvidia</code> 时，选择 <em>no</em>，其他的可全部选择 <em>yes</em> 和默认回车；并且在查看协议时有快捷键 <code>Ctrl+D</code> 进行翻页。<br>下面安装完成配置环境变量：<br>打开环境变量文件<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gedit ~/.bashrc</span><br></pre></td></tr></table></figure></p>
+        <h4 id="安装步骤"><a href="#安装步骤" class="headerlink" title="安装步骤"></a>安装步骤</h4><h5 id="安装-cuda"><a href="#安装-cuda" class="headerlink" title="安装 cuda"></a>安装 cuda</h5><p>首先下载 cuda9.0 <a href="https://developer.nvidia.com/cuda-toolkit-archive" target="_blank" rel="noopener">下载地址</a>的 (runfile) 安装文件，下载完成进到文件下载的目录下，给安装文件赋予权限：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo chmod 777 XXX.run <span class="comment"># XXX为安装文件的文件名</span></span><br></pre></td></tr></table></figure></p>
+<p>执行安装文件：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo sh XXX.run</span><br></pre></td></tr></table></figure></p>
+<p>在看完协议选择 <code>Install NVIDIA Accelerated Graphics Driver for nvidia</code> 时，选择 <em>no</em>，其他的可全部选择 <em>yes</em> 和默认回车；并且在查看协议时有快捷键 <code>Ctrl+D</code> 进行翻页。<br>下面安装完成配置环境变量：<br>打开环境变量文件<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ gedit ~/.bashrc</span><br></pre></td></tr></table></figure></p>
 <a id="more"></a>
 <p>在文件末尾加上安装的 cuda9.0 路径<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> PATH=/usr/<span class="built_in">local</span>/cuda-9.0/bin:<span class="variable">$PATH</span></span><br><span class="line"><span class="built_in">export</span> LD_LIBRARY_PATH=/usr/<span class="built_in">local</span>/cuda-9.0/lib64:<span class="variable">$LD_LIBRARY_PATH</span></span><br></pre></td></tr></table></figure></p>
-<p>配置完环境变量，使其生效：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">source</span> ~/.bashrc</span><br></pre></td></tr></table></figure></p>
-<p>然后进行测试：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /usr/<span class="built_in">local</span>/cuda-9.0/samples/1_Utilities/deviceQuery</span><br><span class="line">sudo make</span><br><span class="line">sudo ./deviceQuery</span><br></pre></td></tr></table></figure></p>
+<p>配置完环境变量，使其生效：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">source</span> ~/.bashrc</span><br></pre></td></tr></table></figure></p>
+<p>然后进行测试：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cd</span> /usr/<span class="built_in">local</span>/cuda-9.0/samples/1_Utilities/deviceQuery</span><br><span class="line">$ sudo make</span><br><span class="line">$ sudo ./deviceQuery</span><br></pre></td></tr></table></figure></p>
 <p>测试结果有输出<code>PASS</code>，即为正确安装。</p>
-<h5 id="安装-cudnn"><a href="#安装-cudnn" class="headerlink" title="安装 cudnn"></a>安装 cudnn</h5><p>首先下载 cudnn7 <a href="https://developer.nvidia.com/rdp/cudnn-download" target="_blank" rel="noopener">下载路径</a>（<em>下载 cudnn7 需要登陆 NVIDIA ，没有 NVIDIA 账号的注册一个就行了。</em>）下载 tgz 压缩文件。<br>首先解压 tgz 压缩文件：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -xzvf cudnn-XXX.tgz</span><br></pre></td></tr></table></figure></p>
-<p>接着复制文件到 cuda 路径下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo cp cuda/include/cudnn.h /usr/<span class="built_in">local</span>/cuda/include</span><br><span class="line">sudo cp cuda/lib64/libcudnn* /usr/<span class="built_in">local</span>/cuda/lib64</span><br><span class="line">sudo chmod a+r /usr/<span class="built_in">local</span>/cuda/include/cudnn.h /usr/<span class="built_in">local</span>/cuda/lib64/libcudnn*</span><br></pre></td></tr></table></figure></p>
-<p>复制完成然后使用命令，可以看到输出相应的 cuda 和 cudnn 的版本信息<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nvcc -V</span><br></pre></td></tr></table></figure></p>
+<h5 id="安装-cudnn"><a href="#安装-cudnn" class="headerlink" title="安装 cudnn"></a>安装 cudnn</h5><p>首先下载 cudnn7 <a href="https://developer.nvidia.com/rdp/cudnn-download" target="_blank" rel="noopener">下载路径</a>（<em>下载 cudnn7 需要登陆 NVIDIA ，没有 NVIDIA 账号的注册一个就行了。</em>）下载 tgz 压缩文件。<br>首先解压 tgz 压缩文件：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ tar -xzvf cudnn-XXX.tgz</span><br></pre></td></tr></table></figure></p>
+<p>接着复制文件到 cuda 路径下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ sudo cp cuda/include/cudnn.h /usr/<span class="built_in">local</span>/cuda/include</span><br><span class="line">$ sudo cp cuda/lib64/libcudnn* /usr/<span class="built_in">local</span>/cuda/lib64</span><br><span class="line">$ sudo chmod a+r /usr/<span class="built_in">local</span>/cuda/include/cudnn.h /usr/<span class="built_in">local</span>/cuda/lib64/libcudnn*</span><br></pre></td></tr></table></figure></p>
+<p>复制完成然后使用命令，可以看到输出相应的 cuda 和 cudnn 的版本信息<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ nvcc -V</span><br></pre></td></tr></table></figure></p>
 <hr>
-<p>如果提示库缺失错误，可参考以下命令：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo cp /usr/<span class="built_in">local</span>/cuda-9.0/lib64/libcudart.so.9.0 /usr/<span class="built_in">local</span>/lib/libcudart.so.9.0 &amp;&amp; sudo ldconfig</span><br><span class="line">sudo cp /usr/<span class="built_in">local</span>/cuda-9.0/lib64/libcublas.so.9.0 /usr/<span class="built_in">local</span>/lib/libcublas.so.9.0 &amp;&amp; sudo ldconfig</span><br><span class="line">sudo cp /usr/<span class="built_in">local</span>/cuda-9.0/lib64/libcurand.so.9.0 /usr/<span class="built_in">local</span>/lib/libcurabd.so.9.0 &amp;&amp; sudo ldconfig</span><br><span class="line">sudo cp /usr/<span class="built_in">local</span>/cuda-9.0/lib64/libcudnn.so.7 /usr/<span class="built_in">local</span>/lib/libcudnn.so.7 &amp;&amp; sudo ldconfig</span><br></pre></td></tr></table></figure></p>
+<p>如果提示库缺失错误，可参考以下命令：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ sudo cp /usr/<span class="built_in">local</span>/cuda-9.0/lib64/libcudart.so.9.0 /usr/<span class="built_in">local</span>/lib/libcudart.so.9.0 &amp;&amp; sudo ldconfig</span><br><span class="line">$ sudo cp /usr/<span class="built_in">local</span>/cuda-9.0/lib64/libcublas.so.9.0 /usr/<span class="built_in">local</span>/lib/libcublas.so.9.0 &amp;&amp; sudo ldconfig</span><br><span class="line">$ sudo cp /usr/<span class="built_in">local</span>/cuda-9.0/lib64/libcurand.so.9.0 /usr/<span class="built_in">local</span>/lib/libcurabd.so.9.0 &amp;&amp; sudo ldconfig</span><br><span class="line">$ sudo cp /usr/<span class="built_in">local</span>/cuda-9.0/lib64/libcudnn.so.7 /usr/<span class="built_in">local</span>/lib/libcudnn.so.7 &amp;&amp; sudo ldconfig</span><br></pre></td></tr></table></figure></p>
 
       
     </div>
@@ -520,8 +520,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/06/ubuntu-install-nvidia-drive/" rel="next" title="Ubuntu16.04 安装 NVIDIA 驱动">
-                <i class="fa fa-chevron-left"></i> Ubuntu16.04 安装 NVIDIA 驱动
+              <a href="/2018/06/ubuntu-install-opencv/" rel="next" title="Ubuntu16.04 python2 安装 OpenCV2.4.13.6">
+                <i class="fa fa-chevron-left"></i> Ubuntu16.04 python2 安装 OpenCV2.4.13.6
               </a>
             
           </div>
@@ -600,9 +600,9 @@
             
               <img class="site-author-image" itemprop="image"
                 src="/images/avatar.jpg"
-                alt="wgshun" />
+                alt="咎誉" />
             
-              <p class="site-author-name" itemprop="name">wgshun</p>
+              <p class="site-author-name" itemprop="name">咎誉</p>
               <p class="site-description motion-element" itemprop="description">计算机视觉</p>
           </div>
 
@@ -613,7 +613,7 @@
                 
                   <a href="/archives">
                 
-                    <span class="site-state-item-count">10</span>
+                    <span class="site-state-item-count">11</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -669,7 +669,13 @@
                     
                       
                     
-                    <span class="site-state-item-count">13</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">16</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -749,7 +755,7 @@
   <span class="with-love" id="animate">
     <i class="fa fa-user"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">wgshun</span>
+  <span class="author" itemprop="copyrightHolder">咎誉</span>
 
   
 

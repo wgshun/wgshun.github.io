@@ -112,18 +112,18 @@
 
 
 
-  <meta name="description" content="问题描述   在安装了NVIDIA驱动后出现了进入Ubuntu循环登录的问题。 解决方案1.进入命令行界面Ctrl+Alt+F1打开编辑配置文件：1vim /etc/modprobe.d/blacklist.conf 在最后一行添加：1blacklist nouveau 2.禁用 nouveau 第三方驱动，之后也不需要改回来执行：12sudo update-initramfs -ulsmod |">
+  <meta name="description" content="问题描述   在安装了NVIDIA驱动后出现了进入Ubuntu循环登录的问题。 解决方案1.进入命令行界面Ctrl+Alt+F1打开编辑配置文件：1$ vim /etc/modprobe.d/blacklist.conf 在最后一行添加：1blacklist nouveau 2.禁用 nouveau 第三方驱动，之后也不需要改回来执行：12$ sudo update-initramfs -u$ l">
 <meta name="keywords" content="ubuntu,nvidia驱动">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Ubuntu16.04 安装 NVIDIA 驱动">
 <meta property="og:url" content="http://wgshun.github.io/2018/06/ubuntu-install-nvidia-drive/index.html">
 <meta property="og:site_name" content="寸山河">
-<meta property="og:description" content="问题描述   在安装了NVIDIA驱动后出现了进入Ubuntu循环登录的问题。 解决方案1.进入命令行界面Ctrl+Alt+F1打开编辑配置文件：1vim /etc/modprobe.d/blacklist.conf 在最后一行添加：1blacklist nouveau 2.禁用 nouveau 第三方驱动，之后也不需要改回来执行：12sudo update-initramfs -ulsmod |">
+<meta property="og:description" content="问题描述   在安装了NVIDIA驱动后出现了进入Ubuntu循环登录的问题。 解决方案1.进入命令行界面Ctrl+Alt+F1打开编辑配置文件：1$ vim /etc/modprobe.d/blacklist.conf 在最后一行添加：1blacklist nouveau 2.禁用 nouveau 第三方驱动，之后也不需要改回来执行：12$ sudo update-initramfs -u$ l">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-10-15T07:35:58.303Z">
+<meta property="og:updated_time" content="2018-10-25T13:22:20.251Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Ubuntu16.04 安装 NVIDIA 驱动">
-<meta name="twitter:description" content="问题描述   在安装了NVIDIA驱动后出现了进入Ubuntu循环登录的问题。 解决方案1.进入命令行界面Ctrl+Alt+F1打开编辑配置文件：1vim /etc/modprobe.d/blacklist.conf 在最后一行添加：1blacklist nouveau 2.禁用 nouveau 第三方驱动，之后也不需要改回来执行：12sudo update-initramfs -ulsmod |">
+<meta name="twitter:description" content="问题描述   在安装了NVIDIA驱动后出现了进入Ubuntu循环登录的问题。 解决方案1.进入命令行界面Ctrl+Alt+F1打开编辑配置文件：1$ vim /etc/modprobe.d/blacklist.conf 在最后一行添加：1blacklist nouveau 2.禁用 nouveau 第三方驱动，之后也不需要改回来执行：12$ sudo update-initramfs -u$ l">
 
 
 
@@ -345,7 +345,7 @@
     <link itemprop="mainEntityOfPage" href="http://wgshun.github.io/2018/06/ubuntu-install-nvidia-drive/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="wgshun">
+      <meta itemprop="name" content="咎誉">
       <meta itemprop="description" content="计算机视觉">
       <meta itemprop="image" content="/images/avatar.jpg">
     </span>
@@ -401,7 +401,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2018-10-15 15:35:58" itemprop="dateModified" datetime="2018-10-15T15:35:58+08:00">2018-10-15</time>
+                <time title="修改时间：2018-10-25 21:22:20" itemprop="dateModified" datetime="2018-10-25T21:22:20+08:00">2018-10-25</time>
               
             
           </span>
@@ -471,16 +471,16 @@
 
       
         <h5 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h5><p>   在安装了NVIDIA驱动后出现了进入Ubuntu循环登录的问题。</p>
-<h5 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h5><p>1.进入命令行界面<br><code>Ctrl+Alt+F1</code><br>打开编辑配置文件：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/modprobe.d/blacklist.conf</span><br></pre></td></tr></table></figure></p>
+<h5 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h5><p>1.进入命令行界面<br><code>Ctrl+Alt+F1</code><br>打开编辑配置文件：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ vim /etc/modprobe.d/blacklist.conf</span><br></pre></td></tr></table></figure></p>
 <p>在最后一行添加：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">blacklist nouveau</span><br></pre></td></tr></table></figure></p>
-<p>2.禁用 nouveau 第三方驱动，之后也不需要改回来<br>执行：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo update-initramfs -u</span><br><span class="line">lsmod | grep nouveau</span><br></pre></td></tr></table></figure></p>
+<p>2.禁用 nouveau 第三方驱动，之后也不需要改回来<br>执行：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo update-initramfs -u</span><br><span class="line">$ lsmod | grep nouveau</span><br></pre></td></tr></table></figure></p>
 <a id="more"></a>
 <p>没有输出即屏蔽好了。</p>
-<p>3.禁用X服务，执行：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo /etc/init.d/lightdm stop</span><br></pre></td></tr></table></figure></p>
-<p>4.给驱动run文件赋予执行权限<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo chmod a+x NVIDIA***.run</span><br></pre></td></tr></table></figure></p>
-<p>安装(注意 参数)<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo ./NVIDIA***.run –no-opengl-files</span><br></pre></td></tr></table></figure></p>
-<p>5.启用X服务，执行：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo /etc/init.d/lightdm stop</span><br></pre></td></tr></table></figure></p>
-<p>如果还无法进入桌面，这是因为驱动修改了xorg的配置，可执行一下命令：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /usr/share/X11/xorg.conf.d/ </span><br><span class="line">sudo mv nvidia-drm-outputclass.conf nvidia-drm-outputclass.conf.bak</span><br></pre></td></tr></table></figure></p>
+<p>3.禁用X服务，执行：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo /etc/init.d/lightdm stop</span><br></pre></td></tr></table></figure></p>
+<p>4.给驱动run文件赋予执行权限<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo chmod a+x NVIDIA***.run</span><br></pre></td></tr></table></figure></p>
+<p>安装(注意 参数)<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo ./NVIDIA***.run –no-opengl-files</span><br></pre></td></tr></table></figure></p>
+<p>5.启用X服务，执行：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo /etc/init.d/lightdm stop</span><br></pre></td></tr></table></figure></p>
+<p>如果还无法进入桌面，这是因为驱动修改了xorg的配置，可执行一下命令：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cd</span> /usr/share/X11/xorg.conf.d/ </span><br><span class="line">$ sudo mv nvidia-drm-outputclass.conf nvidia-drm-outputclass.conf.bak</span><br></pre></td></tr></table></figure></p>
 <h5 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h5><p><a href="http://blog.csdn.net/u012759136/article/details/53355781" target="_blank" rel="noopener">http://blog.csdn.net/u012759136/article/details/53355781</a></p>
 
       
@@ -517,18 +517,14 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/06/ubuntu-install-opencv/" rel="next" title="Ubuntu16.04 安装 OpenCV2.4.13.6">
-                <i class="fa fa-chevron-left"></i> Ubuntu16.04 安装 OpenCV2.4.13.6
-              </a>
-            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/06/ubuntu-install-cuda-and-cudnn/" rel="prev" title="Ubuntu16.04 安装 cuda9 和 cudnn7">
-                Ubuntu16.04 安装 cuda9 和 cudnn7 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/06/ubuntu-install-opencv/" rel="prev" title="Ubuntu16.04 python2 安装 OpenCV2.4.13.6">
+                Ubuntu16.04 python2 安装 OpenCV2.4.13.6 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -597,9 +593,9 @@
             
               <img class="site-author-image" itemprop="image"
                 src="/images/avatar.jpg"
-                alt="wgshun" />
+                alt="咎誉" />
             
-              <p class="site-author-name" itemprop="name">wgshun</p>
+              <p class="site-author-name" itemprop="name">咎誉</p>
               <p class="site-description motion-element" itemprop="description">计算机视觉</p>
           </div>
 
@@ -610,7 +606,7 @@
                 
                   <a href="/archives">
                 
-                    <span class="site-state-item-count">10</span>
+                    <span class="site-state-item-count">11</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -666,7 +662,13 @@
                     
                       
                     
-                    <span class="site-state-item-count">13</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">16</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -746,7 +748,7 @@
   <span class="with-love" id="animate">
     <i class="fa fa-user"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">wgshun</span>
+  <span class="author" itemprop="copyrightHolder">咎誉</span>
 
   
 
