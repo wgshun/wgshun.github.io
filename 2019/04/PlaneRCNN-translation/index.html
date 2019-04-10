@@ -1,0 +1,1362 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon_logo.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon_logo.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon_logo.png?v=6.3.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.3.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '6.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '44e77aef0891fee5c99374542b6bea22',
+      indexName: 'my-hexo-blog',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="论文地址：https://arxiv.org/pdf/1812.04072.pdf代码地址：https://github.com/art-programmer/PlaneNet  PlaneRCNN: 3D Plane Detection and Reconstruction from a Single ImagePlaneRCNN：单幅图像的三维平面检测与重建">
+<meta name="keywords" content="平面重建,平面检测,深度图重建,PlaneRCNN">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《PlaneRCNN-单幅图像的三维平面检测与重建》论文中英文对照解读">
+<meta property="og:url" content="http://wgshun.github.io/2019/04/PlaneRCNN-translation/index.html">
+<meta property="og:site_name" content="心安便是归处">
+<meta property="og:description" content="论文地址：https://arxiv.org/pdf/1812.04072.pdf代码地址：https://github.com/art-programmer/PlaneNet  PlaneRCNN: 3D Plane Detection and Reconstruction from a Single ImagePlaneRCNN：单幅图像的三维平面检测与重建">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://wgshun.github.io/2019/04/PlaneRCNN-translation/planercnn1.png">
+<meta property="og:image" content="http://wgshun.github.io/2019/04/PlaneRCNN-translation/planercnn2.png">
+<meta property="og:image" content="http://wgshun.github.io/2019/04/PlaneRCNN-translation/planercnn3.png">
+<meta property="og:image" content="http://wgshun.github.io/2019/04/PlaneRCNN-translation/planercnn4.png">
+<meta property="og:image" content="http://wgshun.github.io/2019/04/PlaneRCNN-translation/planercnn5.png">
+<meta property="og:image" content="http://wgshun.github.io/2019/04/PlaneRCNN-translation/planercnn6.png">
+<meta property="og:image" content="http://wgshun.github.io/2019/04/PlaneRCNN-translation/planercnn7.png">
+<meta property="og:image" content="http://wgshun.github.io/2019/04/PlaneRCNN-translation/planercnn8.png">
+<meta property="og:image" content="http://wgshun.github.io/2019/04/PlaneRCNN-translation/planercnn9.png">
+<meta property="og:image" content="http://wgshun.github.io/2019/04/PlaneRCNN-translation/planercnn10.png">
+<meta property="og:image" content="http://wgshun.github.io/2019/04/PlaneRCNN-translation/planercnn11.png">
+<meta property="og:image" content="http://wgshun.github.io/2019/04/PlaneRCNN-translation/planercnn12.png">
+<meta property="og:image" content="http://wgshun.github.io/2019/04/PlaneRCNN-translation/planercnn13.png">
+<meta property="og:image" content="http://wgshun.github.io/2019/04/PlaneRCNN-translation/planercnn14.png">
+<meta property="og:updated_time" content="2019-04-10T17:38:30.682Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="《PlaneRCNN-单幅图像的三维平面检测与重建》论文中英文对照解读">
+<meta name="twitter:description" content="论文地址：https://arxiv.org/pdf/1812.04072.pdf代码地址：https://github.com/art-programmer/PlaneNet  PlaneRCNN: 3D Plane Detection and Reconstruction from a Single ImagePlaneRCNN：单幅图像的三维平面检测与重建">
+<meta name="twitter:image" content="http://wgshun.github.io/2019/04/PlaneRCNN-translation/planercnn1.png">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="心安便是归处" type="application/atom+xml">
+
+
+
+
+  <link rel="canonical" href="http://wgshun.github.io/2019/04/PlaneRCNN-translation/">
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>《PlaneRCNN-单幅图像的三维平面检测与重建》论文中英文对照解读 | 心安便是归处</title>
+  
+
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?eacdadbde32b6c4bf3f7bc834ef40a2b";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">心安便是归处</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://wgshun.github.io/2019/04/PlaneRCNN-translation/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="王大顺">
+      <meta itemprop="description" content="计算机视觉">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="心安便是归处">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">《PlaneRCNN-单幅图像的三维平面检测与重建》论文中英文对照解读
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-04-11 00:40:40 / 修改时间：01:38:30" itemprop="dateCreated datePublished" datetime="2019-04-11T00:40:40+08:00">2019-04-11</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/计算机视觉/" itemprop="url" rel="index"><span itemprop="name">计算机视觉</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>论文地址：<a href="https://arxiv.org/pdf/1812.04072.pdf" target="_blank" rel="noopener">https://arxiv.org/pdf/1812.04072.pdf</a><br>代码地址：<a href="https://github.com/art-programmer/PlaneNet" target="_blank" rel="noopener">https://github.com/art-programmer/PlaneNet</a></p>
+<hr>
+<h3 id="PlaneRCNN-3D-Plane-Detection-and-Reconstruction-from-a-Single-Image"><a href="#PlaneRCNN-3D-Plane-Detection-and-Reconstruction-from-a-Single-Image" class="headerlink" title="PlaneRCNN: 3D Plane Detection and Reconstruction from a Single Image"></a>PlaneRCNN: 3D Plane Detection and Reconstruction from a Single Image</h3><h3 id="PlaneRCNN：单幅图像的三维平面检测与重建"><a href="#PlaneRCNN：单幅图像的三维平面检测与重建" class="headerlink" title="PlaneRCNN：单幅图像的三维平面检测与重建"></a>PlaneRCNN：单幅图像的三维平面检测与重建</h3><img src="/2019/04/PlaneRCNN-translation/planercnn1.png">
+<a id="more"></a>
+<p><strong><em>EN:</em></strong> Figure 1. This paper proposes a deep neural architecture, PlaneRCNN, that detects planar regions and reconstructs a piecewise planar depthmap from a single RGB image. From left to right, an input image, segmented planar regions, estimated depthmap, and reconstructed planar surfaces.<br><strong><em>CH:</em></strong> 图1.本论文提出了一种深度神经结构 PlaneRCNN，它可以检测平面区域并从单个RGB图像重建分段平面深度图。 从左到右，依次为输入图像，分段平面区域，估计深度图和重建平面表面。</p>
+<h4 id="Abstract"><a href="#Abstract" class="headerlink" title="Abstract"></a>Abstract</h4><h4 id="论文摘要"><a href="#论文摘要" class="headerlink" title="论文摘要"></a>论文摘要</h4><p><strong><em>EN:</em></strong> This paper proposes a deep neural architecture, PlaneRCNN, that detects and reconstructs piecewise planar surfaces from a single RGB image. PlaneRCNN employs a variant of Mask R-CNN to detect planes with their plane parameters and segmentation masks. PlaneRCNN then jointly refines all the segmentation masks with a novel loss enforcing the consistency with a nearby view during training. The paper also presents a new benchmark with more finegrained plane segmentations in the ground-truth, in which, PlaneRCNN outperforms existing state-of-the-art methods with significant margins in the plane detection, segmentation, and reconstruction metrics. PlaneRCNN makes an important step towards robust plane extraction, which would have an immediate impact on a wide range of applications including Robotics, Augmented Reality, and Virtual Reality.<br><strong><em>CH:</em></strong> 本论文提出了一种深度神经网络结构 PlaneRCNN，它可以从单个RGB图像中检测和重建分段平面。PlaneRCNN 为了检测出平面的平面参数和分割掩膜而采用了 Mask R-CNN 的变种算法。然后，PlaneRCNN 联合细化所有的分割掩膜，在训练期间形成一个新的 loss，强制得与该 loss 就近的视图保持一致。本文还提出了一个新的基准用于在真实样本中能有更细粒度的平面分割；其中，在平面检测，平面分割，重建平面的指标上，PlaneRCNN 性能要远优于现有的最先进的方法。而且 PlaneRCNN 向成熟稳健的平面检测迈出了重要的一步，这将对包括机器人技术，增强现实技术和虚拟现实在内的广泛应用产生直接影响。</p>
+<h5 id="1-Introduction"><a href="#1-Introduction" class="headerlink" title="1. Introduction"></a>1. Introduction</h5><h5 id="1-引言"><a href="#1-引言" class="headerlink" title="1. 引言"></a>1. 引言</h5><p><strong><em>EN:</em></strong> Planar regions in 3D scenes offer important geometric cues in a variety of 3D perception tasks such as scene understanding , scene reconstruction , and robot navigation. Accordingly, piecewise planar scene reconstruction has been a focus of computer vision research for many years, for example, plausible recovery of planar structures from a single image, volumetric piecewise planar reconstruction from point clouds, and Manhattan depthmap reconstruction from multiple images.<br><strong><em>CH:</em></strong> 3D场景中的平面区域为各种3D类的感知任务，例如场景理解，场景重建，和机器人导航等，提供了重要的几何信息；因此，分段平面场景重建一直是计算机视觉研究的焦点；比如，从单个图像中合理的恢复平面结构，从点云数据中进行体积分段平面重建，以及根据多个图像重建曼哈顿深度图。</p>
+<p><strong><em>EN:</em></strong> A difficult yet fundamental task is the inference of a piecewise planar structure from a single RGB image, posing two key challenges. First, 3D plane reconstruction from a single image is an ill-posed problem, requiring rich scene priors. Second, planar structures abundant in man-made environments often lack textures, requiring global image understanding as opposed to local texture analysis. Recently, PlaneNet and PlaneRecover made a breakthrough by introducing the use of Convolutional Neural Networks (CNNs) and formulating the problem as a plane segmentation task. While generating promising results, they suffer from three major limitations: 1) Missing small surfaces; 2) Requiring the maximum number of planes in a single image a priori; and 3) Poor generalization across domains (e.g., trained for indoors images and tested outdoors).<br><strong><em>CH:</em></strong> 一个困难但基本的任务是从单个RGB图像中推断出来分段平面结构，这产生了两个关键的挑战。首先是：从单个图像重建3D平面是一个不稳定的命题，需要丰富的场景先验信息。其次是：在人造环境中丰富的平面结构通常缺乏质地纹理，需要全局图像理解而不是局部纹理分析。最近，PlaneNet 和 PlaneRecover 通过使用卷积神经网络（CNN）取得了突破性的进展，并将该问题描述为一个平面分割任务；虽然有了一些希望，但仍受到三个主要的制约：1.缺少小的平面，2.需要事先给出单个图像中的最大平面数，3.跨域的泛化能力比较差（比如室内图像的训练和室外的测试）。</p>
+<p><strong><em>EN:</em></strong> This paper proposes a novel deep neural architecture, PlaneRCNN, that addresses these issues and more effectively infers piecewise planar structure from a single RGB image (Fig. 1). PlaneRCNN consists of three components.<br><strong><em>CH:</em></strong> 本论文提出了一种新型的深度神经网络结构-PlaneRCNN，它解决了以上问题，并能更加有效的从单个RGB图像中推断出该图像的分段平面结构（如图1）。PlaneRCNN由三部分组成。</p>
+<p><strong><em>EN:</em></strong> The first component is a plane detection network built upon Mask R-CNN [14]. Besides an instance mask for each planar region, we also estimate the plane normal and perpixel depth values. With known camera intrinsics, we can further reconstruct the 3D planes from the detected planar regions. This detection framework is more flexible and can handle an arbitrary number of planar regions in an image. To the best of our knowledge, this paper is the first to introduce a detection network, common in object recognition, to the depthmap reconstruction task. The second component is a segmentation refinement network that jointly optimizes extracted segmentation masks to more coherently explain a scene as a whole. The refinement network is designed to handle an arbitrary number of regions via a simple yet effective neural module. The third component, the warping-loss module, enforces the consistency of reconstructions with another view observing the same scene during training and improves the plane parameter and depthmap accuracy in the detection network via end-to-end training.<br><strong><em>CH:</em></strong> 第一部分是建立在 Mask R-CNN 基础上的平面检测网络。除了每个平面区域的实例掩膜之外，我们还估计平面法线和每个像素的深度值。利用已知的相机内在函数，我们可以从检测到的平面区域进一步的重建3D平面。这个检测框架更加的灵活，可以处理一张图片里任意数量的平面区域。据我们所知，本论文是第一个将目标识别中常见的检测网络引入深度图重构任务中的。第二部分是一个分割细化网络，联合优化提取到的分割掩膜，以便于更加连贯一致的解释整个场景。这个细化网络通过设计一个简单但有效的神经模块来处理任意数量的平面。第三部分是翘曲损失模块，在训练中强制让同一个场景中不同视角观察的重建平面保持一致，在端到端的检测网络中提高平面参数和深度图的精度。</p>
+<p><strong><em>EN:</em></strong> The paper also presents a new benchmark for the piecewise planar depthmap reconstruction task. We collected 100,000 images from ScanNet and generated the corresponding ground-truth by utilizing the associated 3D scans. The new benchmark offers 14.7 plane instances per image on the average, in contrast to roughly 6 instances per image in the existing benchmark.<br><strong><em>CH:</em></strong> 本论文还为分段平面深度图重建任务提出了一个新的基准。我们从 ScanNet （一个拥有标注过 3D 室内场景重构信息的大规模 RGB-D 数据集。）中搜集了100000张图像，并利用相关的3D扫描来生成对应的真实样本。这个新的基准平均每张图像可以提供14.7个平面实例，而现有的基准大致上一张图像才6个实例。</p>
+<p><strong><em>EN:</em></strong>  The performance is evaluated via plane detection, segmentation, and reconstruction metrics, in which PlaneRCNN outperforms the current state-of-the-art with significant margins. Especially, PlaneRCNN is able to detect small planar surfaces and generalize well to new scene types.<br><strong><em>CH:</em></strong>  通过平面检测、分割、重建作为评估性能的标准，PlaneRCNN 的效果要优于当下最新的技术水平，特别是，PlaneRCNN 能检测到小的平面，并能很好地应用到新的场景类型。</p>
+<p><strong><em>EN:</em></strong> The contributions of the paper are two-fold:<br>Technical Contribution: The paper proposes a novel neural architecture PlaneRCNN, where 1) a detection network extracts an arbitrary number of planar regions; 2) a refinement network jointly improves all the segmentation masks; and 3) a warping loss improves plane-parameter and depthmap accuracy via end-to-end training.<br>System Contribution: The paper provides a new benchmark for the piecewise planar depthmap reconstruction task with much more fine-grained annotations than before, in which PlaneRCNN makes significant improvements over the current state-of-the-art.<br><strong><em>CH:</em></strong>  本论文的主要贡献有两方面：<br>技术贡献：本论文提出了一个新的神经网络结构：PlaneRCNN，分为三个模块：1.检测神经网络用来检测任意数量的平面区域，2.细化网络联合优化提取到的分割掩膜，3.翘曲损失模块通过端到端的训练提高平面参数和深度图的精度。<br>系统贡献：本论文为分段平面深度图重建任务提供了一个更加精细的评估基准，并且 PlaneRCNN 在当下最先进技术的基础上取得了重大提升。</p>
+<h5 id="2-Related-Work"><a href="#2-Related-Work" class="headerlink" title="2. Related Work"></a>2. Related Work</h5><h5 id="2-相关工作"><a href="#2-相关工作" class="headerlink" title="2. 相关工作"></a>2. 相关工作</h5><p><strong><em>EN:</em></strong> For 3D plane detection and reconstruction, most traditional approaches require multiple views or depth information as input. They generate plane proposals by fitting planes to 3D points, then assign a proposal to each pixel via a global inference. Deng et al. proposed a learning-based approach to recover planar regions, while still requiring depth information as input.<br><strong><em>CH:</em></strong> 对于3D平面检测及重建，大多数传统的处理方法需要多个视图或深度信息作为输入；他们将多个平面拟合成3D点来生成平面候选区域，然后通过一个全局推断来为每个像素点分配候选区域。Deng等人提出了一个基于学习的方法用来恢复平面区域，但该方法仍然需要深度信息的输入。</p>
+<p><strong><em>EN:</em></strong> Recently, PlaneNet revisited the piecewise planar depthmap reconstruction problem with an end-to-end learning framework from a single indoor RGB image. PlaneRecover later proposed an un supervised learning approach for outdoor scenes. Both PlaneNet and PlaneRecover formulated the task as a pixel-wise segmentation problem with a fixed number of planar regions (i.e., 10 in PlaneNet and 5 in PlaneRecover), which severely limits the expressiveness of their reconstructions and generalization capabilities to different scene types. We address these limitations by utilizing a detection network, commonly used for object recognition.<br><strong><em>CH:</em></strong> 最近，PlaneNet 通过从单个的室内RGB图像得到的端到端的学习框架重新看待了分段平面深度图重建问题。PlaneRecover 后来提供了一种针对室外场景的非监督学习方法。PlaneRecover 和 PlaneNet 都将任务描述成一个有固定平面数量的像素分割问题，（i.e.：PlaneNet 的10个平面和 PlaneRecover 的5个平面）严重限制了不同场景类型重建和泛化能力的表现。我们用一般物体识别的检测网络处理了这些限制。</p>
+<p><strong><em>EN:</em></strong> Detection-based framework has been successfully applied to many 3D understanding tasks for objects, for example, predicting object shapes in the form of bounding boxes, wire-frames, or template-based shape compositions. However, the coarse representation employed in these methods lack the ability to accurately model complex and cluttered indoor scenes.<br><strong><em>CH:</em></strong> 基于检测的框架现在已经成功得应用于许多3D理解得任务，比如：以边界框、线框、或基于组成模板得形状来预测物体形状。然而，这些方法中粗略得表示缺乏精确建模复杂混乱室内场景得能力。</p>
+<p><strong><em>EN:</em></strong> In addition to the detection, joint refinement of segmentation masks is also a key to many applications that require precise plane parameters or boundaries. In recent semantic segmentation techniques, fully connected conditional random field (CRF) is proven to be effective for localizing segmentation boundaries. CRFasRNN further makes it differentiable for end-to-end training. CRF only utilizes low-level information, and global context is further exploited via RNNs, more general graphical models, or novel neural architectural designs. These segmentation refinement techniques are NOT instance-aware, merely inferring a semantic label at each pixel and cannot distinguish multiple instances belonging to the same semantic category.<br><strong><em>CH:</em></strong> 除了检测以外，分割掩膜得联合细化，对于一些需要精确平面参数和边界得应用来说，也很关键。在最近得语义分割技术中，全连接条件随机场（CRF）被证明了对于局部得分割边界是有效的，CRFasRNN 在端到端的训练中促进了它的可辨别性。CRF 使用的只是低级信息，通过 RNNs，更通用的图形模型，或者新型的神经架构设计进一步使用全局的上下文信息。这些分割细化技术不是实例感知的，仅仅是在每个像素上进行的推断，并不能区别多个实例属于同一个语义的种类。</p>
+<p><strong><em>EN:</em></strong> Instance-aware joint segmentation refinement poses more challenges. Traditional methods model the scene as a graph and use graphical model inference techniques to jointly optimize all instance masks. With a sequence of heuristics, these methods are often not robust. To this end, we will propose a segmentation refinement network that jointly optimizes an arbitrary number of segmentation masks on top of a detection network.<br><strong><em>CH:</em></strong> 实例感知的联合分割细化造成了更多的挑战。传统的方法将场景当作图形来建模，然后使用图形的模型推理技术来联合优化所有的实例任务。通过一系列的启发式算法，这些方法经常表现得不够稳健。为此，我们提出了一个能在检测网络上联合优化任意数量分割掩码的分割细化网络。</p>
+<h5 id="3-Approach"><a href="#3-Approach" class="headerlink" title="3. Approach"></a>3. Approach</h5><h5 id="3-方法"><a href="#3-方法" class="headerlink" title="3. 方法"></a>3. 方法</h5><p><strong><em>EN:</em></strong> PlaneRCNN consists of three main components (See Fig. 2): a plane detection network, a segmentation refinement network, and a warping loss module. Built upon Mask R-CNN, the plane proposal network (Sec. 3.1) detects planar regions given a single RGB image and predicts 3D plane parameters together with a segmentation mask for each planar region. The refinement network (Sec. 3.2) takes all detected planar regions and jointly optimizes their masks. The warping loss module (Sec. 3.3) enforces the consistency of reconstructed planes with another view observing the same scene to further improve the accuracy of plane parameters and depthmap during training.<br><strong><em>CH:</em></strong> PlaneRCNN 由三个模块构成：一个检测网络，一个分割细化网络和一个翘曲损失模块。基于 Mask R-CNN，这个平面候选网络（3.1节）给一个给定的RGB图像中检测平面区域，并且一起预测每个平面的3D平面参数和分割掩膜。这个细化网络（3.2节）拿到所有检测出来的平面区域联合优化它们的分割掩膜。翘曲损失模块（3.3节）通过在训练中强制保持同一场景观察到的不同视图的重建平面保持一致，进一步提高了平面参数和深度图的精度。</p>
+<h5 id="3-1-Plane-Detection-Network"><a href="#3-1-Plane-Detection-Network" class="headerlink" title="3.1. Plane Detection Network"></a>3.1. Plane Detection Network</h5><h5 id="3-1-平面检测网络"><a href="#3-1-平面检测网络" class="headerlink" title="3.1. 平面检测网络"></a>3.1. 平面检测网络</h5><p><strong><em>EN:</em></strong> Mask R-CNN was originally designed for semantic segmentation, where images contain instances of varying categories (e.g., person, car, train, bicycle and more). Our problem has only two categories ”planar” or ”non-planar”, defined in a geometric sense. Nonetheless, Mask R-CNN works surprisingly well in detecting planes in our experiments. It also enables us to handle an arbitrary number of planes, where existing approaches need the maximum number of planes in an image a priori (i.e., 10 for PlaneNet and 5 for PlaneRecover ).<br><strong><em>CH:</em></strong> Mask R-CNN 是被设计用来进行图像语义分割的，这些图像包含不同类别的实例（e.g.person, car, train, bicycle and more）。我们的问题中只含有两个类别：平面和非平面，是在几何意义下的。尽管如此，在我们的实验中 Mask R-CNN 在检测平面的表现依然好得出奇。目前其他的方法需要事先给出一个图像平面的最大数量(i.e., PlaneNet需要输入十个，PlaneRecover需要输五个 )，Mask R-CNN 能让我们处理任意数量的平面。</p>
+<img src="/2019/04/PlaneRCNN-translation/planercnn2.png">
+<p><strong><em>EN:</em></strong> Figure 2. Our framework consists of three building blocks: 1) a plane detection network based on Mask R-CNN, 2) a segmentation refinement network that jointly optimizes extracted segmentation masks, and 3) a warping loss module that enforces the consistency of reconstructions with a nearby view during training.<br><strong><em>CH:</em></strong> 图二：我们的框架由三部分组成：1）一个基于 Mask R-CNN 的平面检测网络，2）一个用来联合优化提取的分割掩膜的分割细化网络，3）一个用来在训练中强制保持就近视图的重建平面一致的翘曲损失模块。</p>
+<p><strong><em>EN:</em></strong> We treat each planar region as an object instance and let Mask R-CNN detect such instances and estimate their segmentation masks. The remaining task is to infer 3D plane parameters, which consists of the normal and the offset information. While CNNs have been successful for depthmap and surface normal estimation, direct regression of plane offset turns out to be a challenge (even with the use of CoordConv). Instead of direct regression, we solve it in three steps: (1) predict a normal per planar instance, (2) estimate a depthmap for an entire image, and (3) use a simple algebraic formula (Eq. 1) to calculate the plane offset (which is differentiable for end-to-end training). We now explain how we modify Mask-RCNN to perform these three steps.<br><strong><em>CH:</em></strong> 我们将每个平面区域当作可检测的对象实例，让 Mask R-CNN 去检测并估算它们的分割掩膜。剩下的任务是推断3D平面参数，包括法线和偏移信息。虽然 CNN 已经成功的用于深度图和平面法线的估算，但平面偏移的直接回归结果仍是个挑战（即使使用 CoordConv），不使用直接回归，我们用三步来解决它：1）预测每个平面实例的法线，2）估算整个图像的深度图，3）使用简单的代数公式（Eq.1）去计算平面偏移（在端到端的训练中是可区分的）。现在就来解释如何修改 Mask R-CNN 来实现这三步。</p>
+<p><strong><em>EN:</em></strong> Plane normal estimation: Directly attaching a parameter regression module after the ROI pooling produces reasonable results, but we borrow the idea of 2D anchor boxes for bounding box regression to further improve accuracy. More precisely, we consider anchor normals and estimate a plane normal in the local camera coordinate frame by 1) picking an anchor normal, 2) regressing the residual 3D vector, and 3) normalizing the sum to a unit-length vector.<br><strong><em>CH:</em></strong> 平面法线的估算：在 ROL pooling 层后面附加上一个参数回归模块得到一个相对合理的结果，除此之外，我们还针对边界框回归借用了2D anchor box 的思想来进一步提高准确率。更确切的说我们认为锚定法线和在局部相机坐标系中估算平面法线要通过三步：1）选择一个锚定法线，2）3D残差向量的回归，3）将和标准化为单位长度向量。</p>
+<p><strong><em>EN:</em></strong> Anchor normals are defined by running the K-means clustering algorithm on the plane normals in 10, 000 randomly sampled training images. We use k = 7 and the cluster centers become anchor normals, which are up-facing, down-facing, and horizontal vectors roughly separated by 45◦ in our experiments (See Fig. 3).<br><strong><em>CH:</em></strong> 通过在10000个随机采样的训练图像的平面法线上运行 K-means 聚类算法确定了锚定法线。我们设置 k 值为7，聚类中心为锚定法线，在我们的实验中，它们的方向是向上，向下还有和水平向量的夹角大致为45°。（看图三）</p>
+<p><strong><em>EN:</em></strong> We replace the object category prediction in the original Mask R-CNN with the anchor ID prediction, and append one separate fully connected layer to regress the 3D residual vector for each anchor normal (i.e., 21 = 3 × 7 output values). To generate supervision for each ground-truth plane normal, we find the closest anchor normal and compute the residual vector. We use the cross-entropy loss for the anchor normal selection, and the smooth L1 loss for the residual vector regression as in the bounding box regression of Mask R-CNN.<br><strong><em>CH:</em></strong> 我们将原来 Mask R-CNN 中的目标类别检测替换为现在的锚点 ID 预测，并且为了每个锚定法线的3D残差向量回归添加了一个单独的全连接层。（i.e.21=3x7输出值）为了每个真实样本平面法线生成的有效性，我们找到最靠近的锚定法线并计算残差向量。我们用交叉熵损失来进行锚定法线的选择，用 L1 损失来进行残差向量的回归，就像 Mask R-CNN 网络里 bounding box 的回归。</p>
+<img src="/2019/04/PlaneRCNN-translation/planercnn3.png">
+<p><strong><em>EN:</em></strong> Figure 3. We estimate a plane normal by first picking one of the 7 anchor normals and then regressing the residual 3D vector. Anchor normals are defined by running the K-means clustering algorithm on the ground-truth plane normal vectors.<br><strong><em>CH:</em></strong> 图三：我们首先通过选取7个锚定法线中的一个来估算平面法线，然后回归3D残差向量。通过在真实样本的平面法线向量上运行 K-means 聚类算法确定锚定法线。</p>
+<p><strong><em>EN:</em></strong> Depthmap estimation: While local image analysis per region suffices for surface normal prediction, global image analysis is crucial for depthmap inference. We add a decoder after the feature pyramid network (FPN) in Mask R-CNN to estimate the depthmap D for an entire image. For the depthmap decoder, we use a block of 3 × 3 convolution with stride 1 and 4 × 4 deconvolution with stride 2 at each level. Lastly, bilinear upsampling is used to generate a depthmap in the same resolution as the input image (640 × 640).<br><strong><em>CH:</em></strong> 深度图的估算：虽然局部图像分析的每个区域可以满足表面法线的预测，但全局图像分析对于深度图信息是很重要的。为了估算整个图像得深度图 D，我们在 Mask R-CNN 的 FPN（特征金字塔提取网络）后面加上了一个解码器。我们在这个深度图解码器的每一层都用了一个尺寸为 3x3，步长为 1 的卷积核和一个尺寸为 4x4，步长为 2 的卷积核。最后，利用双线性上采样的方法得到和输入图像尺寸（640 × 640）相同的深度图。</p>
+<p><strong><em>EN:</em></strong> Plane offset estimation: Given a plane normal $n$, it is straightforward to estimate the plane offset $d$:</p>
+<script type="math/tex; mode=display">d={ {\sum_{i}m_i(n^T(z_iK^{-1}x_i))}\over{\sum_{i}m_i} }</script><p>where $K$ is the 3 × 3 camera intrinsic matrix, $x_i$ is the $i_{th}$ pixel coordinate in a homogeneous representation, $z_i$ is its predicted depth value, and $m_i$ is an indicator variable which becomes 1 if the pixel belongs to the plane. The summation is over all the pixels in the image. Note that we do not have a loss on the plane offset parameter, which did not make differences in the results. However, the plane offset influences the warping loss module below.<br><strong><em>CH:</em></strong> 平面偏移估计：给定一个平面法线 $n$，简单的去估算平面偏移 $d$，公式如上；其中 $K$ 是尺寸为 3x3 的相机内置矩阵，$x_i$ 是齐次表示中的第$i_{th}$个像素坐标，$z_i$ 是预测出来的深度值，$m_i$ 是一个状态变量，就是如果这个像素属于这个平面就为 1。 <strong>这个总和要超过这个图像的所有像素。</strong> 注意，我们的平面偏移参数没有损失，不会对结果造成影响。但是平面偏移会对下面的翘曲损失产生影响。</p>
+<h5 id="3-2-Segmentation-Refinement-Network"><a href="#3-2-Segmentation-Refinement-Network" class="headerlink" title="3.2. Segmentation Refinement Network"></a>3.2. Segmentation Refinement Network</h5><h5 id="3-2-分割细化网络"><a href="#3-2-分割细化网络" class="headerlink" title="3.2. 分割细化网络"></a>3.2. 分割细化网络</h5><p><strong><em>EN:</em></strong> The plane detection network predicts segmentation masks independently. The segmentation refinement network jointly optimizes all the masks, where the major challenge lies in the varying number of detected planes. One solution is to assume the maximum number of planes in an image, concatenate all the masks, and pad zero in the missing entries. However, this does not scale to a large number of planes, and is prone to missing small planes.<br><strong><em>CH:</em></strong> 平面检测网络独立检测分割掩膜。这个分割细化网络联合优化所有的掩膜，在这里主要的挑战是检测出来的平面数量不同。有一种解决方案是假定一张图像中平面的最大数量，然后联结所有的掩膜，把缺少的那部分用 0 填充。但是，这样做不能拓展到更多的平面，也容易丢失掉小的平面。</p>
+<p><strong><em>EN:</em></strong> Instead, we propose a simple yet effective module, ConvAccu, based on the idea of non-local module. ConvAccu processes each plane segmentation mask represented in the entire image window with a convolution layer. We then calculate and concatenate the mean feature volumes over all the other planes at the same level before passing to the next level (See Fig. 2). This resembles the non-local module and can effectively aggregate information from all the masks. We built an U-Net architecture using ConvAccu modules with details illustrated in Appendix A.<br><strong><em>CH:</em></strong> 相反，我们基于 non-local 模块的思想。提出了一个简单并且有效的方法，ConvAccu。ConvAccu 用卷积层处理在整个图像中表示的每个平面分割掩膜。然后，我们计算并联结同一层面上的所有其他平面的平均特征量，并进入下一层面（见图二）。这种方式类似于 non-local 模块的思想，可以有效的聚合所有掩膜的信息。我们使用 ConvAccu 模块构造了 U-Net 结构，详细信息在附录A。</p>
+<p><strong><em>EN:</em></strong> Refined plane masks are concatenated at the end and compared against ground-truth with a cross-entropy loss. Note that besides the plane mask, the refinement network also takes the original image, the union of all the other plane masks, the reconstructed depthmap (for planar and non-planar regions), and a 3D coordinate map for the specific plane as input. The target segmentation mask is generated on the fly during training by assigning a ground-truth mask with the largest overlap. Planes without any assigned ground-truth masks do not receive supervision.<br><strong><em>CH:</em></strong> 最后将精确的平面掩膜联结起来，使用交叉熵损失和真实样本进行比较。注意除了平面掩膜，分割细化网络还使用了原始图像，其他所有平面掩膜的并集，重建的深度图（对于平面和非平面区域），和特定平面的3D坐标图作为输入。在训练中通过分派有最大重叠的真实样本生成目标分割掩膜。没有分派真实样本掩膜的平面不会接受联结。</p>
+<h5 id="3-3-Warping-Loss-Module"><a href="#3-3-Warping-Loss-Module" class="headerlink" title="3.3. Warping Loss Module"></a>3.3. Warping Loss Module</h5><h5 id="3-3-翘曲损失模块"><a href="#3-3-翘曲损失模块" class="headerlink" title="3.3. 翘曲损失模块"></a>3.3. 翘曲损失模块</h5><p><strong><em>EN:</em></strong> The warping loss module enforces the consistency of reconstructed 3D planes with a nearby view during training. Specifically, our training samples come from RGB-D videos in ScanNet, and the nearby view is defined to be the one 20 frames ahead from the current. The module first builds a depthmap for each frame by 1) computing depth values from the plane equations for planar regions and 2) using pixel-wise depth values predicted inside the plane detection network for the remaining pixels. Depthmaps are converted to 3D coordinate maps in the local camera coordinate frames (i.e., a 3D coordinate instead of a depth value per pixel) by using the camera intrinsic information.<br><strong><em>CH:</em></strong> 翘曲损失模块在训练期间强制使附近视图的重建3D平面保持一致。我们的训练样本是 ScanNet 中的 RGB-D 视频，这个附近视图被明确规定为是当下一帧的前二十帧。这个模块首先通过两点（1.从平面等式中计算平面区域的深度值，2.在平面检测网络里给剩余的像素点用像素点的深度信息预测）给每一帧图像构造一个深度图。在局部相机坐标系中（i.e.每个像素点的3D坐标而不是深度信息），使用相机的内在信息，将深度图转化为3D坐标图。</p>
+<p><strong><em>EN:</em></strong> The warping loss is then computed as follows. Let $M_c$ and $M_n$ denote the 3D coordinate maps of the current and the nearby frames, respectively. For every 3D point $P_n$(∈ $M_n$) in the nearby view, we use the camera pose information to project to the current frame, and use a bilinear interpolation to read the 3D coordinate $P_c$ from $M_c$. We then transform $P_c$ to the coordinate frame of the nearby view based on the camera pose and compute the 3D distance between the transformed coordinate $P^t_c$ and $P_n$. L2 norm of all such 3D distances divided by the number of pixels is the loss. We ignore pixels that project outside the current image frame during bilinear interpolation.<br><strong><em>CH:</em></strong> 然后如下计算这个翘曲损失模块。让 $M_c$ 和 $M_n$ 分别表示当前帧和临近帧的3D坐标图。对于每个临近视图中的3D点 $P_n$(∈ $M_n$)，我们使用相机姿态信息来投射到当前帧，并且使用双线性插值从 $M_c$ 中读取3D坐标 $P_c$ 。然后我们基于相机姿态将 $P_c$ 转换到临近视图的坐标系，并且计算变换后的坐标 $P^t_c$ 和 $P_n$ 的3D距离。所有这种3D距离的 L2 范数除以像素点的数量就是这个损失。我们忽略在双线性插值期间投射到当前帧之外的像素点。</p>
+<p><strong><em>EN:</em></strong> The projection, un-projection, and coordinate frame transformation are all simple algebraic operations, whose gradients can be passed for training. Note that the warping loss module and the nearby view is utilized only during training to boost geometric reconstruction accuracy, and the system runs on a single image at test time.<br><strong><em>CH:</em></strong> 投射，非投射和坐标系变换都是简单的代数运算，梯度是通过训练的。注意这个翘曲损失模块和临近视图仅仅是在训练中为了提高几何重建精度而使用的，而且，这个系统在测试的时候是在单个图像上运行的。</p>
+<h5 id="4-Benchmark-construction"><a href="#4-Benchmark-construction" class="headerlink" title="4. Benchmark construction"></a>4. Benchmark construction</h5><h5 id="4-基准构造"><a href="#4-基准构造" class="headerlink" title="4. 基准构造"></a>4. 基准构造</h5><p><strong><em>EN:</em></strong> Following steps described in PlaneNet, we build a new benchmark from RGB-D videos in ScanNet. We add the following three modifications to recover more fine-grained planar regions, yielding 14.7 plane instances per image on the average, which is more than double the PlaneNet dataset containing 6.0 plane instances per image.<br><strong><em>CH:</em></strong> 根据在 PlaneNet 中的步骤描述，我们从 ScanNet 的 RGB-D 视频中构造了一个新的基准。我们加了如下三个修改来恢复更细粒度的平面区域，平均每张图有 14.7 个平面实例，比 PlaneNet 中提到的每张图的 6 个平面的二倍还要多。    </p>
+<p><strong><em>EN:</em></strong> First, we keep more small planar regions by reducing the plane area threshold from 1% of the image size to 0.16% (i.e., 500 pixels) and not dropping small planes when the total number is larger than 10.<br>Second, PlaneNet merges co-planar planes into a single region as they share the same plane label. The merging of two co-planar planes from different objects causes loss of semantics. We skip the merging process and keep all instance segmentation masks.<br>Third, the camera pose quality in ScanNet degrades in facing 3D tracking failures, which causes misalignment between image and the projected ground-truth planes. Since we use camera poses and aligned 3D models to generate ground-truth planes, we detect such failures by the discrepancy between our ground-truth 3D planes and the raw depthmap from a sensor. More precisely, we do not use images if the average depth discrepancy over planar regions is larger than 0.1m. This simple strategy removes approximately 10% of the images.<br><strong><em>CH:</em></strong> 第一：我们通过将平面区域的阈值从图片尺寸的 1% 降低到了 0.16%（i.e.500个像素点）来保留更多的小平面区域，并且当平面数大于10时，不丢弃小的平面。<br>第二：PlaneNet 把一些共平面合并为一个单独的平面为了让它们有相同的平面类别。    这种从不同实例合并平面的方式会丢失掉语义信息。我们跳过了这个合并过程，保留了所有的实例分割掩膜。<br>第三：ScanNet 里的相机姿态质量在3D追踪失败的时候会降低，这就导致了图像与真实实例平面的投射会发生不重合的情况。自从我们使用相机姿态和对齐的3D模型来生成真实实例平面，我们通过比较生成的真实实例平面和来自传感器的原始深度图的差异来检测这种失败。更确切的来说，如果在平面区域上的平均深度差值大于 0.1m 我们就不会使用这张图片。这个简单的策略大约可以删除 10% 的图片。</p>
+<h5 id="5-Experimental-results"><a href="#5-Experimental-results" class="headerlink" title="5. Experimental results"></a>5. Experimental results</h5><h5 id="5-实验结果"><a href="#5-实验结果" class="headerlink" title="5. 实验结果"></a>5. 实验结果</h5><p><strong><em>EN:</em></strong> We have implemented our network in PyTorch. We use pre-trained Mask R-CNN and initialize the segmentation refinement network with the existing model. We train the network end-to-end on an NVIDIA TitanX GPU for 10 epochs with 100,000 randomly sampled images from training scenes in ScanNet. We use the same scale factor for all losses. For the detection network, we scale the image to 640 × 480 and pad zero values to get a 640 × 640 input image. For the refinement network, we scale the image to 256 × 192 and align the detected instance masks with the image based on the predicted bounding boxes.<br><strong><em>CH:</em></strong> 我们已经用 PyTorch 实现了我们的网络结构。我们使用 Mask R-CNN 的预训练模型进行训练，并使用现有的模型初始化分割细化网络。我们使用 ScanNet 训练场景里的随机100,000张实例图片在 NVIDIA TitanX GPU 上进行了十轮端到端的训练。我们对所有的 loss 采用同样的比例系数。对于检测网络，我们将图像缩放成 640 × 480 的尺寸，并用 0 填充成 640 × 640 的尺寸用作网络输入。对于分段网络，我们将图像缩放成 256 × 192 的尺寸，并基于预测的 bounding boxes 将检测到的实例掩膜和图像对齐。</p>
+<img src="/2019/04/PlaneRCNN-translation/planercnn4.png">
+<p><strong><em>EN:</em></strong> Figure 4. Plane-wise accuracy against baselines. PlaneRCNN outperforms all the competing methods except when the depth threshold is very small and MWS-G can fit 3D planes extremely accurately by utilizing the ground truth depth values.<br><strong><em>CH:</em></strong> 图四：平面检测的基准对比。PlaneRCNN 要优于所有的竞赛方法，除了当深度阈值非常小的时候 MWS-G 能利用真实实例深度值非常准确的拟合3D平面。</p>
+<h5 id="5-1-Qualitative-evaluations"><a href="#5-1-Qualitative-evaluations" class="headerlink" title="5.1. Qualitative evaluations"></a>5.1. Qualitative evaluations</h5><h5 id="5-1-实验评估"><a href="#5-1-实验评估" class="headerlink" title="5.1. 实验评估"></a>5.1. 实验评估</h5><p><strong><em>EN:</em></strong> Fig. 5 demonstrates our reconstructions results for ScanNet testing scenes. PlaneRCNN is able to recover planar surfaces even for small objects. We include more examples in Appendix B.<br><strong><em>CH:</em></strong>  图五：在 ScanNet 的测试场景上演示我们模型的3D重建结果。PlaneRCNN 即便是小的实例也能恢复平面信息。在附录B中有更多的示例。</p>
+<img src="/2019/04/PlaneRCNN-translation/planercnn5.png">
+<p><strong><em>EN:</em></strong> Figure 5. Piecewise planar reconstruction results by PlaneRCNN.<br><strong><em>CH:</em></strong> 图五：PlaneRCNN 的分段平面重建结果。</p>
+<p><strong><em>EN:</em></strong> Fig. 6 compares PlaneRCNN against two competing methods, PlaneNet and PlaneRecover, on a variety of scene types from unseen datasets (except the SYNTHIA dataset is used for training by PlaneRecover). Note that PlaneRCNN and PlaneNet are trained on the ScanNet which contains indoor scenes, while PlaneRecover is trained on the SYNTHIA dataset (i.e., the 7th and 8th rows in the figure) which consist of synthetic outdoor scenes. The figure shows that PlaneRCNN is able to reconstruct most planes in varying scene types from unseen datasets regardless of their sizes, shapes, and textures. In particular, our results on the KITTI dataset are surprisingly better than PlaneRecover for planes close to the camera. In indoor scenes, our results are consistently better than both PlaneNet and PlaneRecover. We include more examples in Appendix B.<br><strong><em>CH:</em></strong>  图六：在未知的数据集的各种场景类型下（除了 SYNTHIA 数据集被 PlaneRecover 用来训练）比较 PlaneRCNN 和两个竞赛方法（PlaneNet 和 PlaneRecover）的检测效果。注意 PlaneRCNN 和PlaneNet 是在 ScanNet 的室内数据集训练的，PlaneRecover 是用SYNTHIA 室外数据集训练的。（i.e.在图的第七行和第八行）这个图展示的是在未知的数据集上，不管它们的尺寸，形状和内容，PlaneRCNN 都能够重建不同场景类型的大部分平面。特别是，在 KITTI 数据集上，靠近相机的平面，我们的结果要出乎意料的比 PlaneRecover 的效果好。在室内的场景中，我们的效果也比 PlaneNet 和 PlaneRecover都要好。在附录B中有更多的示例。</p>
+<img src="/2019/04/PlaneRCNN-translation/planercnn6.png">
+<p><strong><em>EN:</em></strong> Figure 6. Plane segmentation results on unseen datasets without fine-tuning.<br><strong><em>CH:</em></strong> 图六：未知的数据集的识别结果。</p>
+<h5 id="5-2-Plane-reconstruction-accuracy"><a href="#5-2-Plane-reconstruction-accuracy" class="headerlink" title="5.2. Plane reconstruction accuracy"></a>5.2. Plane reconstruction accuracy</h5><h5 id="5-2-平面重建准确率"><a href="#5-2-平面重建准确率" class="headerlink" title="5.2. 平面重建准确率"></a>5.2. 平面重建准确率</h5><p><strong><em>EN:</em></strong> Following PlaneNet, we evaluate plane detection accuracy by measuring the plane recall with a fixed Intersection over Union (IOU) threshold 0.5 and a varying depth error threshold (from 0 to 1m with an increment of 0.05m). The accuracy is measured inside the overlapping regions between the ground-truth and inferred planes. Besides PlaneNet, we compare against Manhattan World Stereo (MWS), which is the most competitive tradi-tional MRF-based approach as demonstrated in prior evaluations. MWS requires a 3D point cloud as an input, and we either use the point cloud from the groundtruth 3D planes (MWS-G) or the point cloud inferred by our depthmap estimation module in the plane detection network (MWS). PlaneRecover was originally trained with the assumption of at most 5 planes in an image. We find it difficult to train PlaneRecover successfully for cluttered indoor scenes by simply increasing the threshold. We believe that PlaneNet, which is explicitly trained on ScanNet, serves as a stronger competitor for the evaluation.<br><strong><em>CH:</em></strong> 在 PlaneNet 之后，我们通过测量固定 IOU 阈值为0.5和非固定深度误差阈值（0-1m，增量为0.05m）的平面召回量来评判平面检测的准确性。这个准确性是在真实样本和检测出样本的重叠区域下计算测量的。除了 PlaneNet 之外，我们还和 Manhattan World Stereo (MWS) 进行了比较，作为之前评估演示的，这是最具竞争力的传统的 MRF 算法。MWS 需要3D点云数据作为输入，我们可以用真实样本的3D点云数据，也可以用我们平面检测网络中的深度图估计模块推算的点云数据。PlaneRecover 最初训练的是假设一张图5个平面。我们发现很难通过简单的提高阈值来使 PlaneRecover 在杂乱无章的室内场景中训练成功。我们相信，在这个评估中，在 ScanNet 上明确训练的 PlaneNet 可以作为一个强劲的对手。</p>
+<p><strong><em>EN:</em></strong> As demonstrated in Fig. 4, PlaneRCNN significantly outperforms all other methods, except when the depth threshold is small and MWS-G can fit planes extremely accurately with the ground-truth depth values. Nonetheless, even with ground-truth depth information, MWS-G fails in extracting planar regions robustly, leading to lower recalls in general. Our results are superior also qualitatively as shown in Fig. 7<br><strong><em>CH:</em></strong> 如图四所示，PlaneRCNN 已经显著的优于其他所有的方法，除了当深度阈值非常小的时候 MWS-G 能利用真实实例深度值非常准确的拟合3D平面。但是，即使有真实样本的深度信息，MWS-G 还是失败在平面区域提取上，导致一般情况下召回率的降低。我们的结果是更优的，如图七所示。</p>
+<img src="/2019/04/PlaneRCNN-translation/planercnn7.png">
+<p><strong><em>EN:</em></strong> Figure 7. Plane segmentation comparisons. From left to right: input image, MWS with inferred depths, MWS with ground-truth depths, PlaneNet, Ours, and ground-truth.<br><strong><em>CH:</em></strong> 图七：平面分割对比。</p>
+<h5 id="5-3-Geometric-accuracy"><a href="#5-3-Geometric-accuracy" class="headerlink" title="5.3. Geometric accuracy"></a>5.3. Geometric accuracy</h5><h5 id="5-3-几何精确度"><a href="#5-3-几何精确度" class="headerlink" title="5.3. 几何精确度"></a>5.3. 几何精确度</h5><p><strong><em>EN:</em></strong> We propose a new metric in evaluating the quality of piecewise planar surface reconstruction by mixing the inferred depthmaps and the ground-truth plane segmentations. More precisely, we first generate a depthmap from our reconstruction by following the process in the warping loss evaluation (Sec. 3.3). Next, for every ground-truth planar segment, we convert depth values in the reconstructed depthmap to 3D points, fit a 3D plane by SVD, and normalize the plane coefficients to make the normal component into a unit vector. Finally, we compute the mean and the area-weighted mean of the parameter differences to serve as the evaluation metrics. Besides the plane parameter metrics, we also consider depthmap metrics commonly used in the literature. We evaluate over the NYU dataset for a fair comparison. Table 1 shows that, with more flexible detection network, PlaneRCNN generalizes much better without fine-tuning. PlaneRCNN also outperforms PlaneNet in every metric after fine tuning using the ground-truth depths from the NYU dataset.<br><strong><em>CH:</em></strong> 我们提出了一个新的方法，来评估分段平面重建的好坏，即通过联合检测的深度图和真实样本的平面分割。更准确的说，我们首先通过翘曲损失评估的过程，从重建中生成深度图；然后，对于每个真实样本平面片段，我们把重建的深度图中的深度值转换成3D点，通过 SVD 拟合3D平面，通过归一化平面系数将法向量变成单位向量；最后，我们计算参数差异的均值和面积加权均值作为评估指标。除了这个平面参数标准以外，我们也使用论文中常用的深度图评估标准。为了一个公平的比较环境，我们在 NYU 的数据集上进行评判。表1显示：通过更灵活的检测网络，PlaneRCNN 在不经过 fine-tuning 的情况下也有比较好的泛化性。PlaneRCNN 在经过 NYU 的数据集样本的 fine-tuning 训练后在每个评估指标上都要优于PlaneNet。</p>
+<img src="/2019/04/PlaneRCNN-translation/planercnn8.png">
+<h5 id="5-4-Ablation-studies"><a href="#5-4-Ablation-studies" class="headerlink" title="5.4. Ablation studies"></a>5.4. Ablation studies</h5><h5 id="5-4-模型简化测试"><a href="#5-4-模型简化测试" class="headerlink" title="5.4. 模型简化测试"></a>5.4. 模型简化测试</h5><p><strong><em>EN:</em></strong> PlaneRCNN adds the following components to the Mask R-CNN backbone: 1) the pixel-wise depth estimation network; 2) the anchor based plane normal regression; 3) the warping loss module; and 4) the segmentation refinement network. Contribution of each component, we measure performance changes while adding the components one by one. Following, we evaluate the plane segmentation quality by three clustering metrics: variation of information (VOI), Rand index (RI), and segmentation covering ( SC). To further assess the geometric accuracy, we compute the average precision (AP) with IOU threshold 0.5 and three different depth error thresholds [0.4m, 0.6m, 0.9m]. A larger value means higher quality for all the metrics except For VOI.<br><strong><em>CH:</em></strong> PlaneRCNN 在 Mask R-CNN 的主干网络里添加了以下组件：1）像素点的深度估计网络，2）以锚点为基础的平面法线回归，3）翘曲损失模块，4）分割细化网络。为了明确每个组件的贡献程度，我们通过一个一个的添加这些组件，然后测量比较性能的改变。接着，我们评估这个分割的好坏通过三个指标：信息差异指标（VOI），兰德指数（RI）和分割覆盖（SC）。为了更进一步的评估几何精度，我们用 IOU 阈值为0.5和三个不同的深度误差阈值[0.4m, 0.6m, 0.9m]来计算平均精度（AP）。值越大意味着除了VOI之外所有的指标的可参考度越高。</p>
+<img src="/2019/04/PlaneRCNN-translation/planercnn9.png">
+<p><strong><em>EN:</em></strong> Figure 8. Effects of the segmentation refinement network and the warping loss module. Top: the refinement network narrows the gap between adjacent planes. Bottom: the warping loss helps to correct erroneous plane geometries using the second view.<br><strong><em>CH:</em></strong> 图八：分割细化网络和翘曲损失模块的影响度</p>
+<p><strong><em>EN:</em></strong> Table 2 shows that all the components have a positive contribution to the final performance. Fig. 8 further highlights the contributions of the warping loss module and the segmentation refinement network qualitatively. The first example shows that the segmentation refinement network fills in gaps between adjacent planar regions, while the second example shows that the warping loss module improves reconstruction accuracy with the help from the second view.<br><strong><em>CH:</em></strong> 表2展示了所有的组件对于模型最终性能的积极贡献。图八进一步突出了分割细化网络和翘曲损失模块的贡献。第一个例子表明分割细化网络可以更好的填充相邻平面之间的间隙，第二个例子表明翘曲损失模块在第二个视图的帮助下提高了重建任务的精度。</p>
+<img src="/2019/04/PlaneRCNN-translation/planercnn10.png">
+<p><strong><em>EN:</em></strong> Table 2. Ablation studies on the contributions of the four components in PlaneRCNN. Plane segmentation and detection metrics are calculated over the ScanNet dataset. PlaneNet represents the competing state-of-the-art.<br><strong><em>CH:</em></strong> 表二。关于 PlaneRCNN 中四个组件的模型简化测试。平面分割和检测指标是在 ScanNet 数据集上计算的。PlaneNet 代表的是最先进的技术水平。</p>
+<h5 id="5-5-Occlusion-reasoning"><a href="#5-5-Occlusion-reasoning" class="headerlink" title="5.5. Occlusion reasoning"></a>5.5. Occlusion reasoning</h5><h5 id="5-5-遮挡推理"><a href="#5-5-遮挡推理" class="headerlink" title="5.5. 遮挡推理"></a>5.5. 遮挡推理</h5><p><strong><em>EN:</em></strong> A simple modification allows PlaneRCNN to infer occluded/invisible surfaces and reconstruct layered depthmap models. We add one more mask prediction module to PlaneRCNN to infer the complete mask for each plane instance.<br><strong><em>CH:</em></strong> 一个简单的改变可以让 PlaneRCNN 推断出被遮挡的平面并且重建分层的深度图模型。我们向 PlaneRCNN 中添加了一个掩膜预测模块，为了推断出每个平面实例的完整掩膜。</p>
+<p><strong><em>EN:</em></strong> The key challenge for training the network with occlu-sion reasoning is to generate ground-truth complete mask for supervision. In our original process, we fit planes to aligned 3D scans to obtain ground-truth 3D planar surfaces, then rasterize the planes to an image with a depth testing. We remove the depth testing and generate a “complete mask” for each plane. Besides disabling depth checking, we further complete the mask for layout structures based on the fact that layout planes are behind other geometries. First, we collect all planes which have layout labels (e.g., wall and floor), and compute the convexity and concavity between two planes in 3D space. Then for each combination of these planes, we compute the corresponding complete depthmap by using the greater depth value for two convex planes and using the smaller value for two concave ones. A complete depthmap is valid if 90% of the complete depthmap is behind the visible depthmap (with 0.2m tolerance to handle noise). We pick the valid complete depthmap which has the most support from visible regions of layout planes.<br><strong><em>CH:</em></strong> 训练含有遮挡推理网络的关键挑战是监督生成真实实例的完整掩膜。在我们的原始过程中，我们拟合被校准3D扫描的平面获得真实实例的3D平面，然后用深度测试将平面栅格化为图像。我们移除每个平面的深度测试并且生成一个完整的掩膜。除了禁用深度测试以外，我们基于布局平面落后于其他的几何体的事实进一步的完善了用于布局平面的掩膜。首先，我们收集所有具有布局标签的平面（e.g.墙和门），并且计算两个平面在3D空间的凹凸度。然后对于这些平面的每种组合，我们通过对凸面平面用较大的深度值，对凹面平面用较小的深度值， 来计算对应的完整的深度图。如果90%的完整深度图在可见深度图之后（噪声容差为0.2m），那么这个完整深度图是有效的。我们挑选的有效完整深度图是布局平面的可见区域最支持的。</p>
+<p><strong><em>EN:</em></strong> Fig. 9 shows the new view synthesis examples, in which the modified PlaneRCNN successfully infers occluded surfaces, for example, floor surfaces behind tables and chairs. Note that a depthmap is rendered as a depth mesh model (i.e., a collection of small triangles) in the figure. The layered depthmap representation enables new applications such as artifacts-free view synthesis, better scene completion, and object removal. This experiment demonstrates yet another flexibility and potential of the proposed PlaneRCNN architecture.<br><strong><em>CH:</em></strong> 图九展示了新视图的合成例子，其中修改过后的 PlaneRCNN 成功的推测出了被遮挡的平面，例如桌子和椅子后面的地板表面。注意深度图被渲染成图中的深度网格模型（i.e.小三角形的集合）。这个分层的深度图显示可以实现新的应用，例如不掺杂人工的视图合成，更好的场景完善和目标移除。这个实验还验证了提出的 PlaneRCNN 架构的其他灵活性和潜能。</p>
+<img src="/2019/04/PlaneRCNN-translation/planercnn11.png">
+<p><strong><em>EN:</em></strong> Figure 9. New view synthesis results with the layered depthmap models. A simple modification allows PlaneRCNN to also infer occluded surfaces and reconstruct layered depthmap models.<br><strong><em>CH:</em></strong> 图九：用分层深度图模型的新视图合成结果。一个简单的改变可以让 PlaneRCNN 推断出被遮挡的平面并且重建分层的深度图模型。</p>
+<h5 id="6-Conclusion-and-future-work"><a href="#6-Conclusion-and-future-work" class="headerlink" title="6. Conclusion and future work"></a>6. Conclusion and future work</h5><h5 id="6-结论及未来的展望"><a href="#6-结论及未来的展望" class="headerlink" title="6. 结论及未来的展望"></a>6. 结论及未来的展望</h5><p><strong><em>EN:</em></strong> This paper proposes PlaneRCNN, the first detection based neural network for piecewise planar reconstruction from a single RGB image. PlaneRCNN learns to detect planar regions, regress plane parameters and instance masks, globally refine segmentation masks, and utilize a neighboring view during training for a performance boost. PlaneRCNN outperforms competing methods by a large margin based on our new benchmark with fine-grained plane annotations. An interesting future direction is to process an image sequence during inference which requires learning correspondences between plane detections.<br><strong><em>CH:</em></strong> 本篇论文提出的 PlaneRCNN，是第一个用于单张RGB图像检测并分段重建3D平面的神经网络。PlaneRCNN 学习检测平面区域，平面参数回归，实例化掩膜，全局细化分割掩膜，以及在训练中利用临近视图来提高最终的性能。PlaneRCNN 在我们基于细粒度平面注释的新基准上，大幅的超越其他的竞赛方法。未来一个有趣的方向是在平面检测中需要学习呼应的推断期间去处理图像序列。</p>
+<h4 id="Appendices"><a href="#Appendices" class="headerlink" title="Appendices"></a>Appendices</h4><h4 id="附录"><a href="#附录" class="headerlink" title="附录"></a>附录</h4><p><strong><em>EN:</em></strong> Refinement of the Network Architecture In Figure 10, we illustrate the detailed architecture of the segmentation refinement network to support the descriptions shown in Figures 2 and 2. 3.2.<br><strong><em>CH:</em></strong> 在图十中详细说明了分割细化网络的详细体系结构。</p>
+<img src="/2019/04/PlaneRCNN-translation/planercnn12.png">
+<p><strong><em>EN:</em></strong> Figure 10. Refinement network architecture. The network takes both global information (i.e., the input image, the reconstructed depthmap and the pixel-wise depthmap) and instance-specific information (i.e., the instance mask, the union of other masks, and the coordinate map of the instance) as input and refines instance mask with a U-Net rchitecture. Each convolution in the encoder is replaced by a ConvAccu module to accumulate features from other masks.<br><strong><em>CH:</em></strong> 图十：细化网络的结构。这个网络同时接受全局信息（i.e.输入图片，重建的深度图和像素级的深度图）和特定实例的信息（I.e.实例化掩膜，其他掩膜的并集，实例的坐标图）作为输入，并且用一个 U-Net 结构细化实例掩膜。编码器中的每个卷积都被 ConvAccu 模块所取代，为了从其他掩膜中积累特征。</p>
+<p><strong><em>EN:</em></strong> More qualitative results. We show more qualitative results of our method, PlaneRCNN, on the test scenes from ScanNet in Fig. 11 and Fig. 12.<br><strong><em>CH:</em></strong> 更多的识别结果。</p>
+<img src="/2019/04/PlaneRCNN-translation/planercnn13.png">
+<img src="/2019/04/PlaneRCNN-translation/planercnn14.png">
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/平面重建/" rel="tag"># 平面重建</a>
+          
+            <a href="/tags/平面检测/" rel="tag"># 平面检测</a>
+          
+            <a href="/tags/深度图重建/" rel="tag"># 深度图重建</a>
+          
+            <a href="/tags/PlaneRCNN/" rel="tag"># PlaneRCNN</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/04/PlaneNet-translation/" rel="next" title="《PlaneNet-单幅RGB图像的分段平面重建》论文中英文对照解读">
+                <i class="fa fa-chevron-left"></i> 《PlaneNet-单幅RGB图像的分段平面重建》论文中英文对照解读
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/04/Hexo-s-a-bug/" rel="prev" title="Hexo 提交命令时的错误">
+                Hexo 提交命令时的错误 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="王大顺">
+            
+              <p class="site-author-name" itemprop="name">王大顺</p>
+              <p class="site-description motion-element" itemprop="description">计算机视觉</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">16</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">3</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">27</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/wgshun" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:wangshun616@163.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://instagram.com/wgshun_" target="_blank" title="Instagram"><i class="fa fa-fw fa-instagram"></i>Instagram</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+            <div class="cc-license motion-element" itemprop="license">
+              <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" target="_blank">
+                <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons">
+              </a>
+            </div>
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#PlaneRCNN-3D-Plane-Detection-and-Reconstruction-from-a-Single-Image"><span class="nav-number">1.</span> <span class="nav-text">PlaneRCNN: 3D Plane Detection and Reconstruction from a Single Image</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PlaneRCNN：单幅图像的三维平面检测与重建"><span class="nav-number">2.</span> <span class="nav-text">PlaneRCNN：单幅图像的三维平面检测与重建</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Abstract"><span class="nav-number">2.1.</span> <span class="nav-text">Abstract</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#论文摘要"><span class="nav-number">2.2.</span> <span class="nav-text">论文摘要</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-Introduction"><span class="nav-number">2.2.1.</span> <span class="nav-text">1. Introduction</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#1-引言"><span class="nav-number">2.2.2.</span> <span class="nav-text">1. 引言</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-Related-Work"><span class="nav-number">2.2.3.</span> <span class="nav-text">2. Related Work</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-相关工作"><span class="nav-number">2.2.4.</span> <span class="nav-text">2. 相关工作</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-Approach"><span class="nav-number">2.2.5.</span> <span class="nav-text">3. Approach</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-方法"><span class="nav-number">2.2.6.</span> <span class="nav-text">3. 方法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-1-Plane-Detection-Network"><span class="nav-number">2.2.7.</span> <span class="nav-text">3.1. Plane Detection Network</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-1-平面检测网络"><span class="nav-number">2.2.8.</span> <span class="nav-text">3.1. 平面检测网络</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-2-Segmentation-Refinement-Network"><span class="nav-number">2.2.9.</span> <span class="nav-text">3.2. Segmentation Refinement Network</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-2-分割细化网络"><span class="nav-number">2.2.10.</span> <span class="nav-text">3.2. 分割细化网络</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-3-Warping-Loss-Module"><span class="nav-number">2.2.11.</span> <span class="nav-text">3.3. Warping Loss Module</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-3-翘曲损失模块"><span class="nav-number">2.2.12.</span> <span class="nav-text">3.3. 翘曲损失模块</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-Benchmark-construction"><span class="nav-number">2.2.13.</span> <span class="nav-text">4. Benchmark construction</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-基准构造"><span class="nav-number">2.2.14.</span> <span class="nav-text">4. 基准构造</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5-Experimental-results"><span class="nav-number">2.2.15.</span> <span class="nav-text">5. Experimental results</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5-实验结果"><span class="nav-number">2.2.16.</span> <span class="nav-text">5. 实验结果</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5-1-Qualitative-evaluations"><span class="nav-number">2.2.17.</span> <span class="nav-text">5.1. Qualitative evaluations</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5-1-实验评估"><span class="nav-number">2.2.18.</span> <span class="nav-text">5.1. 实验评估</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5-2-Plane-reconstruction-accuracy"><span class="nav-number">2.2.19.</span> <span class="nav-text">5.2. Plane reconstruction accuracy</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5-2-平面重建准确率"><span class="nav-number">2.2.20.</span> <span class="nav-text">5.2. 平面重建准确率</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5-3-Geometric-accuracy"><span class="nav-number">2.2.21.</span> <span class="nav-text">5.3. Geometric accuracy</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5-3-几何精确度"><span class="nav-number">2.2.22.</span> <span class="nav-text">5.3. 几何精确度</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5-4-Ablation-studies"><span class="nav-number">2.2.23.</span> <span class="nav-text">5.4. Ablation studies</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5-4-模型简化测试"><span class="nav-number">2.2.24.</span> <span class="nav-text">5.4. 模型简化测试</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5-5-Occlusion-reasoning"><span class="nav-number">2.2.25.</span> <span class="nav-text">5.5. Occlusion reasoning</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5-5-遮挡推理"><span class="nav-number">2.2.26.</span> <span class="nav-text">5.5. 遮挡推理</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#6-Conclusion-and-future-work"><span class="nav-number">2.2.27.</span> <span class="nav-text">6. Conclusion and future work</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#6-结论及未来的展望"><span class="nav-number">2.2.28.</span> <span class="nav-text">6. 结论及未来的展望</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Appendices"><span class="nav-number">2.3.</span> <span class="nav-text">Appendices</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#附录"><span class="nav-number">2.4.</span> <span class="nav-text">附录</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        
+
+  <span class="post-meta-divider">原来人生无常，心安便是归处。</span>
+
+
+<div class="copyright">&copy; 2018 &mdash; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">王大顺</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      },
+      TeX: {equationNumbers: { autoNumber: "AMS" }}
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -122,7 +122,7 @@
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://wgshun.github.io/2018/10/ubuntu-install-python3-opencv/1.png">
 <meta property="og:image" content="http://wgshun.github.io/2018/10/ubuntu-install-python3-opencv/2.png">
-<meta property="og:updated_time" content="2018-10-25T14:04:33.999Z">
+<meta property="og:updated_time" content="2019-04-10T17:02:21.527Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Ubuntu16.04 下 Python3 虚拟环境安装 OpenCV">
 <meta name="twitter:description" content="前言最近在看 Light Head Rcnn 的 Tensorflow 源码，在 Python3 下需要用到 OpenCV ，鉴于我的 Ubuntu 下已经装了 Python2.7 的 OpenCV2.4.13.7 点击查看安装教程。所以这次在虚拟环境下配置一下 Python3 的 OpenCV，按照以下步骤直接装了最新的 OpenCV4.0.0-pre。 安装步骤1. 各种依赖包的安装升级一些预">
@@ -387,12 +387,24 @@
                 
               
 
-              <time title="创建时间：2018-10-25 21:51:41 / 修改时间：22:04:33" itemprop="dateCreated datePublished" datetime="2018-10-25T21:51:41+08:00">2018-10-25</time>
+              <time title="创建时间：2018-10-25 21:51:41" itemprop="dateCreated datePublished" datetime="2018-10-25T21:51:41+08:00">2018-10-25</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-04-11 01:02:21" itemprop="dateModified" datetime="2019-04-11T01:02:21+08:00">2019-04-11</time>
               
             
           </span>
@@ -465,14 +477,18 @@
 <h5 id="3-安装-OpenCV"><a href="#3-安装-OpenCV" class="headerlink" title="3. 安装 OpenCV"></a>3. 安装 OpenCV</h5><p>到此，安装 OpenCV 所需要设置的环境都设置完毕，下面开始下载 OpenCV 的源码：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> git <span class="built_in">clone</span> https://github.com/Itseez/opencv.git</span></span><br></pre></td></tr></table></figure></p>
 <p><strong>注意：</strong> 本文开头的参考文章中有安装 OpenCV 的 contrib库 ，目前我还用不到，所以就不占用那个空间去装了，需要的还请移步自取。</p>
 <p>下载好源码以后就是编译了：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">cd</span> opencv</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> mkdir release</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">cd</span> release</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> cmake -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/<span class="built_in">local</span> -D INSTALL_C_EXAMPLES=ON -D INSTALL_PYTHON_EXAMPLES=ON -D BUILD_EXAMPLES=ON ..</span></span><br></pre></td></tr></table></figure></p>
-<p>cmake 命令结束以后就可以看到以下 python3 的信息了：<br><img src="/2018/10/ubuntu-install-python3-opencv/1.png"><br><strong>注意：</strong> 在 cmake 以后看到 python3 的信息才能进行下面的操作。</p>
+<p>cmake 命令结束以后就可以看到以下 python3 的信息了：</p>
+<img src="/2018/10/ubuntu-install-python3-opencv/1.png">
+<p><strong>注意：</strong> 在 cmake 以后看到 python3 的信息才能进行下面的操作。</p>
 <p>下面开始 OpenCV 的编译操作：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> make -j4</span></span><br></pre></td></tr></table></figure></p>
 <p><strong>注意：</strong> 上述命令中的 <strong>4</strong> 根据处理器的内核数来设置，可以加快编译速度。</p>
 <p>在编译的时候遇到错误：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">fatal error: Eigen/Eigenvalues: No such file or directory</span><br><span class="line">compilation terminated.</span><br></pre></td></tr></table></figure></p>
 <p>解决方法：<br>重新 cmake ，在 cmake 的时候加入参数 <code>-D WITH_EIGEN=OFF</code>，然后重新编译就通过了。</p>
 <p>在没有报错编译完成之后，可以执行下列命令将 OpenCV 装到系统里：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> sudo make install</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sudo ldconfig</span></span><br></pre></td></tr></table></figure></p>
 <h5 id="4-设置-OpenCV-的系统链接"><a href="#4-设置-OpenCV-的系统链接" class="headerlink" title="4. 设置 OpenCV 的系统链接"></a>4. 设置 OpenCV 的系统链接</h5><p>在没有错误的情况下执行完以上步骤，执行命令：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> ls -l /usr/<span class="built_in">local</span>/lib/python3.5/site-packages/</span></span><br></pre></td></tr></table></figure></p>
-<p>就可以看到 OpenCV 的相关信息了：<br><img src="/2018/10/ubuntu-install-python3-opencv/2.png"><br>在这里 OpenCV 的名字是 <code>cv2.cpython-35m-x86_64-linux-gnu.so</code> 。<br>下面为了能在创建的 <strong>cv</strong> 虚拟环境中使用 OpenCV ，需要将这个 <code>site-packages</code> 文件夹下的 <code>cv2.cpython-35m-x86_64-linux-gnu.so</code> 文件链接到 <strong>cv</strong> 虚拟环境中：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">cd</span> ~/.virtualenvs/cv/lib/python3.5/site-packages/</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> ln -s /usr/<span class="built_in">local</span>/lib/python3.5/site-packages/cv2.cpython-35m-x86_64-linux-gnu.so cv2.so</span></span><br></pre></td></tr></table></figure></p>
+<p>就可以看到 OpenCV 的相关信息了：</p>
+<img src="/2018/10/ubuntu-install-python3-opencv/2.png">
+<p>在这里 OpenCV 的名字是 <code>cv2.cpython-35m-x86_64-linux-gnu.so</code> 。<br>下面为了能在创建的 <strong>cv</strong> 虚拟环境中使用 OpenCV ，需要将这个 <code>site-packages</code> 文件夹下的 <code>cv2.cpython-35m-x86_64-linux-gnu.so</code> 文件链接到 <strong>cv</strong> 虚拟环境中：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">cd</span> ~/.virtualenvs/cv/lib/python3.5/site-packages/</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> ln -s /usr/<span class="built_in">local</span>/lib/python3.5/site-packages/cv2.cpython-35m-x86_64-linux-gnu.so cv2.so</span></span><br></pre></td></tr></table></figure></p>
 <p>在上述命令中将 <code>cv2.cpython-35m-x86_64-linux-gnu.so</code> 的名字改成了 <code>cv2.so</code>，这样在 Python3 中就能直接导入 <strong>cv2</strong> 了。这时候使用 <code>ls</code> 命令就可以看到  <code>cv2.so</code> 文件了。<br>如果没有  <code>cv2.so</code> 文件，将不能导入 <strong>cv2</strong> 。</p>
 <h5 id="5-测试-Python3-安装的-OpenCV"><a href="#5-测试-Python3-安装的-OpenCV" class="headerlink" title="5. 测试 Python3 安装的 OpenCV"></a>5. 测试 Python3 安装的 OpenCV</h5><p>打开终端，进入创建的 <strong>cv</strong> 虚拟环境，在 Python 中导入 cv2 查看 OpenCV 的版本：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> workon cv</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> python</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash">&gt;&gt; import cv2</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash">&gt;&gt; cv2.__version__</span></span><br><span class="line">'4.0.0-pre'</span><br></pre></td></tr></table></figure></p>
 <p>结束，安装成功。</p>
@@ -604,7 +620,7 @@
                 
                   <a href="/archives">
                 
-                    <span class="site-state-item-count">14</span>
+                    <span class="site-state-item-count">16</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -686,7 +702,11 @@
                     
                       
                     
-                    <span class="site-state-item-count">25</span>
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">27</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>

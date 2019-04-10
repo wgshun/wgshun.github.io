@@ -124,7 +124,7 @@
 <meta property="og:image" content="http://wgshun.github.io/2018/07/custom-domain/Customdomain2.jpg">
 <meta property="og:image" content="http://wgshun.github.io/2018/07/custom-domain/Customdomain3.jpg">
 <meta property="og:image" content="http://wgshun.github.io/2018/07/custom-domain/Customdomain4.jpg">
-<meta property="og:updated_time" content="2018-07-05T10:24:46.567Z">
+<meta property="og:updated_time" content="2019-04-10T17:00:55.188Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hexo 博客绑定个人域名">
 <meta name="twitter:description" content="前段时间用 hexo 搭建的 gitpage 个人博客，服务器用的是 github 的，然后域名默认也是 github 下的二级域名：username.github.io, 现在为了提升格调准备将自己的博客指向一个新的域名。下面记录下过程。 购买域名国内的域名服务商有新网，腾讯云，还有阿里云的万网等。下面以阿里云的万网为例： 在万网购买了自己心仪的域名后，进入阿里云的管理控制台-域名与网站-域名就">
@@ -389,12 +389,24 @@
                 
               
 
-              <time title="创建时间：2018-07-05 14:43:04 / 修改时间：18:24:46" itemprop="dateCreated datePublished" datetime="2018-07-05T14:43:04+08:00">2018-07-05</time>
+              <time title="创建时间：2018-07-05 14:43:04" itemprop="dateCreated datePublished" datetime="2018-07-05T14:43:04+08:00">2018-07-05</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-04-11 01:00:55" itemprop="dateModified" datetime="2019-04-11T01:00:55+08:00">2019-04-11</time>
               
             
           </span>
@@ -448,9 +460,15 @@
         <p>前段时间用 hexo 搭建的 gitpage 个人博客，服务器用的是 github 的，然后域名默认也是 github 下的二级域名：<code>username.github.io</code>, 现在为了提升格调准备将自己的博客指向一个新的域名。下面记录下过程。</p>
 <h4 id="购买域名"><a href="#购买域名" class="headerlink" title="购买域名"></a>购买域名</h4><p>国内的域名服务商有<a href="http://www.xinnet.com/domain/domain.html" target="_blank" rel="noopener">新网</a>，<a href="https://dnspod.cloud.tencent.com/" target="_blank" rel="noopener">腾讯云</a>，还有阿里云的<a href="https://wanwang.aliyun.com/" target="_blank" rel="noopener">万网</a>等。下面以阿里云的万网为例：</p>
 <p>在万网购买了自己心仪的域名后，进入阿里云的<code>管理控制台</code>-<code>域名与网站</code>-<code>域名</code>就可以看到购买的域名此时的域名状态是未实名认证的，然后就是实名认证（一般需要2小时左右）。</p>
-<h4 id="域名解析"><a href="#域名解析" class="headerlink" title="域名解析"></a>域名解析</h4><p>首先获取自己 github 的二级域名的 IP地址，windows 下直接在 cmd 里 Ping 一下自己的博客就会得到 IP 地址：<br><a id="more"></a><br><img src="/2018/07/custom-domain/Customdomain1.jpg"><br>下面通过 DNS域名解析将购买的域名指向 github 的二级域名：<code>username.github.io</code>，进入阿里云的<code>管理控制台</code>-<code>域名与网站</code>-<code>云解析 DNS</code>，进入域名的解析设置，点击新手指导，将得到的 IP 地址填到记录值一栏，点击确定就 OK 了。填完以后的解析列表会出现：<br><img src="/2018/07/custom-domain/Customdomain2.jpg"><br>记录值就是自己 github 的二级域名的 IP地址。</p>
-<h4 id="设置CNAME"><a href="#设置CNAME" class="headerlink" title="设置CNAME"></a>设置CNAME</h4><p>在 hexo 项目下，<code>source</code> 文件夹下面创建 CNAME 文件（没有后缀名的），在里面写上购买的域名。比如：<br><img src="/2018/07/custom-domain/Customdomain3.jpg"></p>
-<p>在 github 上面，打开 username.github.io 项目的（Settings）设置，然后在 <code>GitHub Pages</code>的 <code>Custom domain</code>设置里填上购买的域名。比如：<br><img src="/2018/07/custom-domain/Customdomain4.jpg"></p>
+<h4 id="域名解析"><a href="#域名解析" class="headerlink" title="域名解析"></a>域名解析</h4><p>首先获取自己 github 的二级域名的 IP地址，windows 下直接在 cmd 里 Ping 一下自己的博客就会得到 IP 地址：<br><a id="more"></a></p>
+<img src="/2018/07/custom-domain/Customdomain1.jpg">
+<p>下面通过 DNS域名解析将购买的域名指向 github 的二级域名：<code>username.github.io</code>，进入阿里云的<code>管理控制台</code>-<code>域名与网站</code>-<code>云解析 DNS</code>，进入域名的解析设置，点击新手指导，将得到的 IP 地址填到记录值一栏，点击确定就 OK 了。填完以后的解析列表会出现：</p>
+<img src="/2018/07/custom-domain/Customdomain2.jpg">
+<p>记录值就是自己 github 的二级域名的 IP地址。</p>
+<h4 id="设置CNAME"><a href="#设置CNAME" class="headerlink" title="设置CNAME"></a>设置CNAME</h4><p>在 hexo 项目下，<code>source</code> 文件夹下面创建 CNAME 文件（没有后缀名的），在里面写上购买的域名。比如：</p>
+<img src="/2018/07/custom-domain/Customdomain3.jpg">
+<p>在 github 上面，打开 username.github.io 项目的（Settings）设置，然后在 <code>GitHub Pages</code>的 <code>Custom domain</code>设置里填上购买的域名。比如：</p>
+<img src="/2018/07/custom-domain/Customdomain4.jpg">
 <p>好了，新域名配置完成，可以访问了。</p>
 
       
@@ -575,7 +593,7 @@
                 
                   <a href="/archives">
                 
-                    <span class="site-state-item-count">14</span>
+                    <span class="site-state-item-count">16</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -657,7 +675,11 @@
                     
                       
                     
-                    <span class="site-state-item-count">25</span>
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">27</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
