@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://wgshun.github.io/"/>
-  <updated>2019-04-10T17:54:27.548Z</updated>
+  <updated>2019-04-10T18:04:58.158Z</updated>
   <id>http://wgshun.github.io/</id>
   
   <author>
@@ -21,17 +21,14 @@
     <link href="http://wgshun.github.io/2019/04/Hexo-s-a-bug/"/>
     <id>http://wgshun.github.io/2019/04/Hexo-s-a-bug/</id>
     <published>2019-04-10T17:42:43.000Z</published>
-    <updated>2019-04-10T17:54:27.548Z</updated>
+    <updated>2019-04-10T18:04:58.158Z</updated>
     
-    <content type="html"><![CDATA[<p>参考：<a href="https://www.jianshu.com/p/738ebe02029b" target="_blank" rel="noopener">https://www.jianshu.com/p/738ebe02029b</a></p><h5 id="错误描述"><a href="#错误描述" class="headerlink" title="错误描述"></a>错误描述</h5><p>在执行<code>hexo s</code>命令时，报错如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">FATAL Something<span class="string">'s wrong. Maybe you can find the solution here: http://hexo.io/docs/troubleshooting.html</span></span><br><span class="line"><span class="string">Template render error: (unknown path) [Line 31, Column 46]</span></span><br><span class="line"><span class="string">  expected variable end</span></span><br></pre></td></tr></table></figure></p><h5 id="错误原因"><a href="#错误原因" class="headerlink" title="错误原因"></a>错误原因</h5><p>提交的文章中有<code></code>这样双大括号在一起，而且不是在代码块里的情况。</p><h5 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h5><p>在<code></code>中间加上空格键，别让上述原因里的情况出现就行了。</p>]]></content>
+    <content type="html"><![CDATA[<p>参考：<a href="https://www.jianshu.com/p/738ebe02029b" target="_blank" rel="noopener">https://www.jianshu.com/p/738ebe02029b</a></p><h5 id="错误描述"><a href="#错误描述" class="headerlink" title="错误描述"></a>错误描述</h5><p>在执行<code>hexo s</code>命令时，报错如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">FATAL Something<span class="string">'s wrong. Maybe you can find the solution here: http://hexo.io/docs/troubleshooting.html</span></span><br><span class="line"><span class="string">Template render error: (unknown path) [Line 31, Column 46]</span></span><br><span class="line"><span class="string">  expected variable end</span></span><br></pre></td></tr></table></figure></p><a id="more"></a><h5 id="错误原因"><a href="#错误原因" class="headerlink" title="错误原因"></a>错误原因</h5><p>提交的文章中有两个大括号连在一起，而且不是在代码块里的情况。如下图：</p><img src="/2019/04/Hexo-s-a-bug/bug.jpg"><h5 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h5><p>在 <code>{ {</code> 或者 <code>} }</code> 中间加上空格键，别让上述原因里的情况出现就行了。</p>]]></content>
     
     <summary type="html">
     
-      
-      
-        &lt;p&gt;参考：&lt;a href=&quot;https://www.jianshu.com/p/738ebe02029b&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://www.jianshu.com/p/738ebe02029b&lt;/a&gt;&lt;/p&gt;
-&lt;h5 id=
-      
+      &lt;p&gt;参考：&lt;a href=&quot;https://www.jianshu.com/p/738ebe02029b&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://www.jianshu.com/p/738ebe02029b&lt;/a&gt;&lt;/p&gt;
+&lt;h5 id=&quot;错误描述&quot;&gt;&lt;a href=&quot;#错误描述&quot; class=&quot;headerlink&quot; title=&quot;错误描述&quot;&gt;&lt;/a&gt;错误描述&lt;/h5&gt;&lt;p&gt;在执行&lt;code&gt;hexo s&lt;/code&gt;命令时，报错如下：&lt;br&gt;&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;FATAL Something&lt;span class=&quot;string&quot;&gt;&#39;s wrong. Maybe you can find the solution here: http://hexo.io/docs/troubleshooting.html&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;string&quot;&gt;Template render error: (unknown path) [Line 31, Column 46]&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;string&quot;&gt;  expected variable end&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
     
     </summary>
     

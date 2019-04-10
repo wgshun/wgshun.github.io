@@ -120,10 +120,12 @@
 <meta property="og:site_name" content="心安便是归处">
 <meta property="og:description" content="参考：https://www.jianshu.com/p/738ebe02029b 错误描述在执行hexo s命令时，报错如下：123FATAL Something&apos;s wrong. Maybe you can find the solution here: http://hexo.io/docs/troubleshooting.htmlTemplate render error: (unknow">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-04-10T17:54:27.548Z">
+<meta property="og:image" content="http://wgshun.github.io/2019/04/Hexo-s-a-bug/bug.jpg">
+<meta property="og:updated_time" content="2019-04-10T18:04:58.158Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hexo 提交命令时的错误">
 <meta name="twitter:description" content="参考：https://www.jianshu.com/p/738ebe02029b 错误描述在执行hexo s命令时，报错如下：123FATAL Something&apos;s wrong. Maybe you can find the solution here: http://hexo.io/docs/troubleshooting.htmlTemplate render error: (unknow">
+<meta name="twitter:image" content="http://wgshun.github.io/2019/04/Hexo-s-a-bug/bug.jpg">
 
 
 
@@ -384,7 +386,7 @@
                 
               
 
-              <time title="创建时间：2019-04-11 01:42:43 / 修改时间：01:54:27" itemprop="dateCreated datePublished" datetime="2019-04-11T01:42:43+08:00">2019-04-11</time>
+              <time title="创建时间：2019-04-11 01:42:43 / 修改时间：02:04:58" itemprop="dateCreated datePublished" datetime="2019-04-11T01:42:43+08:00">2019-04-11</time>
             
 
             
@@ -442,8 +444,10 @@
       
         <p>参考：<a href="https://www.jianshu.com/p/738ebe02029b" target="_blank" rel="noopener">https://www.jianshu.com/p/738ebe02029b</a></p>
 <h5 id="错误描述"><a href="#错误描述" class="headerlink" title="错误描述"></a>错误描述</h5><p>在执行<code>hexo s</code>命令时，报错如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">FATAL Something<span class="string">'s wrong. Maybe you can find the solution here: http://hexo.io/docs/troubleshooting.html</span></span><br><span class="line"><span class="string">Template render error: (unknown path) [Line 31, Column 46]</span></span><br><span class="line"><span class="string">  expected variable end</span></span><br></pre></td></tr></table></figure></p>
-<h5 id="错误原因"><a href="#错误原因" class="headerlink" title="错误原因"></a>错误原因</h5><p>提交的文章中有<code></code>这样双大括号在一起，而且不是在代码块里的情况。</p>
-<h5 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h5><p>在<code></code>中间加上空格键，别让上述原因里的情况出现就行了。</p>
+<a id="more"></a>
+<h5 id="错误原因"><a href="#错误原因" class="headerlink" title="错误原因"></a>错误原因</h5><p>提交的文章中有两个大括号连在一起，而且不是在代码块里的情况。如下图：</p>
+<img src="/2019/04/Hexo-s-a-bug/bug.jpg">
+<h5 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h5><p>在 <code>{ {</code> 或者 <code>} }</code> 中间加上空格键，别让上述原因里的情况出现就行了。</p>
 
       
     </div>

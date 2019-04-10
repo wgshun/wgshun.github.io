@@ -3,7 +3,7 @@
   <entry>
     <title><![CDATA[Hexo 提交命令时的错误]]></title>
     <url>%2F2019%2F04%2FHexo-s-a-bug%2F</url>
-    <content type="text"><![CDATA[参考：https://www.jianshu.com/p/738ebe02029b 错误描述在执行hexo s命令时，报错如下：123FATAL Something's wrong. Maybe you can find the solution here: http://hexo.io/docs/troubleshooting.htmlTemplate render error: (unknown path) [Line 31, Column 46] expected variable end 错误原因提交的文章中有这样双大括号在一起，而且不是在代码块里的情况。 解决方案在中间加上空格键，别让上述原因里的情况出现就行了。]]></content>
+    <content type="text"><![CDATA[参考：https://www.jianshu.com/p/738ebe02029b 错误描述在执行hexo s命令时，报错如下：123FATAL Something's wrong. Maybe you can find the solution here: http://hexo.io/docs/troubleshooting.htmlTemplate render error: (unknown path) [Line 31, Column 46] expected variable end 错误原因提交的文章中有两个大括号连在一起，而且不是在代码块里的情况。如下图： 解决方案在 { { 或者 } } 中间加上空格键，别让上述原因里的情况出现就行了。]]></content>
       <categories>
         <category>博客技术</category>
       </categories>
